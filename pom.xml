@@ -10,9 +10,13 @@
     <url>http://maven.apache.org</url>
 
     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
         <tomcat.version>8.0.28</tomcat.version>
         <log4j.version>1.2.17</log4j.version>
         <jersey.version>1.19.3</jersey.version>
+        <gson.version>2.8.0</gson.version>
     </properties>
 
     <build>
@@ -70,6 +74,12 @@
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-bundle</artifactId>
             <version>${jersey.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
         </dependency>
 
         <!-- test scope begin -->
