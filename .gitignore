@@ -3,3 +3,4 @@ tomcat.*/
 target/
 bower_components/
 node_modules/
+src/main/webapp/external/
