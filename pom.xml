@@ -20,18 +20,61 @@
         <gson.version>2.8.0</gson.version>
 
         <external.dir>${project.basedir}/src/main/webapp/external</external.dir>
+        <posts.dir>${project.build.directory}/classes/posts</posts.dir>
     </properties>
 
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
+                <version>2.5</version>
                 <configuration>
                     <filesets>
                         <fileset>
                             <directory>${external.dir}</directory>
                         </fileset>
                     </filesets>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals><goal>copy</goal></goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.github.jsimone</groupId>
+                                    <artifactId>webapp-runner</artifactId>
+                                    <version>8.5.11.3</version>
+                                    <destFileName>webapp-runner.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <plugin>
+                <groupId>eu.numberfour.maven.plugins</groupId>
+                <artifactId>file-list-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals><goal>list</goal></goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <baseDir>posts</baseDir>
+                    <includes>*.*</includes>
+                    <outputFile>${posts.dir}/file-list.json</outputFile>
                 </configuration>
             </plugin>
         </plugins>
@@ -48,6 +91,11 @@
             <resource>
                 <directory>bower_components</directory>
                 <targetPath>${external.dir}</targetPath>
+            </resource>
+
+            <resource>
+                <directory>posts</directory>
+                <targetPath>${posts.dir}</targetPath>
             </resource>
         </resources>
     </build>
@@ -101,6 +149,13 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${gson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.numberfour.maven.plugins</groupId>
+            <artifactId>file-list-maven-plugin</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
         </dependency>
 
         <!-- test scope begin -->

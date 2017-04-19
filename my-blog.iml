@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/bower_components" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/posts" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -30,6 +31,21 @@
     <orderEntry type="library" name="Maven: com.sun.jersey:jersey-bundle:1.19.3" level="project" />
     <orderEntry type="library" name="Maven: javax.ws.rs:jsr311-api:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.0" level="project" />
+    <orderEntry type="library" name="Maven: eu.numberfour.maven.plugins:file-list-maven-plugin:1.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.maven:maven-project:2.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.maven:maven-settings:2.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.maven:maven-profile:2.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.maven:maven-model:2.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.maven:maven-artifact-manager:2.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.maven:maven-repository-metadata:2.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.maven.wagon:wagon-provider-api:1.0-alpha-6" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.plexus:plexus-utils:1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.plexus:plexus-container-default:1.0-alpha-9" level="project" />
+    <orderEntry type="library" name="Maven: classworlds:classworlds:1.1-alpha-2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.maven:maven-plugin-api:2.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.maven:maven-artifact:2.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.maven:maven-plugin-tools-api:2.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.maven:maven-plugin-descriptor:2.0.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
   </component>
