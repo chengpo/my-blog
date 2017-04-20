@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class PostBank {
-    private final List<String> mPostNameList;
+    private final List<String> postFileNames;
 
     public PostBank() {
         final Optional<InputStream> optionalUrl = Optional.ofNullable(
@@ -21,12 +21,12 @@ public class PostBank {
                                         .getContextClassLoader()
                                         .getResourceAsStream("posts/file-list.json"));
 
-        mPostNameList = optionalUrl.flatMap(PostBank::fromJson)
+        postFileNames = optionalUrl.flatMap(PostBank::fromJson)
                                .orElseGet(Collections::emptyList);
     }
 
-    public List<String> getAllPosts() {
-        return mPostNameList;
+    public List<Post> getPostList() {
+        return null;
     }
 
     private static Optional<List<String>> fromJson(InputStream input) {
@@ -41,10 +41,10 @@ public class PostBank {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("PostBank --- ");
-        sb.append(String.valueOf(mPostNameList.size())).append(" posts in total:\n");
+        sb.append(String.valueOf(postFileNames.size())).append(" posts in total:\n");
         sb.append("[\n");
 
-        mPostNameList.forEach(post -> sb.append(post).append("\n"));
+        postFileNames.forEach(post -> sb.append(post).append("\n"));
 
         sb.append("]\n");
         return sb.toString();
