@@ -1,16 +1,31 @@
 package com.monkeyapp.blog.rest.module;
 
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@XmlRootElement
 public class Post implements Comparable<Post> {
     private static final Pattern NAME_PATTERN = Pattern.compile("(\\d{4})-(\\d{4})-(\\d{4})-(\\w+)-(.+)\\.md");
 
+    @XmlElement(name="year")
     private final String year;
+
+    @XmlElement(name="day")
     private final String day;
+
+    @XmlElement(name="time")
     private final String time;
+
+    @XmlElement(name="tag")
     private final String tag;
+
+    @XmlElement(name="title")
     private final String title;
+
+    @XmlElement(name="id")
     private final long id;
 
     static Post from(String filename) {
