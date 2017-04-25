@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 public class StatusResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String get(@Context HttpHeaders headers) {
+    public String getStatus(@Context HttpHeaders headers) {
         return new PostBank().toString();
     }
 }

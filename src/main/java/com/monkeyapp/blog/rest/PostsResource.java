@@ -21,10 +21,10 @@ public class PostsResource {
     @GET @Path("/{tag}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Post> getPostListByTag(@PathParam("tag") String tag) {
-        return null;
+        return new PostBank().getPostList(tag);
     }
 
-    @GET @Path("/{year}/{day}/{time}/{tag}/{title}")
+    @GET @Path("/{year:\\d{4}}/{day:\\d{4}}/{time:\\d{4}}/{tag}/{title}")
     @Produces(MediaType.TEXT_HTML)
     public String getPostContent(@PathParam("year") String year,
                           @PathParam("day") String day,
@@ -32,6 +32,14 @@ public class PostsResource {
                           @PathParam("tag") String tag,
                           @PathParam("title") String title) {
 
-        return " post content";
+        Post post = new Post.Builder()
+                            .setYear(year)
+                            .setDay(day)
+                            .setTime(time)
+                            .setTag(tag)
+                            .setTitle(title)
+                            .build();
+
+        return post.toString();
     }
 }

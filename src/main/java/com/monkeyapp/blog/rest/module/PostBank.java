@@ -1,7 +1,7 @@
 package com.monkeyapp.blog.rest.module;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class PostBank {
@@ -29,7 +30,17 @@ public class PostBank {
 
     @Nonnull
     public List<Post> getPostList() {
+        return getPostList("\\w+");
+    }
+
+    @Nonnull
+    public List<Post> getPostList(String tag) {
+        final Pattern pattern = Pattern.compile(
+                                    String.format(
+                                            "(\\d{4})-(\\d{4})-(\\d{4})-%s-(.+)\\.md",
+                                            tag));
         return postFileNames.stream()
+                            .filter(name -> pattern.matcher(name).matches())
                             .map(Post::from)
                             .sorted(Comparator.reverseOrder())
                             .collect(Collectors.toList());
@@ -37,7 +48,9 @@ public class PostBank {
 
     private static Optional<List<String>> fromJson(InputStream input) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
-            return Optional.of(new Gson().fromJson(reader, new TypeToken<ArrayList<String>>(){}.getType()));
+            return Optional.of(
+                        new ObjectMapper().readValue(reader,
+                                                     new TypeReference<List<String>>() { }));
         } catch (IOException e) {
             return Optional.empty();
         }
