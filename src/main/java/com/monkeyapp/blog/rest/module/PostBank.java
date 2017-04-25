@@ -30,17 +30,14 @@ public class PostBank {
 
     @Nonnull
     public List<Post> getPostList() {
-        return getPostList("\\w+");
+        return getPostList(null);
     }
 
     @Nonnull
     public List<Post> getPostList(String tag) {
-        final Pattern pattern = Pattern.compile(
-                                    String.format(
-                                            "(\\d{4})-(\\d{4})-(\\d{4})-%s-(.+)\\.md",
-                                            tag));
+        Pattern pattern = (tag != null) ? Pattern.compile(String.format("(\\d{4})-(\\d{4})-(\\d{4})-%s-(.+)\\.md", tag)) : null;
         return postFileNames.stream()
-                            .filter(name -> pattern.matcher(name).matches())
+                            .filter((name) -> pattern == null || pattern.matcher(name).matches())
                             .map(Post::from)
                             .sorted(Comparator.reverseOrder())
                             .collect(Collectors.toList());
