@@ -21,7 +21,7 @@ public class PostTest {
         assertEquals("wrong post name", "arbitrary-post-title", post.getTitle());
         assertEquals("wrong post id", 201704181053L, post.getId());
 
-        assertEquals("wrong post file name", validFilename, post.toString());
+        assertEquals("wrong post file name", validFilename, post.toFileName());
     }
 
     @Test
@@ -29,5 +29,10 @@ public class PostTest {
         final String invalidFileName = "201704181053-tag-arbitrary-post-title.md";
         Post post = Post.from(invalidFileName);
         assertNull("should not create post instance from invalid file name " + invalidFileName, post);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testBuildThrowsExceptionForIncompleteBuild(){
+        new Post.Builder().build();
     }
 }
