@@ -2,6 +2,7 @@ package com.monkeyapp.blog.rest;
 
 import com.monkeyapp.blog.rest.module.Post;
 import com.monkeyapp.blog.rest.module.PostBank;
+import com.monkeyapp.blog.rest.module.PostReader;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -31,7 +32,6 @@ public class PostsResource {
                           @PathParam("time") String time,
                           @PathParam("tag") String tag,
                           @PathParam("title") String title) {
-
         Post post = new Post.Builder()
                             .setYear(year)
                             .setDay(day)
@@ -40,6 +40,6 @@ public class PostsResource {
                             .setTitle(title)
                             .build();
 
-        return post.toString();
+        return new PostReader(post).toHtml();
     }
 }

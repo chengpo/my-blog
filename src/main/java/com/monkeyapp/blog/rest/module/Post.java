@@ -1,34 +1,32 @@
 package com.monkeyapp.blog.rest.module;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@XmlRootElement
 public class Post implements Comparable<Post> {
     private static final int POST_FIELD_NUM = 5;
     private static final Pattern NAME_PATTERN = Pattern.compile("(\\d{4})-(\\d{4})-(\\d{4})-(\\w+)-(.+)\\.md");
 
-
-    @XmlElement(name="year")
+    @JsonProperty("year")
     private final String year;
 
-    @XmlElement(name="day")
+    @JsonProperty("day")
     private final String day;
 
-    @XmlElement(name="time")
+    @JsonProperty("time")
     private final String time;
 
-    @XmlElement(name="tag")
+    @JsonProperty("tag")
     private final String tag;
 
-    @XmlElement(name="title")
+    @JsonProperty("title")
     private final String title;
 
-    @XmlElement(name="id")
+    @JsonProperty("id")
     private final long id;
 
     public static class Builder {
