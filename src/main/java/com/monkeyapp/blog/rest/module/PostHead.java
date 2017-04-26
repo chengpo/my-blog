@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Post implements Comparable<Post> {
+public class PostHead implements Comparable<PostHead> {
     private static final int POST_FIELD_NUM = 5;
     private static final Pattern NAME_PATTERN = Pattern.compile("(\\d{4})-(\\d{4})-(\\d{4})-(\\w+)-(.+)\\.md");
 
@@ -57,12 +57,12 @@ public class Post implements Comparable<Post> {
             return this;
         }
 
-        public Post build() {
+        public PostHead build() {
             if (fields.size() < POST_FIELD_NUM) {
                 throw new IllegalStateException("inadequate fields: " + this);
             }
 
-            return new Post(fields);
+            return new PostHead(fields);
         }
 
         @Override
@@ -74,10 +74,10 @@ public class Post implements Comparable<Post> {
         }
     }
 
-    static Post from(String fileName) {
+    static PostHead from(String fileName) {
         Matcher matcher = NAME_PATTERN.matcher(fileName);
         if (matcher.matches()) {
-            return new Post(new HashMap<String, String>(POST_FIELD_NUM) {
+            return new PostHead(new HashMap<String, String>(POST_FIELD_NUM) {
                 {
                     put("year", matcher.group(1));
                     put("day", matcher.group(2));
@@ -91,7 +91,7 @@ public class Post implements Comparable<Post> {
         return null;
     }
 
-    private Post(Map<String, String> fields) {
+    private PostHead(Map<String, String> fields) {
         year = fields.get("year");
         day = fields.get("day");
         time = fields.get("time");
@@ -143,7 +143,7 @@ public class Post implements Comparable<Post> {
     }
 
     @Override
-    public int compareTo(Post other) {
+    public int compareTo(PostHead other) {
         return this.id > other.id ? 1 : this.id == other.id ? 0 : -1;
     }
 

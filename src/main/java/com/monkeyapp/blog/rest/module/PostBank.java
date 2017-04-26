@@ -29,17 +29,27 @@ public class PostBank {
     }
 
     @Nonnull
-    public List<Post> getPostList() {
-        return getPostList(null);
+    public List<PostHead> getPosts(){
+        return getPosts(null);
     }
 
     @Nonnull
-    public List<Post> getPostList(String tag) {
-        Pattern pattern = (tag != null) ? Pattern.compile(String.format("(\\d{4})-(\\d{4})-(\\d{4})-%s-(.+)\\.md", tag)) : null;
+    public List<PostHead> getPosts(String tag) {
+        Pattern pattern = (tag != null && !tag.isEmpty()) ? Pattern.compile(String.format("(\\d{4})-(\\d{4})-(\\d{4})-%s-(.+)\\.md", tag)) : null;
         return postFileNames.stream()
                             .filter((name) -> pattern == null || pattern.matcher(name).matches())
-                            .map(Post::from)
+                            .map(PostHead::from)
                             .sorted(Comparator.reverseOrder())
+                            .collect(Collectors.toList());
+    }
+
+    @Nonnull
+    public List<String> getTags() {
+        return postFileNames.stream()
+                            .map(PostHead::from)
+                            .map(PostHead::getTag)
+                            .distinct()
+                            .sorted()
                             .collect(Collectors.toList());
     }
 

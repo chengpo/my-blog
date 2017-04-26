@@ -28,34 +28,34 @@ public class PostBankTest {
 
     @Test
     public void testPostListOrderByCreatedTime() {
-        assertEquals("wrong post list size", 3, postBank.getPostList().size());
+        assertEquals("wrong post list size", 3, postBank.getPosts().size());
 
         assertEquals("post 1 should be on the top of post list",
                      "post1",
-                     postBank.getPostList().get(0).getTitle());
+                     postBank.getPosts().get(0).getTitle());
 
         assertEquals("post 2 should be in the middle of post list",
                 "post2",
-                postBank.getPostList().get(1).getTitle());
+                postBank.getPosts().get(1).getTitle());
 
         assertEquals("post 3 should be on the end of post list",
                 "post3",
-                postBank.getPostList().get(2).getTitle());
+                postBank.getPosts().get(2).getTitle());
     }
 
     @Test
     public void testFilterPostListByTag() {
-        assertEquals("wrong post list size for tag1", 1, postBank.getPostList("tag1").size());
+        assertEquals("wrong post list size for tag1", 1, postBank.getPosts("tag1").size());
         assertEquals("post 1 should listed for tag1",
                      "post1",
-                     postBank.getPostList("tag1").get(0).getTitle());
+                     postBank.getPosts("tag1").get(0).getTitle());
 
-        assertEquals("wrong post list size for tag2", 2, postBank.getPostList("tag2").size());
+        assertEquals("wrong post list size for tag2", 2, postBank.getPosts("tag2").size());
         assertEquals("post 2 should the first of tag2 list",
                 "post2",
-                postBank.getPostList("tag2").get(0).getTitle());
+                postBank.getPosts("tag2").get(0).getTitle());
         assertEquals("post 3 should the second of tag2 list",
                 "post3",
-                postBank.getPostList("tag2").get(1).getTitle());
+                postBank.getPosts("tag2").get(1).getTitle());
     }
 }

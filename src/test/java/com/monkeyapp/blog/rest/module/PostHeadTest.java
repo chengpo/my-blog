@@ -6,12 +6,12 @@ import org.junit.runners.JUnit4;
 import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
-public class PostTest {
+public class PostHeadTest {
     @Test
     public void testCreatePostInstanceWithValidFileName() {
         final String validFilename = "2017-0418-1053-tag-arbitrary-post-title.md";
 
-        Post post = Post.from(validFilename);
+        PostHead post = PostHead.from(validFilename);
         assertNotNull("failed to recreate post from valid file name " + validFilename, post);
 
         assertEquals("wrong post year", "2017", post.getYear());
@@ -27,12 +27,12 @@ public class PostTest {
     @Test
     public void testCreatePostInstanceWithInvalidFileName() {
         final String invalidFileName = "201704181053-tag-arbitrary-post-title.md";
-        Post post = Post.from(invalidFileName);
+        PostHead post = PostHead.from(invalidFileName);
         assertNull("should not create post instance from invalid file name " + invalidFileName, post);
     }
 
     @Test(expected = IllegalStateException.class)
     public void testBuildThrowsExceptionForIncompleteBuild(){
-        new Post.Builder().build();
+        new PostHead.Builder().build();
     }
 }

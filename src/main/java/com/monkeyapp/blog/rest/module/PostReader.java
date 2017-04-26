@@ -16,9 +16,9 @@ import java.util.Optional;
 public class PostReader {
     private static final Logger LOG = Logger.getLogger(PostReader.class);
 
-    private final Post post;
+    private final PostHead post;
 
-    public PostReader(Post post) {
+    public PostReader(PostHead post) {
         this.post = post;
     }
 
