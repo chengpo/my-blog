@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class PostHead implements Comparable<PostHead> {
     private static final int POST_FIELD_NUM = 5;
-    private static final Pattern NAME_PATTERN = Pattern.compile("(\\d{4})-(\\d{4})-(\\d{4})-(\\w+)-(.+)\\.md");
+    private static final Pattern NAME_PATTERN = Pattern.compile("^(\\d{4})-(\\d{4})-(\\d{4})-(\\w+)-(.+)\\.md$");
 
     @JsonProperty("year")
     private final String year;

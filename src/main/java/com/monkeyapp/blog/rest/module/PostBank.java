@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class PostBank {
@@ -35,10 +34,9 @@ public class PostBank {
 
     @Nonnull
     public List<PostHead> getPosts(String tag) {
-        Pattern pattern = (tag != null && !tag.isEmpty()) ? Pattern.compile(String.format("(\\d{4})-(\\d{4})-(\\d{4})-%s-(.+)\\.md", tag)) : null;
         return postFileNames.stream()
-                            .filter((name) -> pattern == null || pattern.matcher(name).matches())
                             .map(PostHead::from)
+                            .filter((post) -> tag == null || tag.isEmpty() || post.getTag().equals(tag))
                             .sorted(Comparator.reverseOrder())
                             .collect(Collectors.toList());
     }
@@ -55,9 +53,7 @@ public class PostBank {
 
     private static Optional<List<String>> fromJson(InputStream input) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
-            return Optional.of(
-                        new ObjectMapper().readValue(reader,
-                                                     new TypeReference<List<String>>() { }));
+            return Optional.of(new ObjectMapper().readValue(reader, new TypeReference<List<String>>() { }));
         } catch (IOException e) {
             return Optional.empty();
         }
