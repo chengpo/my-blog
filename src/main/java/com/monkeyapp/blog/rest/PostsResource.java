@@ -8,18 +8,23 @@ import com.monkeyapp.blog.rest.module.PostReader;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/posts")
 public class PostsResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<PostHead> getPosts(@DefaultValue("") @QueryParam("tag") String tag) {
-        return new PostBank().getPosts(tag);
+    public List<PostEntity> getPosts(@DefaultValue("") @QueryParam("tag") String tag) {
+        return new PostBank()
+                        .getPosts(tag)
+                        .stream()
+                        .map(PostReader::toBriefEntity)
+                        .collect(Collectors.toList());
     }
 
     @GET @Path("/{year:\\d{4}}/{day:\\d{4}}/{time:\\d{4}}/{tag}/{title}")
     @Produces(MediaType.APPLICATION_JSON)
-    public PostEntity getPostContent(@PathParam("year") String year,
+    public PostEntity getPostEntity(@PathParam("year") String year,
                                      @PathParam("day") String day,
                                      @PathParam("time") String time,
                                      @PathParam("tag") String tag,
@@ -32,6 +37,6 @@ public class PostsResource {
                             .setTitle(title)
                             .build();
 
-        return new PostEntity(post, new PostReader(post).toHtml());
+        return PostReader.toFullEntity(post);
     }
 }
