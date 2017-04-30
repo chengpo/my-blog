@@ -5,7 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.monkeyapp.blog.rest.module.PostBank;
 import com.monkeyapp.blog.rest.module.PostReader;
+import org.glassfish.jersey.server.monitoring.MonitoringStatistics;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -17,6 +20,9 @@ import java.util.stream.Collectors;
 
 @Path("/status")
 public class StatusResource {
+    @Inject
+    Provider<MonitoringStatistics> monitoringStatisticsProvider;
+
     @GET
     @Produces({MediaType.TEXT_PLAIN})
     public String getStatus(@Context HttpHeaders headers) throws JsonProcessingException {
@@ -28,6 +34,11 @@ public class StatusResource {
         sb.append("headers = ");
         String headerJson = mapper.writeValueAsString(headers.getRequestHeaders());
         sb.append(headerJson);
+        sb.append("\n\n");
+
+        sb.append("monitoring = ");
+        String monitoringJson = mapper.writeValueAsString(monitoringStatisticsProvider.get().getRequestStatistics());
+        sb.append(monitoringJson);
         sb.append("\n\n");
 
         sb.append("posts = ");

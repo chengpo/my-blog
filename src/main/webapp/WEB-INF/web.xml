@@ -17,6 +17,10 @@
             <param-name>jersey.config.server.provider.scanning.recursive</param-name>
             <param-value>false</param-value>
         </init-param>
+        <init-param>
+            <param-name>jersey.config.server.monitoring.statistics.mbeans.enabled</param-name>
+            <param-value>true</param-value>
+        </init-param>
         <load-on-startup>0</load-on-startup>
     </servlet>
 

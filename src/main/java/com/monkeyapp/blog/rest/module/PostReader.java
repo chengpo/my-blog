@@ -39,10 +39,10 @@ public class PostReader {
     }
 
     private String loadContent(int maxSize) {
-        final String postPath = "posts/"+post.toFileName();
+        final String filePath = "posts/"+post.toFileName();
         Optional<URL> urlOptional = Optional.ofNullable(Thread.currentThread()
                                                             .getContextClassLoader()
-                                                            .getResource(postPath));
+                                                            .getResource(filePath));
 
         return urlOptional.flatMap((url) -> readFile(url, maxSize))
                    .orElseThrow(() -> new WebApplicationException(404));
