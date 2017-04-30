@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="blogApp">
 <head>
     <meta charset="UTF-8">
     <title>Monkey Blog</title>
+
+    <script src="external/angular/angular.js"> </script>
+    <script src="static/js/app.js"> </script>
 </head>
+
 <body>
-    <p>Hello from Monkey Blog. Updated!</p>
+
+    <div id="content">
+        <div ng-controller="PostListController">
+            <p>Hello from Monkey Blog.</p>
+            <ul>
+                <li ng-repeat="post in posts">
+                    <p>{{post.title}}</p>
+                </li>
+            </ul>
+
+        </div>
+    </div>
 </body>
 </html>
