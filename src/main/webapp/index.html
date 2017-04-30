@@ -4,22 +4,17 @@
     <meta charset="UTF-8">
     <title>Monkey Blog</title>
 
-    <script src="external/angular/angular.js"> </script>
-    <script src="static/js/app.js"> </script>
+    <script src="external/angular/angular.js"></script>
+    <script src="external/angular/angular-route.js"></script>
+    <script src="static/js/app.module.js"></script>
+    <script src="static/js/post-list/post-list.module.js"></script>
+    <script src="static/js/post-list/post-list.component.js"></script>
 </head>
 
 <body>
 
     <div id="content">
-        <div ng-controller="PostListController">
-            <p>Hello from Monkey Blog.</p>
-            <ul>
-                <li ng-repeat="post in posts">
-                    <p>{{post.title}}</p>
-                </li>
-            </ul>
-
-        </div>
+       <post-list></post-list>
     </div>
 </body>
 </html>
