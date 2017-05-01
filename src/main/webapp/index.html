@@ -5,16 +5,18 @@
     <title>Monkey Blog</title>
 
     <script src="external/angular/angular.js"></script>
-    <script src="external/angular/angular-route.js"></script>
+    <script src="external/angular-route/angular-route.js"></script>
     <script src="static/js/app.module.js"></script>
+    <script src="static/js/app.config.js"></script>
+    <script src="static/js/app.filter.js"></script>
     <script src="static/js/post-list/post-list.module.js"></script>
     <script src="static/js/post-list/post-list.component.js"></script>
+    <script src="static/js/post-detail/post-detail.module.js"></script>
+    <script src="static/js/post-detail/post-detail.component.js"></script>
 </head>
 
 <body>
 
-    <div id="content">
-       <post-list></post-list>
-    </div>
+    <div ng-view></div>
 </body>
 </html>
