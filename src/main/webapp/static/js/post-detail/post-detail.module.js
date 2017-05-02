@@ -1,3 +1,4 @@
 angular.module('postDetail', [
-    'ngRoute'
+    'ngRoute',
+    'core'
 ]);

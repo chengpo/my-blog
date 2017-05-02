@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class PostsResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<PostEntity> getPosts(@DefaultValue("") @QueryParam("tag") String tag) {
+    public List<PostEntity> getPostList(@DefaultValue("") @QueryParam("tag") String tag) {
         return new PostBank()
                         .getPosts(tag)
                         .stream()
@@ -24,7 +24,7 @@ public class PostsResource {
 
     @GET @Path("/{year:\\d{4}}/{day:\\d{4}}/{time:\\d{4}}/{tag}/{title}")
     @Produces(MediaType.APPLICATION_JSON)
-    public PostEntity getPostEntity(@PathParam("year") String year,
+    public PostEntity getPostDetail(@PathParam("year") String year,
                                      @PathParam("day") String day,
                                      @PathParam("time") String time,
                                      @PathParam("tag") String tag,

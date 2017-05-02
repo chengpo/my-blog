@@ -1,20 +1,19 @@
 angular.module('postDetail')
        .component('postDetail', {
             templateUrl: "static/js/post-detail/post-detail.template.html",
-            controller: ['$routeParams', '$http',
-                function postDetailController($routeParams, $http) {
+            controller: ['$routeParams', 'postDetail',
+                function postDetailController($routeParams, postDetail) {
                     var self = this;
-                    var postUrl = 'rest/posts/'+
-                                  $routeParams.year + '/' +
-                                  $routeParams.day + '/' +
-                                  $routeParams.time + '/' +
-                                  $routeParams.tag + '/' +
-                                  $routeParams.title;
+                    postDetail.get({year:$routeParams.year,
+                                     day:$routeParams.day,
+                                     time:$routeParams.time,
+                                     tag:$routeParams.tag,
+                                     title:$routeParams.title},
 
-                    $http.get(postUrl).then(function(response) {
-                        self.head = response.data.head;
-                        self.content = response.data.content;
-                    });
+                                     function(detail) {
+                                        self.head = detail.head;
+                                        self.content = detail.content;
+                                    });
                 }
             ]
        });
