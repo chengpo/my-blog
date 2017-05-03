@@ -1,4 +1,15 @@
-<div ng-repeat="post in $ctrl.posts">
-    <a href="#!/posts/{{post.head.year}}/{{post.head.day}}/{{post.head.time}}/{{post.head.tag}}/{{post.head.title}}">
-        {{post.head.title}}</a>
+
+
+
+<div id="banner" class="jumbotron text-center">
+    <h1>Monkey Blog</h1>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2" ng-repeat="post in $ctrl.posts">
+            <a href="#!/posts/{{post.head.year}}/{{post.head.day}}/{{post.head.time}}/{{post.head.tag}}/{{post.head.title}}">
+                {{post.head.title}}</a>
+        </div>
+    </div>
 </div>
