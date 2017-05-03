@@ -2,11 +2,20 @@
 <html lang="en" ng-app="blogApp">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, Initial-Scale user-scalable=yes"/>
+
     <title>Monkey Blog</title>
+
+    <link rel="stylesheet" href="external/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="static/css/app.css">
+
+    <script src="external/jquery/dist/jquery.js"></script>
+    <script src="external/bootstrap/dist/js/bootstrap.js"></script>
 
     <script src="external/angular/angular.js"></script>
     <script src="external/angular-route/angular-route.js"></script>
     <script src="external/angular-resource/angular-resource.js"></script>
+
     <script src="static/js/app.module.js"></script>
     <script src="static/js/core/core.module.js"></script>
     <script src="static/js/app.config.js"></script>
@@ -20,7 +29,40 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-inverse navbar-full">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Monkey Blog</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">Page 1</a></li>
+                    <li><a href="#">Page 2</a></li>
+                    <li><a href="#">Page 3</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <div ng-view></div>
+    <div id="banner" class="jumbotron text-center">
+        <h1>Monkey Blog</h1>
+    </div>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-8 offset-md-2" ng-view></div>
+        </div>
+    </div>
 </body>
 </html>
