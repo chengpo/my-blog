@@ -1,3 +1,46 @@
-.navbar-full {
-    border-radius:0px;
+@media (min-width: 48em) {
+    .sidebar {
+        position:fixed;
+        top:0;
+        left:0;
+        bottom:0;
+        width: 38rem;
+
+    }
+
+    .content {
+        margin-left: 39rem;
+    }
+
+    .sidebar-content {
+        width:36rem;
+    }
 }
+
+body {
+    font-family:'Droid Sans', Helvetica, Arial, sans-serif;
+}
+
+.sidebar {
+    text-align:center;
+    padding:2rem 1rem;
+    color:rgba(255,255,255,5);
+    background: #303030;
+}
+
+.sidebar a {
+    color:rgba(255,255,255,5);
+    text-decoration: none;
+}
+
+.sidebar-content {
+    width: 80%;
+    margin:auto;
+}
+
+.content {
+    padding-top:4rem;
+    padding-bottom:4rem;
+    color: #303030
+}
+
