@@ -2,5 +2,6 @@
 
 angular.module('blogApp', [
             'core',
+            'about',
             'postList',
             'postDetail']);

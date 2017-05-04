@@ -1,3 +1,8 @@
+body {
+    font-family:'Play', Helvetica, Arial, sans-serif;
+}
+
+/* large screen */
 @media (min-width: 48em) {
     .sidebar {
         position:fixed;
@@ -5,7 +10,6 @@
         left:0;
         bottom:0;
         width: 38rem;
-
     }
 
     .content {
@@ -13,19 +17,21 @@
     }
 
     .sidebar-content {
-        width:36rem;
+        padding-left: 5rem !important;
+        width:36rem !important;
+        position: absolute;
+        bottom: 10rem;
+    }
+
+    .sidebar-link {
+        text-align: left !important;
     }
 }
 
-body {
-    font-family:'Droid Sans', Helvetica, Arial, sans-serif;
-}
-
 .sidebar {
-    text-align:center;
     padding:2rem 1rem;
     color:rgba(255,255,255,5);
-    background: #303030;
+    background: #202020;
 }
 
 .sidebar a {
@@ -38,9 +44,28 @@ body {
     margin:auto;
 }
 
+.sidebar-content ul {
+    -webkit-padding-start: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.sidebar-module {
+    padding: 1rem;
+}
+
+.sidebar-link {
+    text-align: center;
+}
+
 .content {
     padding-top:4rem;
     padding-bottom:4rem;
-    color: #303030
+    color: #202020
+}
+
+.content-body {
+    width:80%;
+    margin:auto;
 }
 

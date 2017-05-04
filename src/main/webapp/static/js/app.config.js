@@ -11,6 +11,9 @@ angular.
         when('/posts/:year/:day/:time/:tag/:title', {
           template: '<post-detail></post-detail>'
         }).
+        when('/about', {
+            template: '<about></about>'
+        }).
         otherwise('/posts');
     }
   ]);
