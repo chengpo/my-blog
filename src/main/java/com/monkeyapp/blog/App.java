@@ -7,6 +7,7 @@ import org.apache.tomcat.JarScanFilter;
 import org.apache.tomcat.JarScanType;
 import org.apache.tomcat.JarScanner;
 import org.apache.tomcat.JarScannerCallback;
+import org.apache.tomcat.util.scan.StandardJarScanner;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -23,23 +24,12 @@ public class App {
 
         // Define and bind web.xml file location.
         final Context context = tomcat.addWebapp("/", new File(WEB_CONTENT).getAbsolutePath());
+        context.setConfigFile(new File(WEB_XML).toURI().toURL());
 
-        final File configFile = new File(WEB_XML);
-        context.setConfigFile(configFile.toURI().toURL());
-        context.setJarScanner(new JarScanner() {
-            @Override
-            public void scan(JarScanType scanType, ServletContext context, JarScannerCallback callback) {
-
-            }
-
-            @Override
-            public JarScanFilter getJarScanFilter() {
-                return null;
-            }
-
-            @Override
-            public void setJarScanFilter(JarScanFilter jarScanFilter) {
-
+        // Disable jar scanner
+        context.setJarScanner(new StandardJarScanner() {
+            {
+                setJarScanFilter((JarScanType jarScanType, String jarName) -> false);
             }
         });
 

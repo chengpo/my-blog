@@ -1,3 +1,5 @@
 <Context>
-    <JarScanner scanClassPath="false"/>
+    <JarScanner>
+        <JarScanFilter tldSkip="*.*"/>
+    </JarScanner>
 </Context>
