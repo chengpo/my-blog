@@ -1,5 +1,3 @@
-# Hello World Again
-
 Hello world in _Markdown_, **again!**
 
 1) Good morning!

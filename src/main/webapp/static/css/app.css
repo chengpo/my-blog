@@ -18,7 +18,7 @@ body {
     }
 
     .sidebar-content {
-        padding-left: 5rem !important;
+        padding-left: 3rem !important;
         width:36rem !important;
         position: absolute;
         bottom: 10rem;
@@ -78,5 +78,12 @@ body {
     padding-bottom:2rem;
 }
 
+.post-title {
+    padding-bottom: 0.5rem;
+}
+
+.post-attr {
+    padding-bottom: 0.5rem;
+}
 
 

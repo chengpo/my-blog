@@ -20,6 +20,7 @@
 
         <external.dir>${project.basedir}/src/main/webapp/external</external.dir>
         <posts.dir>${project.build.directory}/classes/posts</posts.dir>
+        <site.pages.dir>${project.build.directory}/classes/site_pages</site.pages.dir>
     </properties>
 
     <build>
@@ -112,6 +113,11 @@
             <resource>
                 <directory>posts</directory>
                 <targetPath>${posts.dir}</targetPath>
+            </resource>
+
+            <resource>
+                <directory>site_pages</directory>
+                <targetPath>${site.pages.dir}</targetPath>
             </resource>
         </resources>
     </build>

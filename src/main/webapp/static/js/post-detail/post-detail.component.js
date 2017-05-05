@@ -4,12 +4,7 @@ angular.module('postDetail')
             controller: ['$routeParams', 'postDetail',
                 function postDetailController($routeParams, postDetail) {
                     var self = this;
-                    postDetail.get({year:$routeParams.year,
-                                     day:$routeParams.day,
-                                     time:$routeParams.time,
-                                     tag:$routeParams.tag,
-                                     title:$routeParams.title},
-
+                    postDetail.get({name:$routeParams.name},
                                      function(detail) {
                                         self.head = detail.head;
                                         self.content = detail.content;

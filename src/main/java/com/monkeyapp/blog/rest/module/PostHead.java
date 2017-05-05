@@ -2,23 +2,22 @@ package com.monkeyapp.blog.rest.module;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class PostHead implements Comparable<PostHead> {
     private static final int POST_FIELD_NUM = 5;
-    private static final Pattern NAME_PATTERN = Pattern.compile("^(\\d{4})-(\\d{4})-(\\d{4})-(\\w+)-(.+)\\.md$");
+    private static final Pattern NAME_PATTERN = Pattern.compile("^((\\d{4})-(\\d{4})-(\\d{4})-(\\w+)-(.+))\\.md$");
 
-    @JsonProperty("year")
-    private final String year;
+    @JsonProperty("creationTime")
+    private final String creationTime;
 
-    @JsonProperty("day")
-    private final String day;
-
-    @JsonProperty("time")
-    private final String time;
+    @JsonProperty("name")
+    private final String name;
 
     @JsonProperty("tag")
     private final String tag;
@@ -29,61 +28,17 @@ public class PostHead implements Comparable<PostHead> {
     @JsonProperty("id")
     private final long id;
 
-    public static class Builder {
-        private Map<String, String> fields= new HashMap<>(POST_FIELD_NUM);
-
-        public Builder setYear(String year) {
-            fields.put("year", year);
-            return this;
-        }
-
-        public Builder setDay(String day) {
-            fields.put("day", day);
-            return this;
-        }
-
-        public Builder setTime(String time) {
-            fields.put("time", time);
-            return this;
-        }
-
-        public Builder setTag(String tag) {
-            fields.put("tag", tag);
-            return this;
-        }
-
-        public Builder setTitle(String title) {
-            fields.put("title", title);
-            return this;
-        }
-
-        public PostHead build() {
-            if (fields.size() < POST_FIELD_NUM) {
-                throw new IllegalStateException("inadequate fields: " + this);
-            }
-
-            return new PostHead(fields);
-        }
-
-        @Override
-        public String toString() {
-            StringBuilder sb = new StringBuilder("[ ");
-            fields.keySet().forEach(name -> sb.append(name).append(" "));
-            sb.append("]");
-            return sb.toString();
-        }
-    }
-
-    static PostHead from(String fileName) {
+    public static PostHead from(String fileName) {
         Matcher matcher = NAME_PATTERN.matcher(fileName);
         if (matcher.matches()) {
             return new PostHead(new HashMap<String, String>(POST_FIELD_NUM) {
                 {
-                    put("year", matcher.group(1));
-                    put("day", matcher.group(2));
-                    put("time", matcher.group(3));
-                    put("tag", matcher.group(4));
-                    put("title", matcher.group(5));
+                    put("name", matcher.group(1));
+                    put("year", matcher.group(2));
+                    put("date", matcher.group(3));
+                    put("time", matcher.group(4));
+                    put("tag", matcher.group(5));
+                    put("title", matcher.group(6));
                 }
             });
         }
@@ -92,27 +47,28 @@ public class PostHead implements Comparable<PostHead> {
     }
 
     private PostHead(Map<String, String> fields) {
-        year = fields.get("year");
-        day = fields.get("day");
-        time = fields.get("time");
+        final String year = fields.get("year");
+        final String month = fields.get("date").substring(0, 2);
+        final String day = fields.get("date").substring(2);
+        final String hour = fields.get("time").substring(0, 2);
+        final String minute = fields.get("time").substring(2);
+
+        name = fields.get("name");
+
+        creationTime = String.format("%s/%s/%s %s:%s", year, month, day, hour, minute);
+
         tag = fields.get("tag");
-        title = fields.get("title");
+        title = Arrays.stream(fields.get("title").split("-"))
+                      .map(PostHead::capitalize)
+                      .collect(Collectors.joining(" "));
 
-        id = Long.valueOf(year) * 10000L * 10000L +
-             Long.valueOf(day) * 10000L +
-             Long.valueOf(time);
+        id = Long.valueOf(fields.get("year")) * 10000L * 10000L +
+             Long.valueOf(fields.get("date")) * 10000L +
+             Long.valueOf(fields.get("time"));
     }
 
-    public String getYear() {
-        return year;
-    }
-
-    public String getDay() {
-        return day;
-    }
-
-    public String getTime() {
-        return time;
+    private static String capitalize(String string) {
+        return string.substring(0,1).toUpperCase() + string.substring(1).toLowerCase();
     }
 
     public String getTag() {
@@ -128,18 +84,7 @@ public class PostHead implements Comparable<PostHead> {
     }
 
     public String toFileName() {
-        return new StringBuilder()
-                .append(String.valueOf(year))
-                .append("-")
-                .append(String.valueOf(day))
-                .append("-")
-                .append(String.valueOf(time))
-                .append("-")
-                .append(tag)
-                .append("-")
-                .append(title)
-                .append(".md")
-                .toString();
+        return name + ".md";
     }
 
     @Override
@@ -149,6 +94,6 @@ public class PostHead implements Comparable<PostHead> {
 
     @Override
     public String toString() {
-        return "Local file name: " + toFileName();
+        return "local file name: " + toFileName();
     }
 }

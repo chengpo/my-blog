@@ -13,6 +13,6 @@ angular.
   ]).
   factory('postDetail', ['$resource',
     function($resource) {
-        return $resource("rest/posts/:year/:day/:time/:tag/:title", {}, {});
+        return $resource("rest/posts/:name", {}, {});
     }
   ]);

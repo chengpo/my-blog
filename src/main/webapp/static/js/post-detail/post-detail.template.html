@@ -1,7 +1,21 @@
 <div class="content-body">
     <div class="container-fluid">
-        <div class="col-md-12">
-            <div ng-bind-html="$ctrl.content | trustAsHtml"></div>
+
+        <div class="row post-title">
+            <div class="col-md-12"><h1>{{$ctrl.head.title}}</h1></div>
+        </div>
+
+        <div class="row post-attr">
+            <div class="col-md-6 text-muted small">{{$ctrl.head.creationTime}}</div>
+            <div class="col-md-4 text-muted small">
+                <a class="text-muted" href="#!/posts?tag={{$ctrl.head.tag}}">{{$ctrl.head.tag}}</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div ng-bind-html="$ctrl.content | trustAsHtml"></div>
+            </div>
         </div>
     </div>
 </div>
