@@ -13,9 +13,9 @@
             </div>
 
             <div class="row">
-                <div class="col-md-8">Created at {{post.head.timestamp}}</div>
-                <div class="col-md-4">
-                    <a href="#!/posts?tag={{post.head.tag}}"> {{post.head.tag}}</a>
+                <div class="col-md-8 text-muted small">Written at: {{post.head.timestamp}}</div>
+                <div class="col-md-4 text-muted small">
+                    Tag: <a class="text-muted" href="#!/posts?tag={{post.head.tag}}">{{post.head.tag}}</a>
                 </div>
             </div>
         </div>
