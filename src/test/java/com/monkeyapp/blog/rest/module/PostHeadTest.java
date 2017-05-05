@@ -15,7 +15,7 @@ public class PostHeadTest {
         assertNotNull("failed to recreate post from valid file name " + validFilename, post);
 
         assertEquals("wrong post tag", "tag", post.getTag());
-        assertEquals("wrong post name", "arbitrary-post-title", post.getTitle());
+        assertEquals("wrong post name", "Arbitrary Post Title", post.getTitle());
         assertEquals("wrong post id", 201704181053L, post.getId());
 
         assertEquals("wrong post file name", validFilename, post.toFileName());

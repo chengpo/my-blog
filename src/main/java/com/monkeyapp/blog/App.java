@@ -3,7 +3,12 @@ package com.monkeyapp.blog;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
+import org.apache.tomcat.JarScanFilter;
+import org.apache.tomcat.JarScanType;
+import org.apache.tomcat.JarScanner;
+import org.apache.tomcat.JarScannerCallback;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.io.File;
 import java.net.MalformedURLException;
@@ -21,6 +26,22 @@ public class App {
 
         final File configFile = new File(WEB_XML);
         context.setConfigFile(configFile.toURI().toURL());
+        context.setJarScanner(new JarScanner() {
+            @Override
+            public void scan(JarScanType scanType, ServletContext context, JarScannerCallback callback) {
+
+            }
+
+            @Override
+            public JarScanFilter getJarScanFilter() {
+                return null;
+            }
+
+            @Override
+            public void setJarScanFilter(JarScanFilter jarScanFilter) {
+
+            }
+        });
 
         tomcat.setPort(PORT);
         tomcat.start();
