@@ -1,8 +1,24 @@
 <div class="content-body">
+    <div class="container-fluid">
+    <div class="post-list-item" ng-repeat="post in $ctrl.posts">
+            <div class="row">
+            <div class="col-md-12" ng-bind-html="post.content | trustAsHtml"></div>
+            </div>
 
-    <div  ng-repeat="post in $ctrl.posts">
-        <a href="#!/posts/{{post.head.year}}/{{post.head.day}}/{{post.head.time}}/{{post.head.tag}}/{{post.head.title}}">
-            {{post.head.title}}</a>
+            <div class="row">
+                <div class="col-md-4">
+                <a href="#!/posts/{{post.head.year}}/{{post.head.day}}/{{post.head.time}}/{{post.head.tag}}/{{post.head.title}}">
+                  <p class="text-left">Read More ...</p></a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">Created at {{post.head.timestamp}}</div>
+                <div class="col-md-4">
+                    <a href="#!/posts?tag={{post.head.tag}}"> {{post.head.tag}}</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

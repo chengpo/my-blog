@@ -1,1 +1,2 @@
-angular.module('about', [])
+angular.module('about', ['ngRoute',
+                         'core'])

@@ -1,9 +1,10 @@
 body {
     font-family:'Play', Helvetica, Arial, sans-serif;
+    font-size: 1.5rem;
 }
 
-/* large screen */
-@media (min-width: 48em) {
+/* desktop screen */
+@media (min-width: 992px) {
     .sidebar {
         position:fixed;
         top:0;
@@ -50,6 +51,10 @@ body {
     list-style-type: none;
 }
 
+.sidebar h1 {
+    font-size: 4rem;
+}
+
 .sidebar-module {
     padding: 1rem;
 }
@@ -65,7 +70,11 @@ body {
 }
 
 .content-body {
-    width:80%;
+    width: 90%;
     margin:auto;
+}
+
+.post-list-item {
+    padding-bottom:2rem;
 }
 
