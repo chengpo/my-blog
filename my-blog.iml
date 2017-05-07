@@ -55,6 +55,7 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.8.4" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.8.4" level="project" />
     <orderEntry type="library" name="Maven: com.atlassian.commonmark:commonmark:0.9.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.5" level="project" />
     <orderEntry type="library" name="Maven: eu.numberfour.maven.plugins:file-list-maven-plugin:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:1.7.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.maven:maven-project:2.0.3" level="project" />

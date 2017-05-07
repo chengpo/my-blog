@@ -6,7 +6,7 @@ angular.module('postDetail')
                     var self = this;
                     postDetail.get({name:$routeParams.name},
                                      function(detail) {
-                                        self.head = detail.head;
+                                        self.entity = detail.entity;
                                         self.content = detail.content;
                                     });
                 }
