@@ -10,6 +10,9 @@ angular.module('postList')
                         self.posts = postChunk.posts;
                         self.offset = postChunk.offset;
                         self.eof = postChunk.eof;
+
+                        self.disable_backward = (self.offset <= 0) ? "disabled" : "";
+                        self.disable_forward = (self.eof) ? "disabled" : "";
                     });
                 }]
        });
