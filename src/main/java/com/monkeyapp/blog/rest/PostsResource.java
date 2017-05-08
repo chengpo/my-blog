@@ -1,5 +1,6 @@
 package com.monkeyapp.blog.rest;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.monkeyapp.blog.rest.module.*;
 
 import javax.ws.rs.*;
@@ -10,31 +11,55 @@ import java.util.stream.Collectors;
 
 @Path("/posts")
 public class PostsResource {
+    private static final int NUM_OF_POST_PER_PAGE = 5;
+
+    private static class PostChunk {
+        @JsonProperty("posts")
+        private final List<Post> posts;
+
+        @JsonProperty("offset")
+        private final int offset;
+
+        @JsonProperty("eof")
+        private final boolean eof;
+
+        private PostChunk(List<Post> posts, int offset, boolean eof) {
+            this.posts = posts;
+            this.offset = offset;
+            this.eof = eof;
+        }
+    }
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Paper> getPostList(@DefaultValue("") @QueryParam("tag") String tag) {
-        return new PostBank()
-                        .getPosts(tag)
-                        .stream()
+    public PostChunk getPostChunk(@DefaultValue("") @QueryParam("tag") String tag,
+                                  @DefaultValue("0") @QueryParam("offset") int offset) {
+        final List<Entity> entities = new PostBank().getPostEntities(tag);
+        final List<Post> posts = entities.stream()
+                        .skip(offset)
+                        .limit(NUM_OF_POST_PER_PAGE)
                         .map((entity) -> {
                                 final String path = "posts/" + entity.getName() + ".md";
                                 final String content = new MarkdownReader(
-                                                                TextReader.partialReader(path)).read();
-                                return new Paper(entity, content);
+                                                            TextReader.partialReader(path)).read();
+                                return new Post(entity, content);
                             }
                         )
                         .collect(Collectors.toList());
+
+        final boolean eof = offset + posts.size() >= entities.size();
+        return new PostChunk(posts, offset, eof);
     }
 
     @GET @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Paper getPostDetail(@PathParam("name") String name) {
-        return Optional.ofNullable(Entity.from(name + ".md"))
+    public Post getPostDetail(@PathParam("name") String name) {
+        return Optional.ofNullable(Entity.fromFileName(name + ".md"))
                        .flatMap((entity)-> {
                                     final String path = "posts/" + entity.getName() + ".md";
                                     final String content = new MarkdownReader(
                                                                 TextReader.fullReader(path)).read();
-                                    return Optional.of(new Paper(entity, content));
+                                    return Optional.of(new Post(entity, content));
                                }
                        )
                        .orElseThrow(() -> new WebApplicationException(404));

@@ -13,6 +13,6 @@ public class TagsResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<String> getTags() {
-        return new PostBank().getTags();
+        return new PostBank().getPostTags();
     }
 }

@@ -11,8 +11,8 @@ public class EntityTest {
     public void testCreatePostInstanceWithValidFileName() {
         final String validFilename = "2017-0418-1053-tag-arbitrary-post-title.md";
 
-        Entity post = Entity.from(validFilename);
-        assertNotNull("failed to recreate post from valid file name " + validFilename, post);
+        Entity post = Entity.fromFileName(validFilename);
+        assertNotNull("failed to recreate post fromFileName valid file name " + validFilename, post);
 
         assertEquals("wrong post tag", "tag", post.getTag());
         assertEquals("wrong post name", "Arbitrary Post Title", post.getTitle());
@@ -24,7 +24,7 @@ public class EntityTest {
     @Test
     public void testCreatePostInstanceWithInvalidFileName() {
         final String invalidFileName = "201704181053-tag-arbitrary-post-title.md";
-        Entity post = Entity.from(invalidFileName);
-        assertNull("should not create post instance from invalid file name " + invalidFileName, post);
+        Entity post = Entity.fromFileName(invalidFileName);
+        assertNull("should not create post instance fromFileName invalid file name " + invalidFileName, post);
     }
 }

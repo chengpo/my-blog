@@ -2,14 +2,14 @@ package com.monkeyapp.blog.rest.module;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Paper implements Comparable<Paper>{
+public class Post implements Comparable<Post>{
     @JsonProperty("entity")
     private final Entity entity;
 
     @JsonProperty("content")
     private final String content;
 
-    public Paper(Entity entity, String content) {
+    public Post(Entity entity, String content) {
         this.entity = entity;
         this.content = content;
     }
@@ -23,7 +23,7 @@ public class Paper implements Comparable<Paper>{
     }
 
     @Override
-    public int compareTo(Paper other) {
+    public int compareTo(Post other) {
         return entity.compareTo(other.entity);
     }
 }

@@ -28,23 +28,23 @@ public class PostBank {
     }
 
     @Nonnull
-    public List<Entity> getPosts(){
-        return getPosts(null);
+    public List<Entity> getPostEntities(){
+        return getPostEntities(null);
     }
 
     @Nonnull
-    public List<Entity> getPosts(String tag) {
+    public List<Entity> getPostEntities(String tag) {
         return postFileNames.stream()
-                            .map(Entity::from)
+                            .map(Entity::fromFileName)
                             .filter((post) -> tag == null || tag.isEmpty() || post.getTag().equals(tag))
                             .sorted(Comparator.reverseOrder())
                             .collect(Collectors.toList());
     }
 
     @Nonnull
-    public List<String> getTags() {
+    public List<String> getPostTags() {
         return postFileNames.stream()
-                            .map(Entity::from)
+                            .map(Entity::fromFileName)
                             .map(Entity::getTag)
                             .distinct()
                             .sorted()

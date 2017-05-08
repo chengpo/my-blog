@@ -29,7 +29,7 @@ public class Entity implements Comparable<Entity> {
     @JsonProperty("id")
     private final long id;
 
-    public static Entity from(String fileName) {
+    public static Entity fromFileName(String fileName) {
         final Matcher matcher = NAME_PATTERN.matcher(fileName);
         if (matcher.matches()) {
             return new Entity(new HashMap<String, String>(POST_FIELD_NUM) {
