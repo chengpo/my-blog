@@ -26,12 +26,12 @@
 
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <button type="button" class="btn btn-default bt-lg pull-left {{$ctrl.disable_backward}}" ng-model="newer_button">
+                <button type="button" class="btn btn-default bt-lg pull-left {{$ctrl.disable_forward}}" ng-click="$ctrl.forward()">
                     <span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span>
                     Newer Post
                 </button>
 
-                <button type="button" class="btn btn-default bt-lg pull-right {{$ctrl.disable_backward}}" ng-model="older_button">
+                <button type="button" class="btn btn-default bt-lg pull-right {{$ctrl.disable_backward}}" ng-click="$ctrl.backward()">
                     <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
                     Older Post
                 </button>

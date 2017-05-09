@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Path("/posts")
 public class PostsResource {
-    private static final int NUM_OF_POST_PER_PAGE = 5;
+    private static final int NUM_OF_POST_PER_PAGE = 3;
 
     private static class PostChunk {
         @JsonProperty("posts")
