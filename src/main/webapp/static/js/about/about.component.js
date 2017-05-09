@@ -1,7 +1,13 @@
 angular.module('about')
        .component('about', {
             templateUrl: 'static/js/about/about.template.html',
-                       controller: ['postDetail',
-                            function AboutController(postDetail) {
-                            }]
-       });
+               controller: ['sitePages',
+                    function AboutController(sitePages) {
+                        var self = this;
+                        sitePages.about(
+                            function(detail) {
+                                self.entity = detail.entity;
+                                self.content = detail.content;
+                            });
+                    }]
+   });

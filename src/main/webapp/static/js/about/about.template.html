@@ -1,8 +1,17 @@
 <div class="content-body">
     <div class="container-fluid">
+
+        <div class="row post-title">
+            <div class="col-md-10 col-md-offset-1"><h1>{{$ctrl.entity.title}}</h1></div>
+        </div>
+
+        <div class="row post-attr">
+            <div class="col-md-3 col-md-offset-1 text-muted small">{{$ctrl.entity.creationTime}}</div>
+        </div>
+
         <div class="row">
-            <div class="col-md-12">
-                <h1>About Myself</h1>
+            <div class="col-md-10 col-md-offset-1">
+                <div ng-bind-html="$ctrl.content | trustAsHtml"></div>
             </div>
         </div>
     </div>

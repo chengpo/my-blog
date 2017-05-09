@@ -11,7 +11,7 @@ angular.
       });
     }
   ]).
-  factory('postDetail', ['$resource',
+  factory('postContent', ['$resource',
     function($resource) {
         return $resource("rest/posts/:name", {}, {});
     }

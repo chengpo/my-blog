@@ -1,1 +1,1 @@
-angular.module('core', ['core.posts']);
+angular.module('core', ['core.posts', 'core.sitePages']);
