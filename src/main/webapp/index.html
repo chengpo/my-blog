@@ -8,6 +8,7 @@
     <title>Coding Is Fun</title>
 
     <link rel="stylesheet" href="external/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="static/1.0.0/css/app.css">
 
     <script src="external/jquery/dist/jquery.js"></script>
     <script src="external/bootstrap/dist/js/bootstrap.js"></script>
@@ -17,98 +18,79 @@
     <script src="external/angular-resource/angular-resource.js"></script>
 
     <script type='text/javascript'>
-        window.version = '';
-
-        window.resource = {
-            css: ['app.css'],
-            js: ['app.module.js',
-                 'core/core.module.js',
-                 'app.config.js',
-                 'core/trustAsHtml/trustAsHtml.filter.js',
-                 'core/posts/posts.module.js',
-                 'core/posts/posts.service.js',
-                 'core/site-pages/site-pages.module.js',
-                 'core/site-pages/site-pages.service.js',
-                 'post-list/post-list.module.js',
-                 'post-list/post-list.component.js',
-                 'post-detail/post-detail.module.js',
-                 'post-detail/post-detail.component.js',
-                 'about/about.module.js',
-                 'about/about.component.js'],
-        };
+        var version = '1.0.0';
 
         window.versioningUrl = function(url) {
-            return 'static/' + window.version + '/' + url;
+            return 'static/' + version + '/' + url;
         };
-
-        $(document).ready(function(){
-            var head = document.getElementsByTagName("head")[0];
-
-            var loadCss = function(url) {
-                var css = document.createElement('link');
-
-                css.rel = 'stylesheet';
-                css.href = window.versioningUrl(url);
-                head.appendChild(css);
-            }
-
-            for (var css of window.resource.css) {
-                loadCss('css/' + css);
-            }
-
-            var loadJs = function(url, callback) {
-                 var script = document.createElement('script');
-
-                 script.type = 'text/javascript';
-                 script.src = window.versioningUrl(url);
-
-                 script.onload = callback;
-                 script.onreadystatechange = function() {
-                    if (this.readyState == 'complete') {
-                        callback();
-                    }
-                 }
-
-                 head.appendChild(script);
-            };
-
-            var jsIndex = 0;
-            var jsUrls = window.resource.js;
-
-            var callback = function() {
-                jsIndex++;
-
-                if (jsIndex < jsUrls.length) {
-                   loadJs('js/' + jsUrls[jsIndex], callback);
-                } else {
-                    angular.element(function() {
-                        angular.bootstrap(document, ['blogApp']);
-                    });
-                }
-            }
-
-            loadJs('js/' + jsUrls[jsIndex], callback);
-        });
     </script>
 
-    <!--
-    <link rel="stylesheet" href="static/css/app.css">
+    <script type='text/javascript'>
+        function jsLoader(onFinished) {
+                var jsUrls = ['app.module.js',
+                         'core/core.module.js',
+                         'app.config.js',
+                         'core/trustAsHtml/trustAsHtml.filter.js',
+                         'core/posts/posts.module.js',
+                         'core/posts/posts.service.js',
+                         'core/site-pages/site-pages.module.js',
+                         'core/site-pages/site-pages.service.js',
+                         'post-list/post-list.module.js',
+                         'post-list/post-list.component.js',
+                         'post-detail/post-detail.module.js',
+                         'post-detail/post-detail.component.js',
+                         'about/about.module.js',
+                         'about/about.component.js'];
 
-    <script src="static/js/app.module.js"></script>
-    <script src="static/js/core/core.module.js"></script>
-    <script src="static/js/app.config.js"></script>
-    <script src="static/js/core/trustAsHtml/trustAsHtml.filter.js"></script>
-    <script src="static/js/core/posts/posts.module.js"></script>
-    <script src="static/js/core/posts/posts.service.js"></script>
-    <script src="static/js/core/site-pages/site-pages.module.js"></script>
-    <script src="static/js/core/site-pages/site-pages.service.js"></script>
-    <script src="static/js/post-list/post-list.module.js"></script>
-    <script src="static/js/post-list/post-list.component.js"></script>
-    <script src="static/js/post-detail/post-detail.module.js"></script>
-    <script src="static/js/post-detail/post-detail.component.js"></script>
-    <script src="static/js/about/about.module.js"></script>
-    <script src="static/js/about/about.component.js"></script>
-    -->
+
+                var head = document.getElementsByTagName("head")[0];
+                var jsIndex = 0;
+                var self = this;
+
+                self.onFinished = onFinished;
+
+                var _loadJs = function(url, callback) {
+                     var script = document.createElement('script');
+
+                     script.type = 'text/javascript';
+                     script.src = window.versioningUrl(url);
+
+                     script.onload = callback;
+                     script.onreadystatechange = function() {
+                        if (this.readyState == 'complete') {
+                            callback();
+                        }
+                     }
+
+                     head.appendChild(script);
+                };
+
+                var _callback = function() {
+                    jsIndex++;
+
+                    if (jsIndex < jsUrls.length) {
+                       _loadJs('js/' + jsUrls[jsIndex], _callback);
+                    } else {
+                       self.onFinished();
+                    }
+                };
+
+                self.start = function() {
+                    _loadJs('js/' + jsUrls[0], _callback);
+                };
+            };
+
+        $(document).ready(function(){
+            var onFinished = function() {
+                   angular.element(function() {
+                        angular.bootstrap(document, ['blogApp']);
+                   });
+            };
+
+            var loader = new jsLoader(onFinished);
+            loader.start();
+        });
+    </script>
 </head>
 
 <body>
