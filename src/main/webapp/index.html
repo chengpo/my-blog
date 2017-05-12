@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="blogApp">
-<entity>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="theme-color" content="#202020">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -8,7 +8,6 @@
     <title>Coding Is Fun</title>
 
     <link rel="stylesheet" href="external/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="static/css/app.css">
 
     <script src="external/jquery/dist/jquery.js"></script>
     <script src="external/bootstrap/dist/js/bootstrap.js"></script>
@@ -16,6 +15,84 @@
     <script src="external/angular/angular.js"></script>
     <script src="external/angular-route/angular-route.js"></script>
     <script src="external/angular-resource/angular-resource.js"></script>
+
+    <script type='text/javascript'>
+        window.version = '';
+
+        window.resource = {
+            css: ['app.css'],
+            js: ['app.module.js',
+                 'core/core.module.js',
+                 'app.config.js',
+                 'core/trustAsHtml/trustAsHtml.filter.js',
+                 'core/posts/posts.module.js',
+                 'core/posts/posts.service.js',
+                 'core/site-pages/site-pages.module.js',
+                 'core/site-pages/site-pages.service.js',
+                 'post-list/post-list.module.js',
+                 'post-list/post-list.component.js',
+                 'post-detail/post-detail.module.js',
+                 'post-detail/post-detail.component.js',
+                 'about/about.module.js',
+                 'about/about.component.js'],
+        };
+
+        window.versioningUrl = function(url) {
+            return 'static/' + window.version + '/' + url;
+        };
+
+        $(document).ready(function(){
+            var head = document.getElementsByTagName("head")[0];
+
+            var loadCss = function(url) {
+                var css = document.createElement('link');
+
+                css.rel = 'stylesheet';
+                css.href = window.versioningUrl(url);
+                head.appendChild(css);
+            }
+
+            for (var css of window.resource.css) {
+                loadCss('css/' + css);
+            }
+
+            var loadJs = function(url, callback) {
+                 var script = document.createElement('script');
+
+                 script.type = 'text/javascript';
+                 script.src = window.versioningUrl(url);
+
+                 script.onload = callback;
+                 script.onreadystatechange = function() {
+                    if (this.readyState == 'complete') {
+                        callback();
+                    }
+                 }
+
+                 head.appendChild(script);
+            };
+
+            var jsIndex = 0;
+            var jsUrls = window.resource.js;
+
+            var callback = function() {
+                jsIndex++;
+
+                if (jsIndex < jsUrls.length) {
+                   loadJs('js/' + jsUrls[jsIndex], callback);
+                } else {
+                    angular.element(function() {
+                        angular.bootstrap(document, ['blogApp']);
+                    });
+                }
+            }
+
+            loadJs('js/' + jsUrls[jsIndex], callback);
+        });
+    </script>
+
+    <!--
+    <link rel="stylesheet" href="static/css/app.css">
 
     <script src="static/js/app.module.js"></script>
     <script src="static/js/core/core.module.js"></script>
@@ -31,7 +108,8 @@
     <script src="static/js/post-detail/post-detail.component.js"></script>
     <script src="static/js/about/about.module.js"></script>
     <script src="static/js/about/about.component.js"></script>
-</entity>
+    -->
+</head>
 
 <body>
     <div class="sidebar">

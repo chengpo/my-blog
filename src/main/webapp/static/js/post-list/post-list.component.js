@@ -1,12 +1,18 @@
+'use strict';
+
 angular.module('postList')
        .component('postList', {
-           templateUrl: 'static/js/post-list/post-list.template.html',
+           templateUrl: window.versioningUrl('js/post-list/post-list.template.html'),
            controller: ['$location', 'posts',
                 function PostListController($location, posts) {
                     var self = this;
 
+                    self.disable_forward = "hide";
+                    self.disable_backward = "hide";
+
                     self.tag = $location.search().tag;
                     self.offset = $location.search().offset;
+
 
                     self.forward = function() {
                         var offset = self.offset - self.posts.length;

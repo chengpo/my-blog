@@ -14,7 +14,6 @@ public class SitePagesResource {
     @GET @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
     public Post getSitePage(@PathParam("name") String name) {
-
         return Optional.ofNullable(Entity.fromFileName(name + ".md"))
                 .flatMap((entity) ->
                     Optional.of(new Post(entity,

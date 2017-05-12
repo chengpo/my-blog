@@ -1,6 +1,8 @@
-angular.
-  module('core.posts').
-  factory('posts', ['$resource',
+'use strict';
+
+angular
+  .module('core.posts')
+  .factory('posts', ['$resource',
     function($resource) {
       return $resource("rest/posts/?tag=:tag&offset=:offset", {}, {
         all: {
@@ -10,8 +12,8 @@ angular.
         }
       });
     }
-  ]).
-  factory('postContent', ['$resource',
+  ])
+  .factory('postContent', ['$resource',
     function($resource) {
         return $resource("rest/posts/:name", {}, {});
     }

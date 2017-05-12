@@ -1,6 +1,6 @@
 angular.module('about')
        .component('about', {
-            templateUrl: 'static/js/about/about.template.html',
+            templateUrl: window.versioningUrl('js/about/about.template.html'),
                controller: ['sitePages',
                     function AboutController(sitePages) {
                         var self = this;

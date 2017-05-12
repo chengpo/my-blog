@@ -1,6 +1,8 @@
+'use strict';
+
 angular.module('postDetail')
        .component('postDetail', {
-            templateUrl: "static/js/post-detail/post-detail.template.html",
+            templateUrl: window.versioningUrl('js/post-detail/post-detail.template.html'),
             controller: ['$routeParams', 'postContent',
                 function postDetailController($routeParams, postContent) {
                     var self = this;

@@ -1,3 +1,5 @@
+'use strict';
+
 angular.
   module('blogApp').
   config(['$locationProvider', '$routeProvider',

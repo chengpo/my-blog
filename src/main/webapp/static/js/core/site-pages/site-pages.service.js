@@ -1,3 +1,5 @@
+'use strict';
+
 angular.
   module('core.sitePages').
   factory('sitePages', ['$resource',

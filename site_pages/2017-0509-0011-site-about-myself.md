@@ -1,1 +1,1 @@
-Monkey blogger
+> Given an infinite length of time, a chimpanzee punching at random on a typewriter would almost surely type out all of Shakespeare's plays.
