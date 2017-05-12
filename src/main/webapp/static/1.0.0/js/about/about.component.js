@@ -1,7 +1,7 @@
 angular.module('about')
        .component('about', {
             templateUrl: window.versioningUrl('js/about/about.template.html'),
-               controller: ['sitePages',
+            controller: ['sitePages',
                     function AboutController(sitePages) {
                         var self = this;
                         sitePages.about(

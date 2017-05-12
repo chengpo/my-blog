@@ -1,0 +1,16 @@
+<div class="sidebar">
+    <div class="sidebar-content">
+        <div class="sidebar-module">
+            <a href="/"><h1 class="sidebar-link">{{$ctrl.title}}</h1></a>
+        </div>
+
+        <div class="sidebar-module">
+            <ul>
+                <div ng-repeat="link in $ctrl.links">
+                    <li> <a href="{{link.url}}"><h4 class="sidebar-link">{{link.name}}</h4> </a></li>
+                </div>
+            </ul>
+        </div>
+
+    </div>
+</div>
