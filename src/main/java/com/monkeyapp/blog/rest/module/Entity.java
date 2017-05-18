@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class Entity implements Comparable<Entity> {
     private static final int POST_FIELD_NUM = 5;
-    private static final Pattern NAME_PATTERN = Pattern.compile("^((\\d{4})-(\\d{4})-(\\d{4})-(\\w+)-(.+))\\.md$");
+    private static final Pattern NAME_PATTERN = Pattern.compile("^(\\d{4})-(\\d{4})-(\\d{4})-(\\w+)-(.+)\\.md$");
 
     @JsonProperty("creationTime")
     private final String creationTime;
@@ -34,12 +34,12 @@ public class Entity implements Comparable<Entity> {
         if (matcher.matches()) {
             return new Entity(new HashMap<String, String>(POST_FIELD_NUM) {
                 {
-                    put("name", matcher.group(1));
-                    put("year", matcher.group(2));
-                    put("date", matcher.group(3));
-                    put("time", matcher.group(4));
-                    put("tag", matcher.group(5));
-                    put("title", matcher.group(6));
+                    put("name", matcher.group(0));
+                    put("year", matcher.group(1));
+                    put("date", matcher.group(2));
+                    put("time", matcher.group(3));
+                    put("tag", matcher.group(4));
+                    put("title", matcher.group(5));
                 }
             });
         }
@@ -90,6 +90,6 @@ public class Entity implements Comparable<Entity> {
 
     @Override
     public String toString() {
-        return "local file name: " + getName() + ".md";
+        return "local file name: " + getName();
     }
 }

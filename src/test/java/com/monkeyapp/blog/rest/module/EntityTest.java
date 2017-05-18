@@ -18,7 +18,7 @@ public class EntityTest {
         assertEquals("wrong post name", "Arbitrary Post Title", post.getTitle());
         assertEquals("wrong post id", 201704181053L, post.getId());
 
-        assertEquals("wrong post file name", validFilename, post.getName() + ".md");
+        assertEquals("wrong post file name", validFilename, post.getName());
     }
 
     @Test

@@ -39,7 +39,7 @@ public class PostsResource {
                         .skip(offset)
                         .limit(NUM_OF_POST_PER_PAGE)
                         .map((entity) -> {
-                                final String path = "posts/" + entity.getName() + ".md";
+                                final String path = "posts/" + entity.getName();
                                 final String content = new MarkdownReader(
                                                             TextReader.partialReader(path)).read();
                                 return new Post(entity, content);
@@ -54,9 +54,9 @@ public class PostsResource {
     @GET @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
     public Post getPostDetail(@PathParam("name") String name) {
-        return Optional.ofNullable(Entity.fromFileName(name + ".md"))
+        return Optional.ofNullable(Entity.fromFileName(name))
                        .flatMap((entity)-> {
-                                    final String path = "posts/" + entity.getName() + ".md";
+                                    final String path = "posts/" + entity.getName();
                                     final String content = new MarkdownReader(
                                                                 TextReader.fullReader(path)).read();
                                     return Optional.of(new Post(entity, content));
