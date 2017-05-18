@@ -16,99 +16,98 @@
     <script src="external/angular-animate/angular-animate.js"></script>
 
     <script type='text/javascript'>
-        var resource = {
-           version : '1.0.0',
-           css : ['app.css',
-                  'app.animate.css'],
-           js : ['app.module.js',
-                 'app.config.js',
-                 'core/core.module.js',
-                 'core/trustAsHtml/trustAsHtml.filter.js',
-                 'core/posts/posts.module.js',
-                 'core/posts/posts.service.js',
-                 'core/site-pages/site-pages.module.js',
-                 'core/site-pages/site-pages.service.js',
-                 'post-list/post-list.module.js',
-                 'post-list/post-list.component.js',
-                 'post-detail/post-detail.module.js',
-                 'post-detail/post-detail.component.js',
-                 'about/about.module.js',
-                 'about/about.component.js',
-                 'sidebar/sidebar.module.js',
-                 'sidebar/sidebar.component.js']
-        };
-
-        window.versioningUrl = function(url) {
-            return 'static/' + resource.version + '/' + url;
-        };
-
-        function CssLoader() {
-            var head = document.getElementsByTagName("head")[0];
-            var self = this;
-
-            var _loadCss = function(url) {
-            var css = document.createElement('link');
-
-            css.rel = 'stylesheet';
-            css.href = window.versioningUrl(url);
-                head.appendChild(css);
+        var Resource = (function(){
+            var resMap = {
+               version : '1.0.0',
+               urls : ['app.css',
+                        'app.animate.css',
+                        'app.module.js',
+                        'app.config.js',
+                        'core/core.module.js',
+                        'core/trustAsHtml/trustAsHtml.filter.js',
+                        'core/posts/posts.module.js',
+                        'core/posts/posts.service.js',
+                        'core/site-pages/site-pages.module.js',
+                        'core/site-pages/site-pages.service.js',
+                        'post-list/post-list.module.js',
+                        'post-list/post-list.component.js',
+                        'post-detail/post-detail.module.js',
+                        'post-detail/post-detail.component.js',
+                        'about/about.module.js',
+                        'about/about.component.js',
+                        'sidebar/sidebar.module.js',
+                        'sidebar/sidebar.component.js']
             };
 
-            self.start = function() {
-                for (var css of resource.css) {
-                    _loadCss('css/' + css);
-                }
-            };
-        }
+            function ResourceImplement() {
+                var self = this;
+                var head = document.getElementsByTagName('head')[0];
+                var urlIndex = 0;
+                var _onReady;
 
-        function JsLoader() {
-            var head = document.getElementsByTagName("head")[0];
-            var jsIndex = 0;
-            var self = this;
+                self.init = function() {
+                    _loadRes(resMap.urls[0], _callback);
+                };
 
-            var _loadJs = function(url, callback) {
-                 var script = document.createElement('script');
+                self.versioningUrl = function(url) {
+                    return 'static/' + resMap.version + '/' + url;
+                };
 
-                 script.type = 'text/javascript';
-                 script.src = window.versioningUrl(url);
+                self.ready = function(onReady){
+                    _onReady = onReady;
+                    return self;
+                };
 
-                 script.onload = callback;
-                 script.onreadystatechange = function() {
-                    if (this.readyState == 'complete') {
-                        callback();
+                var _callback = function() {
+                    urlIndex++;
+
+                    if (urlIndex < resMap.urls.length) {
+                       _loadRes(resMap.urls[urlIndex], _callback);
+                    } else {
+                       _onReady();
                     }
-                 }
+                };
 
-                 head.appendChild(script);
-            };
+                var _loadRes = function(url, callback) {
+                     var element;
 
-            var _callback = function() {
-                jsIndex++;
+                     if (url.endsWith('.js')) {
+                         element = document.createElement('script');
 
-                if (jsIndex < resource.js.length) {
-                   _loadJs('js/' + resource.js[jsIndex], _callback);
-                } else {
-                   self.onFinished();
-                }
-            };
+                         element.type = 'text/javascript';
+                         element.src = self.versioningUrl('js/' + url);
+                     } else if (url.endsWith('.css')) {
+                         element = document.createElement('link');
 
-            self.start = function() {
-                _loadJs('js/' + resource.js[0], _callback);
-                return self;
-            };
-        };
+                         element.rel = 'stylesheet';
+                         element.href = self.versioningUrl('css/' + url);
+                     } else {
+                        console.log('unknown resource type: ' + url);
+                        callback();
+                        return;
+                     }
+
+                     element.onload = callback;
+                     element.onreadystatechange = function() {
+                        if (this.readyState == 'complete') {
+                            callback();
+                        }
+                     }
+
+                     head.appendChild(element);
+                };
+            }
+
+            return new ResourceImplement();
+        })();
 
         $(document).ready(function(){
-            var cssLoader = new CssLoader();
-            cssLoader.start();
-
-            var jsLoader = new JsLoader();
-            jsLoader.onFinished = function() {
-                   angular.element(function() {
-                        angular.bootstrap(document, ['blogApp']);
-                   });
-            };
-            jsLoader.start();
+            Resource.ready(function() {
+                               angular.element(function() {
+                                    angular.bootstrap(document, ['blogApp']);
+                               });
+                     })
+                    .init();
         });
     </script>
 </head>

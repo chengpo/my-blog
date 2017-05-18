@@ -2,7 +2,7 @@
 
 angular.module('postDetail')
        .component('postDetail', {
-            templateUrl: window.versioningUrl('js/post-detail/post-detail.template.html'),
+            templateUrl: Resource.versioningUrl('js/post-detail/post-detail.template.html'),
             controller: ['$routeParams', 'postContent',
                 function postDetailController($routeParams, postContent) {
                     var self = this;

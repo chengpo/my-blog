@@ -1,6 +1,6 @@
 angular.module('sidebar')
        .component('sidebar', {
-            templateUrl: window.versioningUrl('js/sidebar/sidebar.template.html'),
+            templateUrl: Resource.versioningUrl('js/sidebar/sidebar.template.html'),
             controller: function() {
                 var self = this;
 

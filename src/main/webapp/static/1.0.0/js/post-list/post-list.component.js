@@ -2,7 +2,7 @@
 
 angular.module('postList')
        .component('postList', {
-           templateUrl: window.versioningUrl('js/post-list/post-list.template.html'),
+           templateUrl: Resource.versioningUrl('js/post-list/post-list.template.html'),
            controller: ['$location', 'posts',
                 function PostListController($location, posts) {
                     var self = this;
