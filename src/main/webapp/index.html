@@ -13,27 +13,29 @@
     <script src="external/angular/angular.js"></script>
     <script src="external/angular-route/angular-route.js"></script>
     <script src="external/angular-resource/angular-resource.js"></script>
+    <script src="external/angular-animate/angular-animate.js"></script>
 
     <script type='text/javascript'>
         var resource = {
-               version : '1.0.0',
-               css : ['app.css'],
-               js : ['app.module.js',
-                     'app.config.js',
-                     'core/core.module.js',
-                     'core/trustAsHtml/trustAsHtml.filter.js',
-                     'core/posts/posts.module.js',
-                     'core/posts/posts.service.js',
-                     'core/site-pages/site-pages.module.js',
-                     'core/site-pages/site-pages.service.js',
-                     'post-list/post-list.module.js',
-                     'post-list/post-list.component.js',
-                     'post-detail/post-detail.module.js',
-                     'post-detail/post-detail.component.js',
-                     'about/about.module.js',
-                     'about/about.component.js',
-                     'sidebar/sidebar.module.js',
-                     'sidebar/sidebar.component.js']
+           version : '1.0.0',
+           css : ['app.css',
+                  'app.animate.css'],
+           js : ['app.module.js',
+                 'app.config.js',
+                 'core/core.module.js',
+                 'core/trustAsHtml/trustAsHtml.filter.js',
+                 'core/posts/posts.module.js',
+                 'core/posts/posts.service.js',
+                 'core/site-pages/site-pages.module.js',
+                 'core/site-pages/site-pages.service.js',
+                 'post-list/post-list.module.js',
+                 'post-list/post-list.component.js',
+                 'post-detail/post-detail.module.js',
+                 'post-detail/post-detail.component.js',
+                 'about/about.module.js',
+                 'about/about.component.js',
+                 'sidebar/sidebar.module.js',
+                 'sidebar/sidebar.component.js']
         };
 
         window.versioningUrl = function(url) {
@@ -41,60 +43,60 @@
         };
 
         function CssLoader() {
-             var head = document.getElementsByTagName("head")[0];
-             var self = this;
+            var head = document.getElementsByTagName("head")[0];
+            var self = this;
 
-             var _loadCss = function(url) {
-                    var css = document.createElement('link');
+            var _loadCss = function(url) {
+            var css = document.createElement('link');
 
-                    css.rel = 'stylesheet';
-                    css.href = window.versioningUrl(url);
-                    head.appendChild(css);
-             };
+            css.rel = 'stylesheet';
+            css.href = window.versioningUrl(url);
+                head.appendChild(css);
+            };
 
-             self.start = function() {
+            self.start = function() {
                 for (var css of resource.css) {
                     _loadCss('css/' + css);
                 }
-             };
+            };
         }
 
         function JsLoader() {
-                var head = document.getElementsByTagName("head")[0];
-                var jsIndex = 0;
-                var self = this;
+            var head = document.getElementsByTagName("head")[0];
+            var jsIndex = 0;
+            var self = this;
 
-                var _loadJs = function(url, callback) {
-                     var script = document.createElement('script');
+            var _loadJs = function(url, callback) {
+                 var script = document.createElement('script');
 
-                     script.type = 'text/javascript';
-                     script.src = window.versioningUrl(url);
+                 script.type = 'text/javascript';
+                 script.src = window.versioningUrl(url);
 
-                     script.onload = callback;
-                     script.onreadystatechange = function() {
-                        if (this.readyState == 'complete') {
-                            callback();
-                        }
-                     }
-
-                     head.appendChild(script);
-                };
-
-                var _callback = function() {
-                    jsIndex++;
-
-                    if (jsIndex < resource.js.length) {
-                       _loadJs('js/' + resource.js[jsIndex], _callback);
-                    } else {
-                       self.onFinished();
+                 script.onload = callback;
+                 script.onreadystatechange = function() {
+                    if (this.readyState == 'complete') {
+                        callback();
                     }
-                };
+                 }
 
-                self.start = function() {
-                    _loadJs('js/' + resource.js[0], _callback);
-                    return self;
-                };
+                 head.appendChild(script);
             };
+
+            var _callback = function() {
+                jsIndex++;
+
+                if (jsIndex < resource.js.length) {
+                   _loadJs('js/' + resource.js[jsIndex], _callback);
+                } else {
+                   self.onFinished();
+                }
+            };
+
+            self.start = function() {
+                _loadJs('js/' + resource.js[0], _callback);
+                return self;
+            };
+        };
 
         $(document).ready(function(){
             var cssLoader = new CssLoader();
@@ -115,7 +117,7 @@
     <sidebar></sidebar>
 
     <div class="content">
-        <div ng-view></div>
+        <div ng-view class="view-frame"></div>
     </div>
 </body>
 

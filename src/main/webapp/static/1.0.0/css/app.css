@@ -64,6 +64,7 @@ body {
 }
 
 .content {
+    /*position: relative;*/
     padding-top:4rem;
     padding-bottom:4rem;
     color: #202020;

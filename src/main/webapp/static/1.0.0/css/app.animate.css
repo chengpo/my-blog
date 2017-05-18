@@ -1,0 +1,62 @@
+.sidebar-link.ng-enter,
+.sidebar-link.ng-leave,
+.sidebar-link.ng-move {
+    transition: 0.5s linear all;
+}
+
+.sidebar-link.ng-enter,
+.sidebar-link.ng-move {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.sidebar-link.ng-leave {
+  opacity: 1;
+  overflow: hidden;
+}
+
+.sidebar-link.ng-leave.ng-leave-active {
+  height: 0;
+  opacity: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.view-frame.ng-enter,
+.view-frame.ng-leave {
+    background: white;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.view-frame.ng-enter {
+  animation: 0.5s fade-in;
+}
+
+.view-frame.ng-leave {
+  animation: 0.5s fade-out;
+}
+
+.view-frame.ng-enter.ng-enter-active,
+.view-frame.ng-move.ng-move-active {
+  height: 120px;
+  opacity: 1;
+}
+
+.view-frame.ng-leave.ng-leave-active {
+  height: 0;
+  opacity: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
