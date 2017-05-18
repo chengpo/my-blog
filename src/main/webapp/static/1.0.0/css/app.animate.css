@@ -1,28 +1,3 @@
-.sidebar-link.ng-enter,
-.sidebar-link.ng-leave,
-.sidebar-link.ng-move {
-    transition: 0.5s linear all;
-}
-
-.sidebar-link.ng-enter,
-.sidebar-link.ng-move {
-  height: 0;
-  opacity: 0;
-  overflow: hidden;
-}
-
-.sidebar-link.ng-leave {
-  opacity: 1;
-  overflow: hidden;
-}
-
-.sidebar-link.ng-leave.ng-leave-active {
-  height: 0;
-  opacity: 0;
-  padding-bottom: 0;
-  padding-top: 0;
-}
-
 .view-frame.ng-enter,
 .view-frame.ng-leave {
     background: white;

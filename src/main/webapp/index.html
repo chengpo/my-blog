@@ -43,14 +43,14 @@
                         'sidebar/sidebar.component.js']
             };
 
-            function ResourceImplement() {
+            function ResourceImpl() {
                 var self = this;
                 var head = document.getElementsByTagName('head')[0];
                 var urlIndex = 0;
                 var _onReady;
 
                 self.init = function() {
-                    _loadRes(resMap.urls[0], _callback);
+                    _loadRes(resMap.urls[0]);
                 };
 
                 self.versioningUrl = function(url) {
@@ -62,17 +62,17 @@
                     return self;
                 };
 
-                var _callback = function() {
+                var _next = function() {
                     urlIndex++;
 
                     if (urlIndex < resMap.urls.length) {
-                       _loadRes(resMap.urls[urlIndex], _callback);
+                       _loadRes(resMap.urls[urlIndex]);
                     } else {
                        _onReady();
                     }
                 };
 
-                var _loadRes = function(url, callback) {
+                var _loadRes = function(url) {
                      var element;
 
                      if (url.endsWith('.js')) {
@@ -91,10 +91,10 @@
                         return;
                      }
 
-                     element.onload = callback;
+                     element.onload = _next;
                      element.onreadystatechange = function() {
                         if (this.readyState == 'complete') {
-                            callback();
+                            _next();
                         }
                      }
 
@@ -102,7 +102,7 @@
                 };
             }
 
-            return new ResourceImplement();
+            return new ResourceImpl();
         })();
 
         $(document).ready(function(){
