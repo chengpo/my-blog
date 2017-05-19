@@ -16,10 +16,11 @@
                 <div class="col-md-10 col-md-offset-1" ng-bind-html="post.content | trustAsHtml"></div>
             </div>
 
-            <div class="row">
+            <!-- hide 'read more ...' for fully loaded post -->
+            <div ng-hide="post.content.endsWith('<!--eof-->\n')" class="row">
                 <div class="col-md-4 col-md-offset-1">
-                <a href="#!/posts/{{post.entity.name}}">
-                  <p class="text-left">Read More ...</p></a>
+                    <a href="#!/posts/{{post.entity.name}}">
+                      <p class="text-left">Read More ...</p></a>
                 </div>
             </div>
         </div>

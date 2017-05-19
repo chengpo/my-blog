@@ -4,3 +4,5 @@ Hello world in _Markdown_, **again!**
 2) Good afternoon!
 3) Good evening!
 4) Good night!
+
+<!--eof-->
