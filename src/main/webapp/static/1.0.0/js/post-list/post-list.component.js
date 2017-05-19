@@ -7,12 +7,12 @@ angular.module('postList')
                 function PostListController($location, posts) {
                     var self = this;
 
-                    self.disable_forward = "hide";
-                    self.disable_backward = "hide";
+                    self.disable_forward = true;
+                    self.disable_backward = true;
+                    self.error = "";
 
                     self.tag = $location.search().tag;
                     self.offset = $location.search().offset;
-
 
                     self.forward = function() {
                         var offset = self.offset - self.posts.length;
@@ -28,8 +28,10 @@ angular.module('postList')
                         self.offset = postChunk.offset;
                         self.eof = postChunk.eof;
 
-                        self.disable_forward = (self.offset <= 0) ? "hide" : "";
-                        self.disable_backward = (self.eof) ? "hide" : "";
+                        self.disable_forward = self.offset <= 0;
+                        self.disable_backward = self.eof;
+                    }, function(error) {
+                        self.error = "Failed to retrieve post list, status: " + error.status + "!";
                     });
                 }]
        });

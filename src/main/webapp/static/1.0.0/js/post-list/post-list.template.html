@@ -25,14 +25,22 @@
             </div>
         </div>
 
+        <!-- show error message if needed -->
+        <div class="row" ng-hide="ctrl.error.length > 0">
+            <div class="col-md-10 col-md-offset-1 alert alert-warning alert-dismissable fade in ">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong style="padding-right:0.5em" >Oops!</strong> {{$ctrl.error}}
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <button type="button" class="btn btn-default bt-lg pull-left {{$ctrl.disable_forward}}" ng-click="$ctrl.forward()">
+                <button type="button" class="btn btn-default bt-lg pull-left" ng-hide="$ctrl.disable_forward" ng-click="$ctrl.forward()">
                     <span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span>
                     Newer Post
                 </button>
 
-                <button type="button" class="btn btn-default bt-lg pull-right {{$ctrl.disable_backward}}" ng-click="$ctrl.backward()">
+                <button type="button" class="btn btn-default bt-lg pull-right" ng-hide="$ctrl.disable_backward" ng-click="$ctrl.backward()">
                     <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
                     Older Post
                 </button>
