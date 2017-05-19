@@ -1,4 +1,4 @@
-package com.monkeyapp.blog.rest.module;
+package com.monkeyapp.blog.rest.utils;
 
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;

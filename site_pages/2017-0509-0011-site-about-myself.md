@@ -5,3 +5,5 @@ But for me, I still believe time would eventually make me a good programmer
 if I keep on coding.
 
 My name is Po. This is my personal blog for recoding my adventure in the programming world. 
+
+<!--eof-->

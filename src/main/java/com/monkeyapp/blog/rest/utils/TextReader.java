@@ -1,4 +1,4 @@
-package com.monkeyapp.blog.rest.module;
+package com.monkeyapp.blog.rest.utils;
 
 import javax.ws.rs.WebApplicationException;
 import java.io.IOException;
