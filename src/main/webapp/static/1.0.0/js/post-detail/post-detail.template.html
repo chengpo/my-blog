@@ -17,6 +17,14 @@
                 <div ng-bind-html="$ctrl.content | trustAsHtml"></div>
             </div>
         </div>
+
+        <!-- show error message if needed -->
+        <div class="row" ng-hide="$ctrl.error.length === 0">
+            <div class="col-md-10 col-md-offset-1 alert alert-warning alert-dismissable fade in ">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong style="padding-right:0.5em" >Oops!</strong> {{$ctrl.error}}
+            </div>
+        </div>
     </div>
 </div>
 
