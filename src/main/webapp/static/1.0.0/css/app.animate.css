@@ -15,11 +15,13 @@
 
 .view-frame.ng-enter.ng-enter-active,
 .view-frame.ng-move.ng-move-active {
+  display:block;
   height: 120px;
   opacity: 1;
 }
 
 .view-frame.ng-leave.ng-leave-active {
+  display:none;
   height: 0;
   opacity: 0;
   padding-bottom: 0;
