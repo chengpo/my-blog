@@ -75,12 +75,12 @@
                 var _loadRes = function(url) {
                      var element;
 
-                     if (url.endsWith('.js')) {
+                     if (url.match(/\.js$/)) {
                          element = document.createElement('script');
 
                          element.type = 'text/javascript';
                          element.src = self.versioningUrl('js/' + url);
-                     } else if (url.endsWith('.css')) {
+                     } else if (url.match(/\.css$/)) {
                          element = document.createElement('link');
 
                          element.rel = 'stylesheet';
