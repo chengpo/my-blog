@@ -35,7 +35,12 @@ body {
     background: #202020;
 }
 
-.sidebar a {
+.sidebar a,
+.sidebar a:hover,
+.sidebar a:visited,
+.sidebar a:active,
+.sidebar a:focus
+{
     color:rgba(255,255,255,5);
     text-decoration: none;
 }

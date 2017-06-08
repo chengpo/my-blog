@@ -7,18 +7,6 @@
 
     <title>Coding Is Fun</title>
 
-    <link rel="stylesheet" href="external/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="external/ngprogress/ngProgress.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Play">
-
-    <script src="external/jquery/dist/jquery.js"></script>
-    <script src="external/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="external/angular/angular.js"></script>
-    <script src="external/angular-route/angular-route.js"></script>
-    <script src="external/angular-resource/angular-resource.js"></script>
-    <script src="external/angular-animate/angular-animate.js"></script>
-    <script src="external/ngprogress/build/ngprogress.js"></script>
-
     <style>
     /* center the loader */
     #loader {
@@ -67,6 +55,28 @@
       to{ bottom:0; opacity:1 }
     }
     </style>
+</head>
+
+<body>
+    <div id="loader"></div>
+
+    <sidebar></sidebar>
+
+    <div class="content">
+        <div ng-view class="view-frame"></div>
+    </div>
+
+    <link rel="stylesheet" href="external/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="external/ngprogress/ngProgress.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Play">
+
+    <script src="external/jquery/dist/jquery.js"></script>
+    <script src="external/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="external/angular/angular.js"></script>
+    <script src="external/angular-route/angular-route.js"></script>
+    <script src="external/angular-resource/angular-resource.js"></script>
+    <script src="external/angular-animate/angular-animate.js"></script>
+    <script src="external/ngprogress/build/ngprogress.js"></script>
 
     <script type='text/javascript'>
         var Resource = (function(){
@@ -165,16 +175,6 @@
                     .init();
         });
     </script>
-</head>
-
-<body>
-    <div id="loader"></div>
-
-    <sidebar></sidebar>
-
-    <div class="content">
-        <div ng-view class="view-frame"></div>
-    </div>
 </body>
 
 </html>
