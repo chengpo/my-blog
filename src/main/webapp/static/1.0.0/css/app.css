@@ -1,6 +1,6 @@
 body {
-    font-family:'Play', Helvetica, Arial, sans-serif;
-    font-size: 1.5rem;
+    font-family:'Play', Helvetica, Arial, sans-serif !important;
+    font-size: 1.5rem !important;
 }
 
 /* desktop screen */
