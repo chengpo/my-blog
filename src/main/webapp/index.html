@@ -102,66 +102,67 @@
                         'sidebar/sidebar.component.js']
             };
 
-            function ResourceImpl() {
-                var self = this;
-                var head = document.getElementsByTagName('head')[0];
-                var urlIndex = 0;
-                var _onReady;
+            var head = document.getElementsByTagName('head')[0];
+            var urlIndex = 0;
+            var _onReady;
 
-                self.init = function() {
-                    _loadRes(resMap.urls[0]);
-                };
+            var _init = function() {
+                _loadRes(resMap.urls[0]);
+            };
 
-                self.versioningUrl = function(url) {
-                    return 'static/' + resMap.version + '/' + url;
-                };
+            var _versioningUrl = function(url) {
+                return 'static/' + resMap.version + '/' + url;
+            };
 
-                self.ready = function(onReady){
-                    _onReady = onReady;
-                    return self;
-                };
+            var _ready = function(onReady){
+                _onReady = onReady;
+                return this;
+            };
 
-                var _next = function() {
-                    urlIndex++;
+            var _next = function() {
+                urlIndex++;
 
-                    if (urlIndex < resMap.urls.length) {
-                       _loadRes(resMap.urls[urlIndex]);
-                    } else {
-                       _onReady();
+                if (urlIndex < resMap.urls.length) {
+                   _loadRes(resMap.urls[urlIndex]);
+                } else {
+                   _onReady();
+                }
+            };
+
+            var _loadRes = function(url) {
+                 var element;
+
+                 if (url.match(/\.js$/)) {
+                     element = document.createElement('script');
+
+                     element.type = 'text/javascript';
+                     element.src = _versioningUrl('js/' + url);
+                 } else if (url.match(/\.css$/)) {
+                     element = document.createElement('link');
+
+                     element.rel = 'stylesheet';
+                     element.href = _versioningUrl('css/' + url);
+                 } else {
+                    console.log('unknown resource type: ' + url);
+                    callback();
+                    return;
+                 }
+
+                 element.onload = _next;
+                 element.onreadystatechange = function() {
+                    if (this.readyState == 'complete') {
+                        _next();
                     }
-                };
+                 }
 
-                var _loadRes = function(url) {
-                     var element;
+                 head.appendChild(element);
+            };
 
-                     if (url.match(/\.js$/)) {
-                         element = document.createElement('script');
-
-                         element.type = 'text/javascript';
-                         element.src = self.versioningUrl('js/' + url);
-                     } else if (url.match(/\.css$/)) {
-                         element = document.createElement('link');
-
-                         element.rel = 'stylesheet';
-                         element.href = self.versioningUrl('css/' + url);
-                     } else {
-                        console.log('unknown resource type: ' + url);
-                        callback();
-                        return;
-                     }
-
-                     element.onload = _next;
-                     element.onreadystatechange = function() {
-                        if (this.readyState == 'complete') {
-                            _next();
-                        }
-                     }
-
-                     head.appendChild(element);
-                };
-            }
-
-            return new ResourceImpl();
+            return {
+                init: _init,
+                ready: _ready,
+                versioningUrl: _versioningUrl
+            };
         })();
 
         $(document).ready(function(){
