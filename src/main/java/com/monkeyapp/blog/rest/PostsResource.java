@@ -7,6 +7,7 @@ import com.monkeyapp.blog.rest.utils.TextReader;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,7 +42,7 @@ public class PostsResource {
                         .skip(offset)
                         .limit(NUM_OF_POST_PER_PAGE)
                         .map((entity) -> {
-                                final String path = "posts/" + entity.getName();
+                                final String path = "posts" + File.separator + entity.getName();
                                 final String content = new MarkdownReader(
                                                             TextReader.partialReader(path)).read();
                                 return new Post(entity, content);
@@ -58,7 +59,7 @@ public class PostsResource {
     public Post getPostDetail(@PathParam("name") String name) {
         return Optional.ofNullable(Entity.fromFileName(name))
                        .flatMap((entity)-> {
-                                    final String path = "posts/" + entity.getName();
+                                    final String path = "posts" + File.separator + entity.getName();
                                     final String content = new MarkdownReader(
                                                                 TextReader.fullReader(path)).read();
                                     return Optional.of(new Post(entity, content));

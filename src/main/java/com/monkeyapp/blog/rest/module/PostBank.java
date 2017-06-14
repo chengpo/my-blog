@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -18,7 +15,7 @@ public class PostBank {
     public PostBank() {
         this(Thread.currentThread()
                 .getContextClassLoader()
-                .getResourceAsStream("posts/file-list.json"));
+                .getResourceAsStream("posts" + File.separator + "file-list.json"));
     }
 
     PostBank(@Nullable InputStream input) {

@@ -7,6 +7,7 @@ import com.monkeyapp.blog.rest.utils.TextReader;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.File;
 import java.util.Optional;
 
 @Path("/site-pages")
@@ -18,7 +19,7 @@ public class SitePagesResource {
                 .flatMap((entity) ->
                     Optional.of(new Post(entity,
                                 new MarkdownReader(
-                                        TextReader.fullReader("site_pages/"+name)).read())))
+                                        TextReader.fullReader("site_pages" + File.separator + name)).read())))
                 .orElseThrow(() -> new WebApplicationException(404));
     }
 }
