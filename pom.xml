@@ -60,7 +60,7 @@
                             <tasks>
                                 <echo>Copy context.xml</echo>
                                 <copy file="${project.basedir}/src/main/webapp/WEB-INF/context.xml"
-                                      tofile="${project.basedir}/target/context.txt"/>
+                                      tofile="${project.basedir}/target/context.xml"/>
                             </tasks>
                         </configuration>
                     </execution>
