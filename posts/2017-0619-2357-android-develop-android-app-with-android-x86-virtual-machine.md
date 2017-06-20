@@ -18,7 +18,8 @@ After the installation is done, I got around 850MB left.
 #### - Add customized video mode to get a 'portrait' display
 
 By default, Android-x86 runs in landscape mode. Unlike the regular emulator comes with Android SDK.
-VirtualBox does not support screen rotation. So, it won't be feasible to change display 'portrait / landscape' mode on the fly.
+VirtualBox does not support screen rotation. So, it won't be feasible to change display 'portrait / landscape' mode 
+on the fly.
 However, we may create new GRUB menu item for a 'portrait' display.
 
 - Run command to add custom video mode to the virtual machine which named as "Android"
@@ -33,7 +34,8 @@ On the 'title' line, append '480x800'. On the 'kernel' line, append 'UVESA_MODE=
 #### - Disable virtual network adapter to skip device configuration
 
 After the first reboot completed, Android OS would request Google Account login to complete the initial device configuration.
-As an testing emulator, logon Google Account is unnecessary. To avoid it attempting to connect Google service, I simply disconnect the virtual network adapter.
+As an testing emulator, logon Google Account is unnecessary. To avoid it attempting to connect Google service, 
+I simply disconnect the virtual network adapter.
 
 #### - Connect adb to Android-x86 virtual machine via network
 
