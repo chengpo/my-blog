@@ -1,4 +1,4 @@
-package com.monkeyapp.blog.rest.reader;
+package com.monkeyapp.blog.reader;
 
 import javax.ws.rs.WebApplicationException;
 import java.io.IOException;

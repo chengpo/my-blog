@@ -1,9 +1,9 @@
 package com.monkeyapp.blog.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.monkeyapp.blog.rest.module.*;
-import com.monkeyapp.blog.rest.reader.MarkdownReader;
-import com.monkeyapp.blog.rest.reader.TextReader;
+import com.monkeyapp.blog.module.*;
+import com.monkeyapp.blog.reader.MarkdownReader;
+import com.monkeyapp.blog.reader.TextReader;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

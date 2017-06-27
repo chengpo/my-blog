@@ -3,7 +3,7 @@ package com.monkeyapp.blog.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.monkeyapp.blog.rest.module.PostRepository;
+import com.monkeyapp.blog.module.PostRepository;
 import org.glassfish.jersey.server.monitoring.MonitoringStatistics;
 
 import javax.inject.Inject;

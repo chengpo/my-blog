@@ -1,6 +1,6 @@
 package com.monkeyapp.blog.rest;
 
-import com.monkeyapp.blog.rest.module.PostRepository;
+import com.monkeyapp.blog.module.PostRepository;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

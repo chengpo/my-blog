@@ -1,4 +1,4 @@
-package com.monkeyapp.blog.rest.module;
+package com.monkeyapp.blog.module;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

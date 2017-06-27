@@ -1,4 +1,4 @@
-package com.monkeyapp.blog.rest.reader;
+package com.monkeyapp.blog.reader;
 
 abstract class AbstractReader {
     abstract String read();

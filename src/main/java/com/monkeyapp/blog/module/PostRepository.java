@@ -1,4 +1,4 @@
-package com.monkeyapp.blog.rest.module;
+package com.monkeyapp.blog.module;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

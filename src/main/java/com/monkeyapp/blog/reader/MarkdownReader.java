@@ -1,4 +1,4 @@
-package com.monkeyapp.blog.rest.reader;
+package com.monkeyapp.blog.reader;
 
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
