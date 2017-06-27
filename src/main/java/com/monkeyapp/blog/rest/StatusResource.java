@@ -3,7 +3,7 @@ package com.monkeyapp.blog.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.monkeyapp.blog.rest.module.PostBank;
+import com.monkeyapp.blog.rest.module.PostRepository;
 import org.glassfish.jersey.server.monitoring.MonitoringStatistics;
 
 import javax.inject.Inject;
@@ -42,7 +42,7 @@ public class StatusResource {
 
         sb.append("posts = ");
         String postJson = mapper.writeValueAsString(
-                            new PostBank().getPostEntities().stream()
+                            new PostRepository().getPostEntities().stream()
                                                      .sorted(Comparator.reverseOrder())
                                                      .collect(Collectors.toList()));
         sb.append(postJson);

@@ -11,9 +11,9 @@ import java.io.InputStream;
 import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
-public class PostBankTest {
+public class PostRepositoryTest {
 
-    private PostBank postBank;
+    private PostRepository postRepository;
 
     @Before
     public void setUp() {
@@ -23,39 +23,39 @@ public class PostBankTest {
                 "  \"2018-0418-1205-tag1-post1.md\"\n" +
                 "]").getBytes());
 
-        postBank = new PostBank(input);
+        postRepository = new PostRepository(input);
     }
 
     @Test
     public void testPostListOrderByCreatedTime() {
-        assertEquals("wrong post list size", 3, postBank.getPostEntities().size());
+        assertEquals("wrong post list size", 3, postRepository.getPostEntities().size());
 
         assertEquals("post 1 should be on the top of post list",
                      "Post1",
-                     postBank.getPostEntities().get(0).getTitle());
+                     postRepository.getPostEntities().get(0).getTitle());
 
         assertEquals("post 2 should be in the middle of post list",
                 "Post2",
-                postBank.getPostEntities().get(1).getTitle());
+                postRepository.getPostEntities().get(1).getTitle());
 
         assertEquals("post 3 should be on the end of post list",
                 "Post3",
-                postBank.getPostEntities().get(2).getTitle());
+                postRepository.getPostEntities().get(2).getTitle());
     }
 
     @Test
     public void testFilterPostListByTag() {
-        assertEquals("wrong post list size for tag1", 1, postBank.getPostEntities("tag1").size());
+        assertEquals("wrong post list size for tag1", 1, postRepository.getPostEntities("tag1").size());
         assertEquals("post 1 should listed for tag1",
                      "Post1",
-                     postBank.getPostEntities("tag1").get(0).getTitle());
+                     postRepository.getPostEntities("tag1").get(0).getTitle());
 
-        assertEquals("wrong post list size for tag2", 2, postBank.getPostEntities("tag2").size());
+        assertEquals("wrong post list size for tag2", 2, postRepository.getPostEntities("tag2").size());
         assertEquals("post 2 should the first of tag2 list",
                 "Post2",
-                postBank.getPostEntities("tag2").get(0).getTitle());
+                postRepository.getPostEntities("tag2").get(0).getTitle());
         assertEquals("post 3 should the second of tag2 list",
                 "Post3",
-                postBank.getPostEntities("tag2").get(1).getTitle());
+                postRepository.getPostEntities("tag2").get(1).getTitle());
     }
 }

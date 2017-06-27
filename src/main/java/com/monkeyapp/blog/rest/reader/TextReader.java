@@ -1,4 +1,4 @@
-package com.monkeyapp.blog.rest.utils;
+package com.monkeyapp.blog.rest.reader;
 
 import javax.ws.rs.WebApplicationException;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class TextReader implements Reader {
+public class TextReader extends AbstractReader {
     private final int maxLines;
     private final String path;
 

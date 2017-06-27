@@ -1,6 +1,6 @@
 package com.monkeyapp.blog.rest;
 
-import com.monkeyapp.blog.rest.module.PostBank;
+import com.monkeyapp.blog.rest.module.PostRepository;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -13,6 +13,6 @@ public class TagsResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<String> getTags() {
-        return new PostBank().getPostTags();
+        return new PostRepository().getPostTags();
     }
 }

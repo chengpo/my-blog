@@ -9,18 +9,18 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class PostBank {
+public class PostRepository {
     private final List<String> postFileNames;
 
-    public PostBank() {
+    public PostRepository() {
         this(Thread.currentThread()
                 .getContextClassLoader()
                 .getResourceAsStream("posts" + File.separator + "file-list.json"));
     }
 
-    PostBank(@Nullable InputStream input) {
+    PostRepository(@Nullable InputStream input) {
         postFileNames = Optional.ofNullable(input)
-                                .flatMap(PostBank::fromJson)
+                                .flatMap(PostRepository::fromJson)
                                 .orElseGet(Collections::emptyList);
     }
 
@@ -59,7 +59,7 @@ public class PostBank {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("PostBank --- ");
+        sb.append("PostRepository --- ");
         sb.append(String.valueOf(postFileNames.size())).append(" posts in total:\n");
         sb.append("[\n");
 

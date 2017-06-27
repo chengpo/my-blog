@@ -2,8 +2,8 @@ package com.monkeyapp.blog.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.monkeyapp.blog.rest.module.*;
-import com.monkeyapp.blog.rest.utils.MarkdownReader;
-import com.monkeyapp.blog.rest.utils.TextReader;
+import com.monkeyapp.blog.rest.reader.MarkdownReader;
+import com.monkeyapp.blog.rest.reader.TextReader;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -37,7 +37,7 @@ public class PostsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public PostChunk getPostChunk(@DefaultValue("") @QueryParam("tag") String tag,
                                   @DefaultValue("0") @QueryParam("offset") int offset) {
-        final List<Entity> entities = new PostBank().getPostEntities(tag);
+        final List<Entity> entities = new PostRepository().getPostEntities(tag);
         final List<Post> posts = entities.stream()
                         .skip(offset)
                         .limit(NUM_OF_POST_PER_PAGE)

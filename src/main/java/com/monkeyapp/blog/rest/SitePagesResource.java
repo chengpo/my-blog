@@ -1,9 +1,9 @@
 package com.monkeyapp.blog.rest;
 
 import com.monkeyapp.blog.rest.module.Entity;
-import com.monkeyapp.blog.rest.utils.MarkdownReader;
+import com.monkeyapp.blog.rest.reader.MarkdownReader;
 import com.monkeyapp.blog.rest.module.Post;
-import com.monkeyapp.blog.rest.utils.TextReader;
+import com.monkeyapp.blog.rest.reader.TextReader;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
