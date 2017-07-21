@@ -54,10 +54,11 @@ public class PostsResource {
         return new PostChunk(posts, offset, eof);
     }
 
-    @GET @Path("/{name}")
+    @GET @Path("/{year}/{monthday}/{title}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Post getPostDetail(@PathParam("name") String name) {
-        return Optional.ofNullable(Entity.fromFileName(name))
+    public Post getPostDetail(@PathParam("year") String year, @PathParam("monthday") String monthDay,
+                              @PathParam("title") String title) {
+        return Optional.ofNullable(new PostRepository().getPostEntity(year, monthDay, title))
                        .flatMap((entity)-> {
                                     final String path = "posts" + File.separator + entity.getName();
                                     final String content = new MarkdownReader(

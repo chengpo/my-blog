@@ -1,5 +1,6 @@
 package com.monkeyapp.blog.module;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
 
@@ -17,14 +18,17 @@ public class Entity implements Comparable<Entity> {
     @JsonProperty("creationTime")
     private final String creationTime;
 
-    @JsonProperty("name")
+    @JsonIgnore
     private final String name;
 
-    @JsonProperty("tag")
-    private final String tag;
+    @JsonProperty("url")
+    private final String url;
 
     @JsonProperty("title")
     private final String title;
+
+    @JsonProperty("tag")
+    private final String tag;
 
     @JsonProperty("id")
     private final long id;
@@ -36,7 +40,7 @@ public class Entity implements Comparable<Entity> {
                 {
                     put("name", matcher.group(0));
                     put("year", matcher.group(1));
-                    put("date", matcher.group(2));
+                    put("monthday", matcher.group(2));
                     put("time", matcher.group(3));
                     put("tag", matcher.group(4));
                     put("title", matcher.group(5));
@@ -49,21 +53,25 @@ public class Entity implements Comparable<Entity> {
 
     private Entity(Map<String, String> fields) {
         final String year = fields.get("year");
-        final String month = fields.get("date").substring(0, 2);
-        final String day = fields.get("date").substring(2);
+        final String month = fields.get("monthday").substring(0, 2);
+        final String day = fields.get("monthday").substring(2);
         final String hour = fields.get("time").substring(0, 2);
         final String minute = fields.get("time").substring(2);
 
-        name = fields.get("name");
-        creationTime = String.format("%s/%s/%s %s:%s", year, month, day, hour, minute);
+        this.creationTime = String.format("%s/%s/%s %s:%s", year, month, day, hour, minute);
 
-        tag = fields.get("tag");
-        title = Arrays.stream(fields.get("title").split("-"))
+        this.name = fields.get("name");
+
+        this.url = String.format("%s/%s/%s", fields.get("year"), fields.get("monthday"), fields.get("title"));
+
+        this.title = Arrays.stream(fields.get("title").split("-"))
                 .map(StringUtils::capitalize)
                 .collect(Collectors.joining(" "));
 
-        id = Long.valueOf(fields.get("year")) * 10000L * 10000L +
-                Long.valueOf(fields.get("date")) * 10000L +
+        this.tag = fields.get("tag");
+
+        this.id = Long.valueOf(fields.get("year")) * 10000L * 10000L +
+                Long.valueOf(fields.get("monthday")) * 10000L +
                 Long.valueOf(fields.get("time"));
     }
 
@@ -90,6 +98,6 @@ public class Entity implements Comparable<Entity> {
 
     @Override
     public String toString() {
-        return "local file name: " + getName();
+        return "local file url: " + this.url;
     }
 }

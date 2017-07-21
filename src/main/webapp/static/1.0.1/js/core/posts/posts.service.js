@@ -15,6 +15,6 @@ angular
   ])
   .factory('postContent', ['$resource',
     function($resource) {
-        return $resource("rest/posts/:name", {}, {});
+        return $resource("rest/posts/:year/:monthday/:title", {}, {});
     }
   ]);

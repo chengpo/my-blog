@@ -10,7 +10,7 @@ angular.
         when('/posts', {
             template: '<post-list></post-list>'
         }).
-        when('/posts/:name', {
+        when('/posts/:year/:monthday/:title', {
             template: '<post-detail></post-detail>'
         }).
         when('/about', {

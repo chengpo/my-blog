@@ -33,9 +33,22 @@ public class PostRepository {
     public List<Entity> getPostEntities(String tag) {
         return postFileNames.stream()
                             .map(Entity::fromFileName)
-                            .filter((post) -> tag == null || tag.isEmpty() || post.getTag().equals(tag))
+                            .filter((entity) -> tag == null || tag.isEmpty() || entity.getTag().equals(tag))
                             .sorted(Comparator.reverseOrder())
                             .collect(Collectors.toList());
+    }
+
+    @Nullable
+    public Entity getPostEntity(String year, String monthDay, String title) {
+        List<Entity> entities = postFileNames.stream()
+                                            .filter((fileName) ->
+                                                        fileName.startsWith(String.format("%s-%s",year, monthDay)) &&
+                                                        fileName.endsWith(String.format("%s.md",title)))
+                                            .map(Entity::fromFileName)
+                                            .sorted(Comparator.reverseOrder())
+                                            .collect(Collectors.toList());
+
+        return entities.isEmpty() ? null : entities.get(0);
     }
 
     @Nonnull

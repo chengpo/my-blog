@@ -8,12 +8,18 @@ angular.module('postDetail')
                     var self = this;
                     self.error = "";
 
-                    postContent.get({name:$routeParams.name},
+                    postContent.get({year:$routeParams.year,
+                                     monthday:$routeParams.monthday,
+                                     title:$routeParams.title
+                                     },
+
                                      function(detail) {
                                         self.entity = detail.entity;
                                         self.content = detail.content;
-                                    }, function(error) {
+                                     },
+
+                                     function(error) {
                                         self.error = "Failed to retrieve post content, status: " + error.status + "!";
-                                    });
+                                     });
                 }]
        });
