@@ -5,7 +5,7 @@ angular.module('sidebar')
                 var self = this;
 
                 self.title = 'Monkey Blogger';
-                self.links = [{url: '/#!about/', external: false, name:'About'},
+                self.links = [{url: '/about/', external: false, name:'About'},
                               {url: 'https://github.com/chengpo?tab=repositories', external: true, name:'Projects'}];
             }
        });
