@@ -22,8 +22,28 @@
     </properties>
 
     <build>
-        <plugins>
-            <plugin>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<configuration>
+					<executable>java</executable>
+					<arguments>
+						<argument>-XX:+TieredCompilation</argument>
+						<argument>-XX:TieredStopAtLevel=1</argument>
+						<argument>-jar </argument>
+						<argument>target/dependency/webapp-runner.jar</argument>
+						<argument>--port</argument>
+						<argument>8080</argument>
+						<argument>--context-xml</argument>
+						<argument>target/context.xml</argument>
+						<argument>target/${project.artifactId}-${project.version}.war</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+			
+			<plugin>
                 <groupId>com.heroku.sdk</groupId>
                 <artifactId>heroku-maven-plugin</artifactId>
                 <version>1.1.3</version>
@@ -33,8 +53,8 @@
                     </includes>
                 </configuration>
             </plugin>
-
-            <plugin>
+			
+			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.0.0</version>
@@ -45,8 +65,8 @@
                     </archive>
                 </configuration>
             </plugin>
-
-            <plugin>
+			
+			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.8</version>

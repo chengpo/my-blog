@@ -5,3 +5,4 @@ target/
 node_modules/
 src/main/webapp/external/
 *.iml
+*.swp
