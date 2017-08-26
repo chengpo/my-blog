@@ -21,10 +21,10 @@ public class PostsResource {
         private final List<Post> posts;
 
         @JsonProperty("offset")
-        private final int offset;
+        private final int offset; // offset to the very first blog
 
         @JsonProperty("eof")
-        private final boolean eof;
+        private final boolean eof; // eof = true when reach the last blog
 
         private PostChunk(List<Post> posts, int offset, boolean eof) {
             this.posts = posts;
