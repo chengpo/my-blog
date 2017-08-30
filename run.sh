@@ -1,1 +1,1 @@
-mvn exec:exec
+mvn package exec:exec

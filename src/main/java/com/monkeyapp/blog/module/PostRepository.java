@@ -33,7 +33,7 @@ public class PostRepository {
     public List<Entity> getPostEntities(String tag) {
         return postFileNames.stream()
                             .map(Entity::fromFileName)
-                            .filter((entity) -> tag == null || tag.isEmpty() || entity.getTag().equals(tag))
+                            .filter((entity) -> (entity != null) && (tag == null || tag.isEmpty() || entity.getTag().equals(tag)))
                             .sorted(Comparator.reverseOrder())
                             .collect(Collectors.toList());
     }

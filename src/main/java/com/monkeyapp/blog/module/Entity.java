@@ -93,7 +93,9 @@ public class Entity implements Comparable<Entity> {
 
     @Override
     public int compareTo(Entity other) {
-        return this.id > other.id ? 1 : this.id == other.id ? 0 : -1;
+        return (other == null) ? -1 : 
+            (this.id > other.id) ? 1 : 
+            (this.id == other.id) ? 0 : -1;
     }
 
     @Override
