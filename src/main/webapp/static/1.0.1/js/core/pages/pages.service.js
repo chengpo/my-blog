@@ -24,4 +24,16 @@ SOFTWARE.
 
 'use strict';
 
-angular.module('core.sitePages', ['ngResource']);
+angular.
+  module('core.pages').
+  factory('pages', ['$resource',
+    function($resource) {
+      return $resource("rest/pages/:name", {}, {
+        about: {
+          method: 'GET',
+          params: {name:'2017-0509-0011-site-about-myself.md'},
+          isArray: false
+        }
+      });
+    }
+  ]);

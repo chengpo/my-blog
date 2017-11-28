@@ -24,4 +24,4 @@ SOFTWARE.
 
 'use strict';
 
-angular.module('core', ['core.posts', 'core.sitePages']);
+angular.module('core', ['core.posts', 'core.pages']);

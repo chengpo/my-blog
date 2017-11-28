@@ -27,10 +27,10 @@ SOFTWARE.
 angular.module('about')
        .component('about', {
             templateUrl: Resource.versioningUrl('js/about/about.template.html'),
-            controller: ['sitePages',
-                    function AboutController(sitePages) {
+            controller: ['pages',
+                    function AboutController(pages) {
                         var self = this;
-                        sitePages.about(
+                        pages.about(
                             function(detail) {
                                 self.entity = detail.entity;
                                 self.content = detail.content;

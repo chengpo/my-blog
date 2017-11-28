@@ -36,7 +36,7 @@ import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.util.Optional;
 
-@Path("/site-pages")
+@Path("/pages")
 public class PagesResource {
     @Context
     private ServletContext context;

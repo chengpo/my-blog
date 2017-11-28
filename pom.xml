@@ -22,6 +22,17 @@
             </properties>
         </profile>
         <profile>
+            <id>linux</id>
+            <activation>
+                <os>
+                    <family>linux</family>
+                </os>
+            </activation>
+            <properties>
+                <bin.webapp>target/bin/webapp</bin.webapp>
+            </properties>
+        </profile>
+        <profile>
             <id>windows</id>
             <activation>
                 <os>
