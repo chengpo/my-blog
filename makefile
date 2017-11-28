@@ -1,3 +1,5 @@
+.PHONY: default
+
 build:
 	mvn package
 
@@ -6,3 +8,5 @@ clean:
 
 run:
 	mvn exec:exec
+
+default: build
