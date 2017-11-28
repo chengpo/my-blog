@@ -37,9 +37,9 @@ public class MarkdownReader extends AbstractReader {
 
     @Override
     public String read() {
-        Parser parser = Parser.builder().build();
-        Node document = parser.parse(reader.read());
-        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        final Parser parser = Parser.builder().build();
+        final Node document = parser.parse(reader.read());
+        final HtmlRenderer renderer = HtmlRenderer.builder().build();
         return renderer.render(document);
     }
 }

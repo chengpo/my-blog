@@ -34,12 +34,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class PostRepository {
+    private static final String fileListJson = "/md/posts/file-list.json".replace("/", File.separator);
+
     private final List<String> postFileNames;
 
-    public PostRepository() {
-        this(Thread.currentThread()
-                .getContextClassLoader()
-                .getResourceAsStream("posts" + File.separator + "file-list.json"));
+    public PostRepository(String contextRoot) throws FileNotFoundException {
+        this(new FileInputStream(new File(contextRoot + fileListJson)));
     }
 
     PostRepository(@Nullable InputStream input) {

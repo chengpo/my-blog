@@ -1,15 +1,12 @@
 .PHONY: default
 
-default: run
+build:
+	mvn package
 
 clean:
 	mvn clean
 
-build: clean
-	mvn package 
+run:
+	mvn exec:exec
 
-run: build
-	mvn package exec:exec
-
-deploy:
-	mvn clean heroku:deploy-war
+default: build
