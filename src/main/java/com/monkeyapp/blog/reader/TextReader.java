@@ -51,22 +51,14 @@ public class TextReader extends AbstractReader {
 
     @Override
     public String read() {
-        return Optional.ofNullable(Thread.currentThread()
-                                    .getContextClassLoader()
-                                    .getResource(path))
-                .flatMap((url) -> {
-                    try {
-                        final String content = (maxLines <= 0) ?
-                                new String(Files.readAllBytes(Paths.get(URI.create(url.toString())))):
-                                Files.lines(Paths.get(URI.create(url.toString())))
-                                        .limit(maxLines)
-                                        .collect(Collectors.joining(System.lineSeparator()));
-
-                        return Optional.of(content);
-                    } catch (IOException e) {
-                        throw new WebApplicationException(e);
-                    }
-                })
-                .orElseThrow(() -> new WebApplicationException(404));
+        try {
+            return (maxLines <= 0) ?
+                    new String(Files.readAllBytes(Paths.get(path))):
+                    Files.lines(Paths.get(path))
+                            .limit(maxLines)
+                            .collect(Collectors.joining(System.lineSeparator()));
+        } catch (IOException e) {
+            throw new WebApplicationException(e);
+        }
     }
 }

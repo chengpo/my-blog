@@ -32,23 +32,28 @@ import org.glassfish.jersey.server.monitoring.MonitoringStatistics;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import java.io.FileNotFoundException;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
 @Path("/status")
 public class StatusResource {
+    @Context
+    private ServletContext context;
+
     @Inject
     Provider<MonitoringStatistics> monitoringStatisticsProvider;
 
     @GET
     @Produces({MediaType.TEXT_PLAIN})
-    public String getStatus(@Context HttpHeaders headers) throws JsonProcessingException {
+    public String getStatus(@Context HttpHeaders headers) throws JsonProcessingException, FileNotFoundException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
@@ -66,7 +71,7 @@ public class StatusResource {
 
         sb.append("posts = ");
         String postJson = mapper.writeValueAsString(
-                            new PostRepository().getPostEntities().stream()
+                            new PostRepository(context.getRealPath("/")).getPostEntities().stream()
                                                      .sorted(Comparator.reverseOrder())
                                                      .collect(Collectors.toList()));
         sb.append(postJson);

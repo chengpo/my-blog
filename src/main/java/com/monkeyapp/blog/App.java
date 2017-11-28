@@ -24,8 +24,9 @@ SOFTWARE.
 
 package com.monkeyapp.blog;
 
-import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
+import org.apache.catalina.connector.Connector;
+import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.tomcat.JarScanType;
 import org.apache.tomcat.util.scan.StandardJarScanner;
@@ -37,13 +38,13 @@ import java.net.MalformedURLException;
 public class App {
     private static final int PORT = 8080;
     private static final String WEB_CONTENT = "src/main/webapp/";
-    private static final String WEB_XML = WEB_CONTENT + "WEB-INF/web.xml";
+    private static final String WEB_XML = (WEB_CONTENT + "WEB-INF/web.xml").replace("/", File.separator);
 
     public static void main( String[] args ) throws ServletException, LifecycleException, MalformedURLException {
         final Tomcat tomcat = new Tomcat();
 
         // Define and bind web.xml file location.
-        final Context context = tomcat.addWebapp("/", new File(WEB_CONTENT).getAbsolutePath());
+        final StandardContext context = (StandardContext)tomcat.addWebapp("/", new File(WEB_CONTENT).getAbsolutePath());
         context.setConfigFile(new File(WEB_XML).toURI().toURL());
 
         // Disable jar scanner
@@ -53,7 +54,18 @@ public class App {
             }
         });
 
-        tomcat.setPort(PORT);
+        if (args.length == 2 && args[0].equals("--port")) {
+            tomcat.setPort(Integer.parseInt(args[1]));
+        } else {
+            tomcat.setPort(PORT);
+        }
+
+        // enable compression response
+        final Connector connector = tomcat.getConnector();
+        connector.setProperty("compression", "on");
+        connector.setProperty("compressionMinSize", "256");
+        connector.setProperty("compressableMimeType", "text/html, text/xml, text/css, application/json, application/javascript");
+
         tomcat.start();
         tomcat.getServer().await();
     }
