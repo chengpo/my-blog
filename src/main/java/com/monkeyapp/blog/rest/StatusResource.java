@@ -27,12 +27,11 @@ package com.monkeyapp.blog.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.monkeyapp.blog.module.PostRepository;
+import com.monkeyapp.blog.AppContext;
 import org.glassfish.jersey.server.monitoring.MonitoringStatistics;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
-import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -45,9 +44,6 @@ import java.util.stream.Collectors;
 
 @Path("/status")
 public class StatusResource {
-    @Context
-    private ServletContext context;
-
     @Inject
     Provider<MonitoringStatistics> monitoringStatisticsProvider;
 
@@ -71,9 +67,11 @@ public class StatusResource {
 
         sb.append("posts = ");
         String postJson = mapper.writeValueAsString(
-                            new PostRepository(context.getRealPath("/")).getPostEntities().stream()
-                                                     .sorted(Comparator.reverseOrder())
-                                                     .collect(Collectors.toList()));
+                                AppContext.getPostRepository()
+                                        .getPostEntities()
+                                        .stream()
+                                        .sorted(Comparator.reverseOrder())
+                                        .collect(Collectors.toList()));
         sb.append(postJson);
 
         return sb.toString();

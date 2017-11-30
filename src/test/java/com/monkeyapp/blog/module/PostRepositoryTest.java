@@ -5,8 +5,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -17,13 +17,13 @@ public class PostRepositoryTest {
 
     @Before
     public void setUp() {
-        InputStream input = new ByteArrayInputStream(("[\n" +
-                "  \"2017-0418-1053-tag2-post3.md\",\n" +
-                "  \"2017-0418-1153-tag2-post2.md\",\n" +
-                "  \"2018-0418-1205-tag1-post1.md\"\n" +
-                "]").getBytes());
+        List<String> fileNameList = Arrays.asList(
+                "2017-0418-1053-tag2-post3.md",
+                "2017-0418-1153-tag2-post2.md",
+                "2018-0418-1205-tag1-post1.md"
+        );
 
-        postRepository = new PostRepository(input);
+        postRepository = new PostRepository(fileNameList);
     }
 
     @Test

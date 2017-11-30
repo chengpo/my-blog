@@ -25,16 +25,13 @@ SOFTWARE.
 package com.monkeyapp.blog.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.monkeyapp.blog.AppContext;
 import com.monkeyapp.blog.module.*;
 import com.monkeyapp.blog.reader.MarkdownReader;
 import com.monkeyapp.blog.reader.TextReader;
 
-import javax.servlet.ServletContext;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -60,20 +57,16 @@ public class PostsResource {
         }
     }
 
-    @Context
-    private ServletContext context;
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public PostChunk getPostChunk(@DefaultValue("") @QueryParam("tag") String tag,
-                                  @DefaultValue("0") @QueryParam("offset") int offset) throws FileNotFoundException {
-
-        final List<Entity> entities = new PostRepository(context.getRealPath("/")).getPostEntities(tag);
+                                  @DefaultValue("0") @QueryParam("offset") int offset) {
+        final List<Entity> entities = AppContext.getPostRepository().getPostEntities(tag);
         final List<Post> posts = entities.stream()
                         .skip(offset)
                         .limit(NUM_OF_POST_PER_PAGE)
                         .map((entity) -> {
-                                final String path = context.getRealPath("/") + ("md/posts/" + entity.getName()).replace("/", File.separator);
+                                final String path = AppContext.getRealPostPath(entity.getName());
                                 final String content = new MarkdownReader(
                                                             TextReader.partialReader(path)).read();
                                 return new Post(entity, content);
@@ -88,10 +81,12 @@ public class PostsResource {
     @GET @Path("/{year}/{monthday}/{title}")
     @Produces(MediaType.APPLICATION_JSON)
     public Post getPostDetail(@PathParam("year") String year, @PathParam("monthday") String monthDay,
-                              @PathParam("title") String title) throws FileNotFoundException {
-        return Optional.ofNullable(new PostRepository(context.getRealPath("/")).getPostEntity(year, monthDay, title))
+                              @PathParam("title") String title) {
+        final PostRepository postRepository = AppContext.getPostRepository();
+
+        return Optional.ofNullable(postRepository.getPostEntity(year, monthDay, title))
                        .map((entity)-> {
-                                    final String path = context.getRealPath("/") + ("md/posts/" + entity.getName()).replace("/", File.separator);
+                                    final String path = AppContext.getRealPostPath(entity.getName());
                                     final String content = new MarkdownReader(
                                                                 TextReader.fullReader(path)).read();
                                     return new Post(entity, content);

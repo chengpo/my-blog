@@ -24,28 +24,16 @@ SOFTWARE.
 
 package com.monkeyapp.blog.module;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class PostRepository {
-    private static final String fileListJson = "/md/posts/file-list.json".replace("/", File.separator);
-
     private final List<String> postFileNames;
 
-    public PostRepository(String contextRoot) throws FileNotFoundException {
-        this(new FileInputStream(new File(contextRoot + fileListJson)));
-    }
-
-    PostRepository(@Nullable InputStream input) {
-        postFileNames = Optional.ofNullable(input)
-                                .flatMap(PostRepository::fromJson)
-                                .orElseGet(Collections::emptyList);
+    public PostRepository(List<String> postFileNames) {
+        this.postFileNames = postFileNames;
     }
 
     @Nonnull
@@ -83,14 +71,6 @@ public class PostRepository {
                             .distinct()
                             .sorted()
                             .collect(Collectors.toList());
-    }
-
-    private static Optional<List<String>> fromJson(InputStream input) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
-            return Optional.of(new ObjectMapper().readValue(reader, new TypeReference<List<String>>() { }));
-        } catch (IOException e) {
-            return Optional.empty();
-        }
     }
 
     @Override
