@@ -27,7 +27,7 @@ package com.monkeyapp.blog.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.monkeyapp.blog.AppContext;
+import com.monkeyapp.blog.model.PostRepository;
 import org.glassfish.jersey.server.monitoring.MonitoringStatistics;
 
 import javax.inject.Inject;
@@ -46,6 +46,9 @@ import java.util.stream.Collectors;
 public class StatusController {
     @Inject
     Provider<MonitoringStatistics> monitoringStatisticsProvider;
+
+    @Inject
+    PostRepository postRepository;
 
     @GET
     @Produces({MediaType.TEXT_PLAIN})
@@ -67,8 +70,7 @@ public class StatusController {
 
         sb.append("posts = ");
         String postJson = mapper.writeValueAsString(
-                                AppContext.getPostRepository()
-                                        .getPostEntities()
+                                    postRepository.getPostEntities()
                                         .stream()
                                         .sorted(Comparator.reverseOrder())
                                         .collect(Collectors.toList()));

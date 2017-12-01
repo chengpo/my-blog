@@ -26,29 +26,32 @@ package com.monkeyapp.blog.model;
 
 import com.monkeyapp.blog.AppContext;
 import com.monkeyapp.blog.reader.MarkdownReader;
-import com.monkeyapp.blog.reader.Reader;
+import com.monkeyapp.blog.reader.AbstractReader;
 import com.monkeyapp.blog.reader.TextReader;
 
-public class PostLoader {
-    public Post getPartialPost(Entity entity) {
+public class PostAdapterImpl implements PostAdapter {
+    @Override
+    public Post toPartialPost(Entity entity) {
         final String path = AppContext.getRealPostPath(entity.getName());
         return new PostReader(TextReader.partialReader(path)).read(entity);
     }
 
-    public Post getCompletePost(Entity entity) {
+    @Override
+    public Post toCompletePost(Entity entity) {
         final String path = AppContext.getRealPostPath(entity.getName());
         return new PostReader(TextReader.completeReader(path)).read(entity);
     }
 
-    public Post getCompletePage(Entity entity) {
+    @Override
+    public Post toCompletePage(Entity entity) {
         final String path = AppContext.getRealPagePath(entity.getName());
         return new PostReader(TextReader.completeReader(path)).read(entity);
     }
 
     private static class PostReader {
-        private final Reader reader;
+        private final AbstractReader reader;
 
-        PostReader(Reader reader) {
+        PostReader(AbstractReader reader) {
             this.reader = reader;
         }
 

@@ -16,6 +16,10 @@
             <param-value>com.monkeyapp.blog.controller</param-value>
         </init-param>
         <init-param>
+            <param-name>jersey.config.server.provider.classnames</param-name>
+            <param-value>com.monkeyapp.blog.AppFeature</param-value>
+        </init-param>
+        <init-param>
             <param-name>jersey.config.server.provider.scanning.recursive</param-name>
             <param-value>false</param-value>
         </init-param>

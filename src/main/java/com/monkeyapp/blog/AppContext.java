@@ -42,6 +42,7 @@ public class AppContext implements ServletContextListener {
     private final Logger logger = Logger.getLogger(AppContext.class);
 
     private static String contextRoot;
+
     private static PostRepository postRepository;
 
     public static PostRepository getPostRepository() {
@@ -66,6 +67,7 @@ public class AppContext implements ServletContextListener {
         logger.info("servlet context root = " + contextRoot);
         logger.info("file-list.json path = " + fileListJsonPath);
 
+        // init post repository
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(
                         new FileInputStream(

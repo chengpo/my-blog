@@ -30,7 +30,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
-public class TextReader extends Reader {
+public class TextReader extends AbstractReader {
     private final int maxLines;
     private final String path;
 

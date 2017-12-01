@@ -22,24 +22,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.reader;
+package com.monkeyapp.blog;
 
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
 
-public class MarkdownReader extends AbstractReader {
-    private final AbstractReader reader;
+import com.monkeyapp.blog.model.PostAdapter;
+import com.monkeyapp.blog.model.PostAdapterImpl;
+import com.monkeyapp.blog.model.PostRepository;
+import org.glassfish.hk2.api.Factory;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
-    public MarkdownReader(AbstractReader reader) {
-        this.reader = reader;
+import javax.inject.Singleton;
+
+public class AppBinder extends AbstractBinder {
+    @Override
+    protected void configure() {
+        bind(PostAdapterImpl.class).to(PostAdapter.class);
+        bindFactory(PostRepositoryFactory.class).to(PostRepository.class).in(Singleton.class);
     }
 
-    @Override
-    public String read() {
-        final Parser parser = Parser.builder().build();
-        final Node document = parser.parse(reader.read());
-        final HtmlRenderer renderer = HtmlRenderer.builder().build();
-        return renderer.render(document);
+    private static class PostRepositoryFactory implements Factory<PostRepository> {
+        @Override
+        public PostRepository provide() {
+            return AppContext.getPostRepository();
+        }
+
+        @Override
+        public void dispose(PostRepository instance) {
+
+        }
     }
 }

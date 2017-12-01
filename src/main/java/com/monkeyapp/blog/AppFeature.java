@@ -21,9 +21,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog;
 
-package com.monkeyapp.blog.reader;
+import javax.ws.rs.core.Feature;
+import javax.ws.rs.core.FeatureContext;
 
-public abstract class Reader {
-    abstract String read();
+public class AppFeature implements Feature {
+    @Override
+    public boolean configure(FeatureContext context) {
+        context.register(new AppBinder());
+        return true;
+    }
 }

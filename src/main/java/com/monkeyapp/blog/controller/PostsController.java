@@ -25,12 +25,9 @@ SOFTWARE.
 package com.monkeyapp.blog.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.monkeyapp.blog.AppContext;
-import com.monkeyapp.blog.model.Entity;
-import com.monkeyapp.blog.model.Post;
-import com.monkeyapp.blog.model.PostRepository;
-import com.monkeyapp.blog.model.PostLoader;
+import com.monkeyapp.blog.model.*;
 
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -41,11 +38,14 @@ import java.util.stream.Collectors;
 
 @Path("/posts")
 public class PostsController {
-    private final PostRepository postRepository = AppContext.getPostRepository();
-    private final PostLoader postLoader = new PostLoader();
-
     @Context
-    private ServletContext servletContext;
+    ServletContext servletContext;
+
+    @Inject
+    PostRepository postRepository;
+
+    @Inject
+    PostAdapter postAdapter;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -57,7 +57,7 @@ public class PostsController {
         final List<Post> posts = entities.stream()
                         .skip(offset)
                         .limit(post_per_chunk)
-                        .map(postLoader::getPartialPost)
+                        .map(postAdapter::toPartialPost)
                         .collect(Collectors.toList());
 
         final boolean eof = offset + posts.size() >= entities.size();
@@ -70,7 +70,7 @@ public class PostsController {
     public Post getPostContent(@PathParam("year") String year, @PathParam("monthday") String monthDay,
                               @PathParam("title") String title) {
         return Optional.ofNullable(postRepository.getPostEntity(year, monthDay, title))
-                       .map(postLoader::getCompletePost)
+                       .map(postAdapter::toCompletePost)
                        .orElseThrow(() -> new WebApplicationException(404));
     }
 

@@ -24,23 +24,23 @@ SOFTWARE.
 
 package com.monkeyapp.blog.controller;
 
-import com.monkeyapp.blog.model.Entity;
-import com.monkeyapp.blog.model.Post;
-import com.monkeyapp.blog.model.PostLoader;
+import com.monkeyapp.blog.model.*;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Optional;
 
 @Path("/pages")
 public class PagesController {
-    private PostLoader postLoader = new PostLoader();
+    @Inject
+    PostAdapter postAdapter;
 
     @GET @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
     public Post getPageContent(@PathParam("name") String name) {
         return Optional.ofNullable(Entity.fromFileName(name))
-                .map(postLoader::getCompletePage)
+                .map(postAdapter::toCompletePage)
                 .orElseThrow(() -> new WebApplicationException(404));
     }
 }

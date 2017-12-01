@@ -24,22 +24,6 @@ SOFTWARE.
 
 package com.monkeyapp.blog.reader;
 
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
-
-public class MarkdownReader extends AbstractReader {
-    private final AbstractReader reader;
-
-    public MarkdownReader(AbstractReader reader) {
-        this.reader = reader;
-    }
-
-    @Override
-    public String read() {
-        final Parser parser = Parser.builder().build();
-        final Node document = parser.parse(reader.read());
-        final HtmlRenderer renderer = HtmlRenderer.builder().build();
-        return renderer.render(document);
-    }
+public abstract class AbstractReader {
+    abstract String read();
 }

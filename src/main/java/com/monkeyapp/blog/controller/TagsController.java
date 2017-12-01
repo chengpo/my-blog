@@ -24,8 +24,9 @@ SOFTWARE.
 
 package com.monkeyapp.blog.controller;
 
-import com.monkeyapp.blog.AppContext;
+import com.monkeyapp.blog.model.PostRepository;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -34,10 +35,12 @@ import java.util.List;
 
 @Path("/tags")
 public class TagsController {
+    @Inject
+    PostRepository postRepository;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<String> getTags() {
-        return AppContext.getPostRepository().getPostTags();
+        return postRepository.getPostTags();
     }
 }
