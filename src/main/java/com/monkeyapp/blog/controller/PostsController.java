@@ -26,8 +26,10 @@ package com.monkeyapp.blog.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.monkeyapp.blog.AppContext;
-import com.monkeyapp.blog.module.*;
-import com.monkeyapp.blog.module.PostLoader;
+import com.monkeyapp.blog.model.Entity;
+import com.monkeyapp.blog.model.Post;
+import com.monkeyapp.blog.model.PostRepository;
+import com.monkeyapp.blog.model.PostLoader;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;

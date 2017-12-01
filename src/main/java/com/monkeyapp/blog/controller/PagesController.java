@@ -24,9 +24,9 @@ SOFTWARE.
 
 package com.monkeyapp.blog.controller;
 
-import com.monkeyapp.blog.module.Entity;
-import com.monkeyapp.blog.module.Post;
-import com.monkeyapp.blog.module.PostLoader;
+import com.monkeyapp.blog.model.Entity;
+import com.monkeyapp.blog.model.Post;
+import com.monkeyapp.blog.model.PostLoader;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

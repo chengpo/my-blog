@@ -1,4 +1,4 @@
-package com.monkeyapp.blog.module;
+package com.monkeyapp.blog.model;
 
 import org.junit.Before;
 import org.junit.Test;

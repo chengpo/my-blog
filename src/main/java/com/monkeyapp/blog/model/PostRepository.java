@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.module;
+package com.monkeyapp.blog.model;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
