@@ -22,28 +22,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.rest;
+package com.monkeyapp.blog.module;
 
 import com.monkeyapp.blog.AppContext;
-import com.monkeyapp.blog.module.Entity;
 import com.monkeyapp.blog.reader.MarkdownReader;
-import com.monkeyapp.blog.module.Post;
+import com.monkeyapp.blog.reader.Reader;
 import com.monkeyapp.blog.reader.TextReader;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.util.Optional;
+public class PostLoader {
+    public Post getPartialPost(Entity entity) {
+        final String path = AppContext.getRealPostPath(entity.getName());
+        return new PostReader(TextReader.partialReader(path)).read(entity);
+    }
 
-@Path("/pages")
-public class PagesResource {
-    @GET @Path("/{name}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Post getSitePage(@PathParam("name") String name) {
-        return Optional.ofNullable(Entity.fromFileName(name))
-                .map((entity) -> {
-                    final String path = AppContext.getRealPagePath(entity.getName());
-                    return new Post(entity, new MarkdownReader(TextReader.fullReader(path)).read());
-                })
-                .orElseThrow(() -> new WebApplicationException(404));
+    public Post getCompletePost(Entity entity) {
+        final String path = AppContext.getRealPostPath(entity.getName());
+        return new PostReader(TextReader.completeReader(path)).read(entity);
+    }
+
+    public Post getCompletePage(Entity entity) {
+        final String path = AppContext.getRealPagePath(entity.getName());
+        return new PostReader(TextReader.completeReader(path)).read(entity);
+    }
+
+    private static class PostReader {
+        private final Reader reader;
+
+        PostReader(Reader reader) {
+            this.reader = reader;
+        }
+
+        Post read(Entity entity) {
+            final String content = new MarkdownReader(reader).read();
+            return new Post(entity, content);
+        }
     }
 }

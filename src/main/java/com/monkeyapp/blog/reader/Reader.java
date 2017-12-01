@@ -24,6 +24,6 @@ SOFTWARE.
 
 package com.monkeyapp.blog.reader;
 
-abstract class AbstractReader {
+public abstract class Reader {
     abstract String read();
 }

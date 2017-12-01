@@ -13,7 +13,7 @@
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>com.monkeyapp.blog.rest</param-value>
+            <param-value>com.monkeyapp.blog.controller</param-value>
         </init-param>
         <init-param>
             <param-name>jersey.config.server.provider.scanning.recursive</param-name>
@@ -58,6 +58,11 @@
     <context-param>
         <param-name>file-list</param-name>
         <param-value>md/posts/file-list.json</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>post-per-chunk</param-name>
+        <param-value>3</param-value>
     </context-param>
 
     <welcome-file-list>

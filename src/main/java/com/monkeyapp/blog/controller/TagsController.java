@@ -22,41 +22,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.reader;
+package com.monkeyapp.blog.controller;
 
-import javax.ws.rs.WebApplicationException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.stream.Collectors;
+import com.monkeyapp.blog.AppContext;
 
-public class TextReader extends Reader {
-    private final int maxLines;
-    private final String path;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
 
-    public static TextReader partialReader(String path) {
-        return new TextReader(path, 10);
-    }
+@Path("/tags")
+public class TagsController {
 
-    public static TextReader completeReader(String path) {
-        return new TextReader(path, -1);
-    }
-
-    private TextReader(String path, int maxLines) {
-        this.path = path;
-        this.maxLines = maxLines;
-    }
-
-    @Override
-    public String read() {
-        try {
-            return (maxLines <= 0) ?
-                    new String(Files.readAllBytes(Paths.get(path))):
-                    Files.lines(Paths.get(path))
-                            .limit(maxLines)
-                            .collect(Collectors.joining(System.lineSeparator()));
-        } catch (IOException e) {
-            throw new WebApplicationException(e);
-        }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<String> getTags() {
+        return AppContext.getPostRepository().getPostTags();
     }
 }

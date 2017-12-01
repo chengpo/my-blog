@@ -28,10 +28,10 @@ import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
-public class MarkdownReader extends AbstractReader {
-    private final AbstractReader reader;
+public class MarkdownReader extends Reader {
+    private final Reader reader;
 
-    public MarkdownReader(AbstractReader reader) {
+    public MarkdownReader(Reader reader) {
         this.reader = reader;
     }
 

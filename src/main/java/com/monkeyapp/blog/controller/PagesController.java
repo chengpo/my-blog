@@ -22,22 +22,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.rest;
+package com.monkeyapp.blog.controller;
 
-import com.monkeyapp.blog.AppContext;
+import com.monkeyapp.blog.module.Entity;
+import com.monkeyapp.blog.module.Post;
+import com.monkeyapp.blog.module.PostLoader;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
+import java.util.Optional;
 
-@Path("/tags")
-public class TagsResource {
+@Path("/pages")
+public class PagesController {
+    private PostLoader postLoader = new PostLoader();
 
-    @GET
+    @GET @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<String> getTags() {
-        return AppContext.getPostRepository().getPostTags();
+    public Post getPageContent(@PathParam("name") String name) {
+        return Optional.ofNullable(Entity.fromFileName(name))
+                .map(postLoader::getCompletePage)
+                .orElseThrow(() -> new WebApplicationException(404));
     }
 }

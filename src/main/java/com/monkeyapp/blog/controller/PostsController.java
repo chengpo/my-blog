@@ -22,23 +22,55 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.rest;
+package com.monkeyapp.blog.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.monkeyapp.blog.AppContext;
 import com.monkeyapp.blog.module.*;
-import com.monkeyapp.blog.reader.MarkdownReader;
-import com.monkeyapp.blog.reader.TextReader;
+import com.monkeyapp.blog.module.PostLoader;
 
+import javax.servlet.ServletContext;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Path("/posts")
-public class PostsResource {
-    private static final int NUM_OF_POST_PER_PAGE = 3;
+public class PostsController {
+    private final PostRepository postRepository = AppContext.getPostRepository();
+    private final PostLoader postLoader = new PostLoader();
+
+    @Context
+    private ServletContext servletContext;
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public PostChunk getPostChunk(@DefaultValue("") @QueryParam("tag") String tag,
+                                  @DefaultValue("0") @QueryParam("offset") int offset) {
+        final int post_per_chunk = Integer.valueOf(servletContext.getInitParameter("post-per-chunk"));
+
+        final List<Entity> entities = postRepository.getPostEntities(tag);
+        final List<Post> posts = entities.stream()
+                        .skip(offset)
+                        .limit(post_per_chunk)
+                        .map(postLoader::getPartialPost)
+                        .collect(Collectors.toList());
+
+        final boolean eof = offset + posts.size() >= entities.size();
+        return new PostChunk(posts, offset, eof);
+    }
+
+    @GET
+    @Path("/{year}/{monthday}/{title}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Post getPostContent(@PathParam("year") String year, @PathParam("monthday") String monthDay,
+                              @PathParam("title") String title) {
+        return Optional.ofNullable(postRepository.getPostEntity(year, monthDay, title))
+                       .map(postLoader::getCompletePost)
+                       .orElseThrow(() -> new WebApplicationException(404));
+    }
 
     private static class PostChunk {
         @JsonProperty("posts")
@@ -55,43 +87,5 @@ public class PostsResource {
             this.offset = offset;
             this.eof = eof;
         }
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public PostChunk getPostChunk(@DefaultValue("") @QueryParam("tag") String tag,
-                                  @DefaultValue("0") @QueryParam("offset") int offset) {
-        final List<Entity> entities = AppContext.getPostRepository().getPostEntities(tag);
-        final List<Post> posts = entities.stream()
-                        .skip(offset)
-                        .limit(NUM_OF_POST_PER_PAGE)
-                        .map((entity) -> {
-                                final String path = AppContext.getRealPostPath(entity.getName());
-                                final String content = new MarkdownReader(
-                                                            TextReader.partialReader(path)).read();
-                                return new Post(entity, content);
-                            }
-                        )
-                        .collect(Collectors.toList());
-
-        final boolean eof = offset + posts.size() >= entities.size();
-        return new PostChunk(posts, offset, eof);
-    }
-
-    @GET @Path("/{year}/{monthday}/{title}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Post getPostDetail(@PathParam("year") String year, @PathParam("monthday") String monthDay,
-                              @PathParam("title") String title) {
-        final PostRepository postRepository = AppContext.getPostRepository();
-
-        return Optional.ofNullable(postRepository.getPostEntity(year, monthDay, title))
-                       .map((entity)-> {
-                                    final String path = AppContext.getRealPostPath(entity.getName());
-                                    final String content = new MarkdownReader(
-                                                                TextReader.fullReader(path)).read();
-                                    return new Post(entity, content);
-                               }
-                       )
-                       .orElseThrow(() -> new WebApplicationException(404));
     }
 }
