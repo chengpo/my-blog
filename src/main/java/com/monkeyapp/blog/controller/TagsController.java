@@ -32,6 +32,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/tags")
 public class TagsController {
@@ -41,6 +42,7 @@ public class TagsController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<String> getTags() {
-        return postRepository.getPostTags();
+        return postRepository.getPostTags()
+                             .collect(Collectors.toList());
     }
 }

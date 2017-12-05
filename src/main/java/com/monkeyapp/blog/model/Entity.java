@@ -31,6 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -57,10 +58,10 @@ public class Entity implements Comparable<Entity> {
     @JsonProperty("id")
     private final long id;
 
-    public static Entity fromFileName(String fileName) {
+    public static Optional<Entity> fromFileName(String fileName) {
         final Matcher matcher = NAME_PATTERN.matcher(fileName);
         if (matcher.matches()) {
-            return new Entity(new HashMap<String, String>(POST_FIELD_NUM) {
+            return Optional.of(new Entity(new HashMap<String, String>(POST_FIELD_NUM) {
                 {
                     put("name", matcher.group(0));
                     put("year", matcher.group(1));
@@ -69,10 +70,10 @@ public class Entity implements Comparable<Entity> {
                     put("tag", matcher.group(4));
                     put("title", matcher.group(5));
                 }
-            });
+            }));
         }
 
-        return null;
+        return Optional.empty();
     }
 
     private Entity(Map<String, String> fields) {

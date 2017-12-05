@@ -39,8 +39,10 @@ public class PagesController {
     @GET @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
     public Post getPageContent(@PathParam("name") String name) {
-        return Optional.ofNullable(Entity.fromFileName(name))
+        return Entity.fromFileName(name)
                 .map(postAdapter::toCompletePage)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .orElseThrow(() -> new WebApplicationException(404));
     }
 }

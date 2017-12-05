@@ -71,7 +71,6 @@ public class StatusController {
         sb.append("posts = ");
         String postJson = mapper.writeValueAsString(
                                     postRepository.getPostEntities()
-                                        .stream()
                                         .sorted(Comparator.reverseOrder())
                                         .collect(Collectors.toList()));
         sb.append(postJson);

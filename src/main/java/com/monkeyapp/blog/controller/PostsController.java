@@ -53,14 +53,15 @@ public class PostsController {
                                   @DefaultValue("0") @QueryParam("offset") int offset) {
         final int post_per_chunk = Integer.valueOf(servletContext.getInitParameter("post-per-chunk"));
 
-        final List<Entity> entities = postRepository.getPostEntities(tag);
-        final List<Post> posts = entities.stream()
-                        .skip(offset)
-                        .limit(post_per_chunk)
-                        .map(postAdapter::toPartialPost)
-                        .collect(Collectors.toList());
+        final long totalPosts = postRepository.getPostEntities(tag).count();
+        final List<Post> posts = postRepository.getPostEntities(tag).skip(offset)
+                                             .limit(post_per_chunk)
+                                             .map(postAdapter::toPartialPost)
+                                             .filter(Optional::isPresent)
+                                             .map(Optional::get)
+                                             .collect(Collectors.toList());
 
-        final boolean eof = offset + posts.size() >= entities.size();
+        final boolean eof = offset + posts.size() >= totalPosts;
         return new PostChunk(posts, offset, eof);
     }
 
@@ -69,9 +70,11 @@ public class PostsController {
     @Produces(MediaType.APPLICATION_JSON)
     public Post getPostContent(@PathParam("year") String year, @PathParam("monthday") String monthDay,
                               @PathParam("title") String title) {
-        return Optional.ofNullable(postRepository.getPostEntity(year, monthDay, title))
-                       .map(postAdapter::toCompletePost)
-                       .orElseThrow(() -> new WebApplicationException(404));
+        return postRepository.getPostEntity(year, monthDay, title)
+                             .map(postAdapter::toCompletePost)
+                             .filter(Optional::isPresent)
+                             .map(Optional::get)
+                             .orElseThrow(() -> new WebApplicationException(404));
     }
 
     private static class PostChunk {

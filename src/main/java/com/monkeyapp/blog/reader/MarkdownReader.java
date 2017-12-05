@@ -28,6 +28,8 @@ import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
+import java.util.Optional;
+
 public class MarkdownReader extends AbstractReader {
     private final AbstractReader reader;
 
@@ -36,10 +38,14 @@ public class MarkdownReader extends AbstractReader {
     }
 
     @Override
-    public String read() {
-        final Parser parser = Parser.builder().build();
-        final Node document = parser.parse(reader.read());
-        final HtmlRenderer renderer = HtmlRenderer.builder().build();
-        return renderer.render(document);
+    public Optional<String> read() {
+        return reader.read().map(
+                (content) -> {
+                    final Parser parser = Parser.builder().build();
+                    final Node document = parser.parse(content);
+                    final HtmlRenderer renderer = HtmlRenderer.builder().build();
+                    return renderer.render(document);
+                }
+        );
     }
 }

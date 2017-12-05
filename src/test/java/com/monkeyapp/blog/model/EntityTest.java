@@ -1,5 +1,6 @@
 package com.monkeyapp.blog.model;
 
+import junit.framework.AssertionFailedError;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -11,7 +12,8 @@ public class EntityTest {
     public void testCreatePostInstanceWithValidFileName() {
         final String validFilename = "2017-0418-1053-tag-arbitrary-post-title.md";
 
-        Entity post = Entity.fromFileName(validFilename);
+        Entity post = Entity.fromFileName(validFilename).orElseThrow(() -> new AssertionFailedError("failed to path file name"));
+
         assertNotNull("failed to recreate post fromFileName valid file name " + validFilename, post);
 
         assertEquals("wrong post tag", "tag", post.getTag());
@@ -24,7 +26,7 @@ public class EntityTest {
     @Test
     public void testCreatePostInstanceWithInvalidFileName() {
         final String invalidFileName = "201704181053-tag-arbitrary-post-title.md";
-        Entity post = Entity.fromFileName(invalidFileName);
-        assertNull("should not create post instance fromFileName invalid file name " + invalidFileName, post);
+        assertFalse("should not create post instance fromFileName invalid file name " + invalidFileName,
+                Entity.fromFileName(invalidFileName).isPresent());
     }
 }

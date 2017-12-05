@@ -24,39 +24,60 @@ SOFTWARE.
 
 package com.monkeyapp.blog.reader;
 
-import javax.ws.rs.WebApplicationException;
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class TextReader extends AbstractReader {
-    private final int maxLines;
-    private final String path;
+    // reader first 10 of lines
+    private static final int PARTIAL_FILE_LINES = 10;
+
+    private static final Function<String, Optional<String>> PARTIAL_READER_FUNC =
+            (String path)-> {
+                try {
+                    return Optional.of(Files.lines(Paths.get(path))
+                            .limit(PARTIAL_FILE_LINES)
+                            .collect(Collectors.joining(System.lineSeparator())));
+                } catch (IOException e) {
+                    return Optional.empty();
+                }
+
+            };
+
+    private static final Function<String, Optional<String>> COMPLETE_READER_FUNC =
+            (String path)-> {
+                try {
+                    return Optional.of(new String(Files.readAllBytes(Paths.get(path))));
+                } catch (IOException e) {
+                    Logger.getLogger(TextReader.class).fatal("failed to read file: " + path);
+                    Logger.getLogger(TextReader.class).fatal("IO exception: " + e.getMessage());
+                    return Optional.empty();
+                }
+            };
 
     public static TextReader partialReader(String path) {
-        return new TextReader(path, 10);
+        return new TextReader(path, PARTIAL_READER_FUNC);
     }
 
     public static TextReader completeReader(String path) {
-        return new TextReader(path, -1);
+        return new TextReader(path, COMPLETE_READER_FUNC);
     }
 
-    private TextReader(String path, int maxLines) {
+    private final String path;
+    private final Function<String, Optional<String>> readerFunc;
+
+    private TextReader(String path, Function<String, Optional<String>> readerFunc) {
         this.path = path;
-        this.maxLines = maxLines;
+        this.readerFunc = readerFunc;
     }
 
     @Override
-    public String read() {
-        try {
-            return (maxLines <= 0) ?
-                    new String(Files.readAllBytes(Paths.get(path))):
-                    Files.lines(Paths.get(path))
-                            .limit(maxLines)
-                            .collect(Collectors.joining(System.lineSeparator()));
-        } catch (IOException e) {
-            throw new WebApplicationException(e);
-        }
+    public Optional<String> read() {
+        return readerFunc.apply(path);
     }
 }

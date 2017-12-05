@@ -29,35 +29,30 @@ import com.monkeyapp.blog.reader.MarkdownReader;
 import com.monkeyapp.blog.reader.AbstractReader;
 import com.monkeyapp.blog.reader.TextReader;
 
+import java.util.Optional;
+
 public class PostAdapterImpl implements PostAdapter {
     @Override
-    public Post toPartialPost(Entity entity) {
+    public Optional<Post> toPartialPost(Entity entity) {
         final String path = AppContext.getRealPostPath(entity.getName());
-        return new PostReader(TextReader.partialReader(path)).read(entity);
+        return readPost(TextReader.partialReader(path), entity);
     }
 
     @Override
-    public Post toCompletePost(Entity entity) {
+    public Optional<Post> toCompletePost(Entity entity) {
         final String path = AppContext.getRealPostPath(entity.getName());
-        return new PostReader(TextReader.completeReader(path)).read(entity);
+        return readPost(TextReader.completeReader(path), entity);
     }
 
     @Override
-    public Post toCompletePage(Entity entity) {
+    public Optional<Post> toCompletePage(Entity entity) {
         final String path = AppContext.getRealPagePath(entity.getName());
-        return new PostReader(TextReader.completeReader(path)).read(entity);
+        return readPost(TextReader.completeReader(path), entity);
     }
 
-    private static class PostReader {
-        private final AbstractReader reader;
-
-        PostReader(AbstractReader reader) {
-            this.reader = reader;
-        }
-
-        Post read(Entity entity) {
-            final String content = new MarkdownReader(reader).read();
-            return new Post(entity, content);
-        }
+    private static Optional<Post> readPost(AbstractReader reader, Entity entity) {
+        return new MarkdownReader(reader)
+                .read()
+                .map((content) -> new Post(entity, content));
     }
 }

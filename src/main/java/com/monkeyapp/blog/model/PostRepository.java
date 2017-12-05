@@ -24,10 +24,9 @@ SOFTWARE.
 
 package com.monkeyapp.blog.model;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class PostRepository {
     private final List<String> postFileNames;
@@ -36,41 +35,43 @@ public class PostRepository {
         this.postFileNames = postFileNames;
     }
 
-    @Nonnull
-    public List<Entity> getPostEntities(){
+    public Stream<Entity> getPostEntities(){
         return getPostEntities(null);
     }
 
-    @Nonnull
-    public List<Entity> getPostEntities(String tag) {
+    public Stream<Entity> getPostEntities(String tag) {
+        final Predicate<Entity> baseOnTag = (tag == null || tag.isEmpty()) ?
+                                            (entity) -> true :
+                                            (entity -> entity.getTag().equals(tag));
+
         return postFileNames.stream()
                             .map(Entity::fromFileName)
-                            .filter((entity) -> (entity != null) && (tag == null || tag.isEmpty() || entity.getTag().equals(tag)))
-                            .sorted(Comparator.reverseOrder())
-                            .collect(Collectors.toList());
+                            .filter(Optional::isPresent)
+                            .map(Optional::get)
+                            .filter(baseOnTag)
+                            .sorted(Comparator.reverseOrder());
     }
 
-    @Nullable
-    public Entity getPostEntity(String year, String monthDay, String title) {
-        List<Entity> entities = postFileNames.stream()
-                                            .filter((fileName) ->
-                                                        fileName.startsWith(String.format("%s-%s",year, monthDay)) &&
-                                                        fileName.endsWith(String.format("%s.md",title)))
-                                            .map(Entity::fromFileName)
-                                            .sorted(Comparator.reverseOrder())
-                                            .collect(Collectors.toList());
-
-        return entities.isEmpty() ? null : entities.get(0);
+    public Optional<Entity> getPostEntity(String year, String monthDay, String title) {
+        return postFileNames.stream()
+                .filter((fileName) ->
+                        fileName.startsWith(String.format("%s-%s", year, monthDay)) &&
+                                fileName.endsWith(String.format("%s.md", title)))
+                .map(Entity::fromFileName)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .sorted(Comparator.reverseOrder())
+                .findFirst();
     }
 
-    @Nonnull
-    public List<String> getPostTags() {
+    public Stream<String> getPostTags() {
         return postFileNames.stream()
                             .map(Entity::fromFileName)
+                            .filter(Optional::isPresent)
+                            .map(Optional::get)
                             .map(Entity::getTag)
                             .distinct()
-                            .sorted()
-                            .collect(Collectors.toList());
+                            .sorted();
     }
 
     @Override

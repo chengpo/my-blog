@@ -24,10 +24,12 @@ SOFTWARE.
 
 package com.monkeyapp.blog.model;
 
+import java.util.Optional;
+
 public interface PostAdapter {
-    Post toPartialPost(Entity entity);
+    Optional<Post> toPartialPost(Entity entity);
 
-    Post toCompletePost(Entity entity);
+    Optional<Post> toCompletePost(Entity entity);
 
-    Post toCompletePage(Entity entity);
+    Optional<Post> toCompletePage(Entity entity);
 }

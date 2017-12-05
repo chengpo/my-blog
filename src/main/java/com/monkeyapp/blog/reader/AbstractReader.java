@@ -24,6 +24,8 @@ SOFTWARE.
 
 package com.monkeyapp.blog.reader;
 
+import java.util.Optional;
+
 public abstract class AbstractReader {
-    abstract String read();
+    abstract Optional<String> read();
 }
