@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.model;
+package com.monkeyapp.blog.models;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -60,7 +60,6 @@ public class PostRepository {
                 .map(Entity::fromFileName)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .sorted(Comparator.reverseOrder())
                 .findFirst();
     }
 

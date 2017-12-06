@@ -22,10 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.controller;
+package com.monkeyapp.blog.controllers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.monkeyapp.blog.model.*;
+import com.monkeyapp.blog.models.*;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;

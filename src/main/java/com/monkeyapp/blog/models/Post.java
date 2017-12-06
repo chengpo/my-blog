@@ -22,27 +22,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.controller;
+package com.monkeyapp.blog.models;
 
-import com.monkeyapp.blog.model.PostRepository;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import java.util.List;
-import java.util.stream.Collectors;
+public class Post implements Comparable<Post>{
+    @JsonProperty("entity")
+    private final Entity entity;
 
-@Path("/tags")
-public class TagsController {
-    @Inject
-    PostRepository postRepository;
+    @JsonProperty("content")
+    private final String content;
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<String> getTags() {
-        return postRepository.getPostTags()
-                             .collect(Collectors.toList());
+    public Post(Entity entity, String content) {
+        this.entity = entity;
+        this.content = content;
+    }
+
+    public Entity getEntity() {
+        return entity;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    @Override
+    public int compareTo(Post other) {
+        return entity.compareTo(other.entity);
     }
 }

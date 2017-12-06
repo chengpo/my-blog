@@ -1,4 +1,4 @@
-package com.monkeyapp.blog.model;
+package com.monkeyapp.blog.models;
 
 import junit.framework.AssertionFailedError;
 import org.junit.Test;

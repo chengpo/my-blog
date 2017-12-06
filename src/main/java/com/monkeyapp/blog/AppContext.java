@@ -27,7 +27,7 @@ package com.monkeyapp.blog;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.monkeyapp.blog.model.PostRepository;
+import com.monkeyapp.blog.models.PostRepository;
 import jersey.repackaged.com.google.common.collect.ImmutableList;
 import org.apache.log4j.Logger;
 

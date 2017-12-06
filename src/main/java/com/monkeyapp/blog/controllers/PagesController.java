@@ -22,14 +22,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.model;
+package com.monkeyapp.blog.controllers;
 
+import com.monkeyapp.blog.models.*;
+
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.util.Optional;
 
-public interface PostAdapter {
-    Optional<Post> toPartialPost(Entity entity);
+@Path("/pages")
+public class PagesController {
+    @Inject
+    PostAdapter postAdapter;
 
-    Optional<Post> toCompletePost(Entity entity);
-
-    Optional<Post> toCompletePage(Entity entity);
+    @GET @Path("/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Post getPageContent(@PathParam("name") String name) {
+        return Entity.fromFileName(name)
+                .map(postAdapter::toCompletePage)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .orElseThrow(() -> new WebApplicationException(404));
+    }
 }

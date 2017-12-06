@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.model;
+package com.monkeyapp.blog.models;
 
 import com.monkeyapp.blog.AppContext;
 import com.monkeyapp.blog.reader.MarkdownReader;

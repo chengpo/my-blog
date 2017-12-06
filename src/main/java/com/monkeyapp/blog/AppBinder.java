@@ -25,9 +25,9 @@ SOFTWARE.
 package com.monkeyapp.blog;
 
 
-import com.monkeyapp.blog.model.PostAdapter;
-import com.monkeyapp.blog.model.PostAdapterImpl;
-import com.monkeyapp.blog.model.PostRepository;
+import com.monkeyapp.blog.models.PostAdapter;
+import com.monkeyapp.blog.models.PostAdapterImpl;
+import com.monkeyapp.blog.models.PostRepository;
 import org.glassfish.hk2.api.Factory;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
