@@ -26,10 +26,10 @@ package com.monkeyapp.blog.models;
 
 import java.util.Optional;
 
-public interface PostAdapter {
-    Optional<Post> toPartialPost(Entity entity);
+public interface PaperAdapter {
+    Optional<Paper> toPartialPost(Paper.Id id);
 
-    Optional<Post> toCompletePost(Entity entity);
+    Optional<Paper> toCompletePost(Paper.Id id);
 
-    Optional<Post> toCompletePage(Entity entity);
+    Optional<Paper> toCompletePage(Paper.Id id);
 }

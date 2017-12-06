@@ -34,13 +34,13 @@ import java.util.Optional;
 @Path("/pages")
 public class PagesController {
     @Inject
-    PostAdapter postAdapter;
+    PaperAdapter paperAdapter;
 
     @GET @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Post getPageContent(@PathParam("name") String name) {
-        return Entity.fromFileName(name)
-                .map(postAdapter::toCompletePage)
+    public Paper getPageContent(@PathParam("name") String name) {
+        return Paper.Id.fromFileName(name)
+                .map(paperAdapter::toCompletePage)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .orElseThrow(() -> new WebApplicationException(404));

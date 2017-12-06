@@ -35,40 +35,38 @@ public class PostRepository {
         this.postFileNames = postFileNames;
     }
 
-    public Stream<Entity> getPostEntities(){
-        return getPostEntities(null);
+    public Stream<Paper.Id> getPostIds(){
+        return getPostIds(null);
     }
 
-    public Stream<Entity> getPostEntities(String tag) {
-        final Predicate<Entity> baseOnTag = (tag == null || tag.isEmpty()) ?
+    public Stream<Paper.Id> getPostIds(String tag) {
+        final Predicate<Paper.Id> baseOnTag = (tag == null || tag.isEmpty()) ?
                                             (entity) -> true :
                                             (entity -> entity.getTag().equals(tag));
 
         return postFileNames.stream()
-                            .map(Entity::fromFileName)
+                            .map(Paper.Id::fromFileName)
                             .filter(Optional::isPresent)
                             .map(Optional::get)
-                            .filter(baseOnTag)
-                            .sorted(Comparator.reverseOrder());
+                            .filter(baseOnTag);
     }
 
-    public Optional<Entity> getPostEntity(String year, String monthDay, String title) {
+    public Stream<Paper.Id> getPostIds(String year, String monthDay, String title) {
         return postFileNames.stream()
                 .filter((fileName) ->
                         fileName.startsWith(String.format("%s-%s", year, monthDay)) &&
                                 fileName.endsWith(String.format("%s.md", title)))
-                .map(Entity::fromFileName)
+                .map(Paper.Id::fromFileName)
                 .filter(Optional::isPresent)
-                .map(Optional::get)
-                .findFirst();
+                .map(Optional::get);
     }
 
     public Stream<String> getPostTags() {
         return postFileNames.stream()
-                            .map(Entity::fromFileName)
+                            .map(Paper.Id::fromFileName)
                             .filter(Optional::isPresent)
                             .map(Optional::get)
-                            .map(Entity::getTag)
+                            .map(Paper.Id::getTag)
                             .distinct()
                             .sorted();
     }

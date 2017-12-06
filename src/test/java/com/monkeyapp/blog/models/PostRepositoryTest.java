@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,41 +30,45 @@ public class PostRepositoryTest {
 
     @Test
     public void testPostListOrderByCreatedTime() {
-        assertEquals("wrong post list size", 3, postRepository.getPostEntities().count());
-        List<Entity> entityList = postRepository.getPostEntities().collect(Collectors.toList());
+        assertEquals("wrong post list size", 3, postRepository.getPostIds().count());
+        List<Paper.Id> idList = postRepository.getPostIds().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
 
         assertEquals("post 1 should be on the top of post list",
-                     "Post1",
-                     entityList.get(0).getTitle());
+                "Post1",
+                idList.get(0).getTitle());
 
         assertEquals("post 2 should be in the middle of post list",
                 "Post2",
-                entityList.get(1).getTitle());
+                idList.get(1).getTitle());
 
         assertEquals("post 3 should be on the end of post list",
                 "Post3",
-                entityList.get(2).getTitle());
+                idList.get(2).getTitle());
     }
 
     @Test
     public void testFilterPostListByTag() {
-        List<Entity> entityList;
+        List<Paper.Id> idList;
 
-        assertEquals("wrong post list size for tag1", 1, postRepository.getPostEntities("tag1").count());
-        entityList = postRepository.getPostEntities("tag1").collect(Collectors.toList());
+        assertEquals("wrong post list size for tag1", 1, postRepository.getPostIds("tag1").count());
+        idList = postRepository.getPostIds("tag1")
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
 
         assertEquals("post 1 should listed for tag1",
                      "Post1",
-                      entityList.get(0).getTitle());
+                      idList.get(0).getTitle());
 
-        assertEquals("wrong post list size for tag2", 2, postRepository.getPostEntities("tag2").count());
-        entityList = postRepository.getPostEntities("tag2").collect(Collectors.toList());
+        assertEquals("wrong post list size for tag2", 2, postRepository.getPostIds("tag2").count());
+        idList = postRepository.getPostIds("tag2")
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
 
         assertEquals("post 2 should the first of tag2 list",
                 "Post2",
-                entityList.get(0).getTitle());
+                idList.get(0).getTitle());
         assertEquals("post 3 should the second of tag2 list",
                 "Post3",
-                entityList.get(1).getTitle());
+                idList.get(1).getTitle());
     }
 }

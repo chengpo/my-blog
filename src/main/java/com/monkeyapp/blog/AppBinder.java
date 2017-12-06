@@ -25,8 +25,8 @@ SOFTWARE.
 package com.monkeyapp.blog;
 
 
-import com.monkeyapp.blog.models.PostAdapter;
-import com.monkeyapp.blog.models.PostAdapterImpl;
+import com.monkeyapp.blog.models.PaperAdapter;
+import com.monkeyapp.blog.models.PaperAdapterImpl;
 import com.monkeyapp.blog.models.PostRepository;
 import org.glassfish.hk2.api.Factory;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
@@ -36,7 +36,7 @@ import javax.inject.Singleton;
 public class AppBinder extends AbstractBinder {
     @Override
     protected void configure() {
-        bind(PostAdapterImpl.class).to(PostAdapter.class);
+        bind(PaperAdapterImpl.class).to(PaperAdapter.class);
         bindFactory(PostRepositoryFactory.class).to(PostRepository.class).in(Singleton.class);
     }
 

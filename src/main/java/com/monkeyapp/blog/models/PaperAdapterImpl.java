@@ -31,28 +31,28 @@ import com.monkeyapp.blog.reader.TextReader;
 
 import java.util.Optional;
 
-public class PostAdapterImpl implements PostAdapter {
+public class PaperAdapterImpl implements PaperAdapter {
     @Override
-    public Optional<Post> toPartialPost(Entity entity) {
-        final String path = AppContext.getRealPostPath(entity.getName());
-        return readPost(TextReader.partialReader(path), entity);
+    public Optional<Paper> toPartialPost(Paper.Id id) {
+        final String path = AppContext.getRealPostPath(id.getName());
+        return readPost(TextReader.partialReader(path), id);
     }
 
     @Override
-    public Optional<Post> toCompletePost(Entity entity) {
-        final String path = AppContext.getRealPostPath(entity.getName());
-        return readPost(TextReader.completeReader(path), entity);
+    public Optional<Paper> toCompletePost(Paper.Id id) {
+        final String path = AppContext.getRealPostPath(id.getName());
+        return readPost(TextReader.completeReader(path), id);
     }
 
     @Override
-    public Optional<Post> toCompletePage(Entity entity) {
-        final String path = AppContext.getRealPagePath(entity.getName());
-        return readPost(TextReader.completeReader(path), entity);
+    public Optional<Paper> toCompletePage(Paper.Id id) {
+        final String path = AppContext.getRealPagePath(id.getName());
+        return readPost(TextReader.completeReader(path), id);
     }
 
-    private static Optional<Post> readPost(AbstractReader reader, Entity entity) {
+    private static Optional<Paper> readPost(AbstractReader reader, Paper.Id id) {
         return new MarkdownReader(reader)
                 .read()
-                .map((content) -> new Post(entity, content));
+                .map((content) -> new Paper(id, content));
     }
 }

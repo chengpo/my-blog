@@ -32,6 +32,7 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,7 +46,7 @@ public class PostsController {
     PostRepository postRepository;
 
     @Inject
-    PostAdapter postAdapter;
+    PaperAdapter paperAdapter;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -53,10 +54,12 @@ public class PostsController {
                                   @DefaultValue("0") @QueryParam("offset") int offset) {
         final int post_per_chunk = Integer.valueOf(servletContext.getInitParameter("post-per-chunk"));
 
-        final long totalPosts = postRepository.getPostEntities(tag).count();
-        final List<Post> posts = postRepository.getPostEntities(tag).skip(offset)
+        final long totalPosts = postRepository.getPostIds(tag).count();
+        final List<Paper> posts = postRepository.getPostIds(tag)
+                                             .sorted(Comparator.reverseOrder())
+                                             .skip(offset)
                                              .limit(post_per_chunk)
-                                             .map(postAdapter::toPartialPost)
+                                             .map(paperAdapter::toPartialPost)
                                              .filter(Optional::isPresent)
                                              .map(Optional::get)
                                              .collect(Collectors.toList());
@@ -68,10 +71,11 @@ public class PostsController {
     @GET
     @Path("/{year}/{monthday}/{title}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Post getPostContent(@PathParam("year") String year, @PathParam("monthday") String monthDay,
+    public Paper getPostContent(@PathParam("year") String year, @PathParam("monthday") String monthDay,
                               @PathParam("title") String title) {
-        return postRepository.getPostEntity(year, monthDay, title)
-                             .map(postAdapter::toCompletePost)
+        return postRepository.getPostIds(year, monthDay, title)
+                             .findFirst()
+                             .map(paperAdapter::toCompletePost)
                              .filter(Optional::isPresent)
                              .map(Optional::get)
                              .orElseThrow(() -> new WebApplicationException(404));
@@ -79,7 +83,7 @@ public class PostsController {
 
     private static class PostChunk {
         @JsonProperty("posts")
-        private final List<Post> posts;
+        private final List<Paper> posts;
 
         @JsonProperty("offset")
         private final int offset; // offset to the very first blog
@@ -87,7 +91,7 @@ public class PostsController {
         @JsonProperty("eof")
         private final boolean eof; // eof = true when reach the last blog
 
-        private PostChunk(List<Post> posts, int offset, boolean eof) {
+        private PostChunk(List<Paper> posts, int offset, boolean eof) {
             this.posts = posts;
             this.offset = offset;
             this.eof = eof;
