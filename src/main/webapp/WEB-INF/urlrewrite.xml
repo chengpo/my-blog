@@ -8,6 +8,11 @@
 -->
 <urlrewrite>
     <rule>
+        <from>^/static/(\d+\.\d+\.\d+)/(.*)</from>
+        <to last="true">/libs/$2</to>
+    </rule>
+
+    <rule>
         <from>^/about</from>
         <to type="redirect" last="true">/#!about/</to>
     </rule>
@@ -15,11 +20,6 @@
     <rule>
         <from>^/posts(.*)</from>
         <to type="redirect" last="true">/#!posts$1/</to>
-    </rule>
-
-    <rule>
-        <from>^/static/(\d+\.\d+\.\d+)/(.*)</from>
-        <to last="true">/libs/$2</to>
     </rule>
     <!--
 

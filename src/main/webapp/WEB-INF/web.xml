@@ -37,7 +37,7 @@
 
     <servlet-mapping>
         <servlet-name>default</servlet-name>
-        <url-pattern>/static/*</url-pattern>
+        <url-pattern>/libs/*</url-pattern>
         <url-pattern>/external/*</url-pattern>
     </servlet-mapping>
 
@@ -62,7 +62,7 @@
         <filter-name>UrlRewriteFilter</filter-name>
         <url-pattern>/static/*</url-pattern>
         <url-pattern>/posts/*</url-pattern>
-        <url-pattern>/pages/*</url-pattern>
+        <url-pattern>/about/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
