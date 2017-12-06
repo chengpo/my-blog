@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Paper implements Comparable<Paper>{
-    @JsonProperty("entity")
+    @JsonProperty("id")
     private final Id Id;
 
     @JsonProperty("content")

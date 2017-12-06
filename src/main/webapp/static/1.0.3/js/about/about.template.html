@@ -1,4 +1,4 @@
-/*
+<!--
 MIT License
 
 Copyright (c) 2017 Po Cheng
@@ -20,20 +20,23 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
- */
+-->
 
-'use strict';
+<div class="content-body">
+    <div class="container-fluid">
 
-angular.module('about')
-       .component('about', {
-            templateUrl: Resource.versioningUrl('js/about/about.template.html'),
-            controller: ['pages',
-                    function AboutController(pages) {
-                        var self = this;
-                        pages.about(
-                            function(detail) {
-                                self.entity = detail.entity;
-                                self.content = detail.content;
-                            });
-                    }]
-   });
+        <div class="row post-title">
+            <div class="col-md-10 col-md-offset-1"><h1>{{$ctrl.id.title}}</h1></div>
+        </div>
+
+        <div class="row post-attr">
+            <div class="col-md-3 col-md-offset-1 text-muted small">{{$ctrl.id.creationTime}}</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div ng-bind-html="$ctrl.content | trustAsHtml"></div>
+            </div>
+        </div>
+    </div>
+</div>

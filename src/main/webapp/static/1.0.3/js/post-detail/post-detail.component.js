@@ -37,9 +37,9 @@ angular.module('postDetail')
                                      title:$routeParams.title
                                      },
 
-                                     function(detail) {
-                                        self.entity = detail.entity;
-                                        self.content = detail.content;
+                                     function(paper) {
+                                        self.id = paper.id;
+                                        self.content = paper.content;
                                      },
 
                                      function(error) {
