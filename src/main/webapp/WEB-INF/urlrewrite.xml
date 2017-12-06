@@ -28,7 +28,7 @@
             in your pages.
         </note>
         <from>/rewrite-status</from>
-        <to>/test/status/</to>
+        <to>/rewrite/status/</to>
     </outbound-rule>
 
     <rule>
@@ -36,12 +36,15 @@
         <to type="redirect">/#!about/</to>
     </rule>
 
-
     <rule>
         <from>^/posts(.*)</from>
         <to type="redirect">/#!posts$1/</to>
     </rule>
 
+    <rule>
+        <from>^/static/(\d+\.\d+\.\d+)/(.*)</from>
+        <to>/static/$2</to>
+    </rule>
     <!--
 
     INSTALLATION
