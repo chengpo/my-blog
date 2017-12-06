@@ -44,7 +44,7 @@ public class Paper implements Comparable<Paper>{
     @JsonProperty("content")
     private final String content;
 
-    Paper(Id Id, String content) {
+    public Paper(Id Id, String content) {
         this.Id = Id;
         this.content = content;
     }

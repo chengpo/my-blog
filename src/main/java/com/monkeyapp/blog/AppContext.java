@@ -49,11 +49,11 @@ public class AppContext implements ServletContextListener {
         return postRepository;
     }
 
-    public static String getRealPostPath(String fileName) {
+    public static String realPostPath(String fileName) {
         return contextRoot + ("md/posts/" + fileName).replace("/", File.separator);
     }
 
-    public static String getRealPagePath(String fileName) {
+    public static String realPagePath(String fileName) {
         return contextRoot + ("md/pages/" + fileName).replace("/", File.separator);
     }
 

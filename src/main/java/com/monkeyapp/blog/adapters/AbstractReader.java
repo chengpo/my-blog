@@ -22,10 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.reader;
+package com.monkeyapp.blog.adapters;
 
 import java.util.Optional;
 
-public abstract class AbstractReader {
+abstract class AbstractReader {
     abstract Optional<String> read();
 }

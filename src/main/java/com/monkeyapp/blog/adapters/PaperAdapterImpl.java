@@ -22,37 +22,57 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.models;
+package com.monkeyapp.blog.adapters;
 
 import com.monkeyapp.blog.AppContext;
-import com.monkeyapp.blog.reader.MarkdownReader;
-import com.monkeyapp.blog.reader.AbstractReader;
-import com.monkeyapp.blog.reader.TextReader;
+import com.monkeyapp.blog.models.Paper;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 public class PaperAdapterImpl implements PaperAdapter {
     @Override
     public Optional<Paper> toPartialPost(Paper.Id id) {
-        final String path = AppContext.getRealPostPath(id.getName());
-        return readPost(TextReader.partialReader(path), id);
+        return from(id)
+                .with(AppContext::realPostPath)
+                .by(TextReader::partialRead);
     }
 
     @Override
     public Optional<Paper> toCompletePost(Paper.Id id) {
-        final String path = AppContext.getRealPostPath(id.getName());
-        return readPost(TextReader.completeReader(path), id);
+        return from(id)
+                .with(AppContext::realPostPath)
+                .by(TextReader::completeRead);
     }
 
     @Override
     public Optional<Paper> toCompletePage(Paper.Id id) {
-        final String path = AppContext.getRealPagePath(id.getName());
-        return readPost(TextReader.completeReader(path), id);
+        return from(id)
+                .with(AppContext::realPagePath)
+                .by(TextReader::completeRead);
     }
 
-    private static Optional<Paper> readPost(AbstractReader reader, Paper.Id id) {
-        return new MarkdownReader(reader)
-                .read()
-                .map((content) -> new Paper(id, content));
+    private PaperBuilder from(Paper.Id id) {
+        return new PaperBuilder(id);
+    }
+
+    private static class PaperBuilder {
+        private Paper.Id id;
+        private Function<String, String> path;
+
+        private PaperBuilder(Paper.Id id) {
+            this.id = id;
+        }
+
+        private PaperBuilder with(Function<String, String> path){
+            this.path = path;
+            return this;
+        }
+
+        private Optional<Paper> by(Function<String, AbstractReader> reader) {
+            return new MarkdownReader(reader.apply(path.apply(id.getName())))
+                        .read()
+                        .map((content) -> new Paper(id, content));
+        }
     }
 }

@@ -22,30 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.reader;
+package com.monkeyapp.blog.adapters;
 
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
+import com.monkeyapp.blog.models.Paper;
 
 import java.util.Optional;
 
-public class MarkdownReader extends AbstractReader {
-    private final AbstractReader reader;
+public interface PaperAdapter {
+    Optional<Paper> toPartialPost(Paper.Id id);
 
-    public MarkdownReader(AbstractReader reader) {
-        this.reader = reader;
-    }
+    Optional<Paper> toCompletePost(Paper.Id id);
 
-    @Override
-    public Optional<String> read() {
-        return reader.read().map(
-                (content) -> {
-                    final Parser parser = Parser.builder().build();
-                    final Node document = parser.parse(content);
-                    final HtmlRenderer renderer = HtmlRenderer.builder().build();
-                    return renderer.render(document);
-                }
-        );
-    }
+    Optional<Paper> toCompletePage(Paper.Id id);
 }

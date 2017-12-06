@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.reader;
+package com.monkeyapp.blog.adapters;
 
 import org.apache.log4j.Logger;
 
@@ -33,11 +33,11 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class TextReader extends AbstractReader {
-    // reader first 10 of lines
+class TextReader extends AbstractReader {
+    // adapters first 10 of lines
     private static final int PARTIAL_FILE_LINES = 10;
 
-    private static final Function<String, Optional<String>> PARTIAL_READER_FUNC =
+    private static final Function<String, Optional<String>> PARTIAL_READ_FUNC =
             (String path)-> {
                 try {
                     return Optional.of(Files.lines(Paths.get(path))
@@ -49,7 +49,7 @@ public class TextReader extends AbstractReader {
 
             };
 
-    private static final Function<String, Optional<String>> COMPLETE_READER_FUNC =
+    private static final Function<String, Optional<String>> COMPLETE_READ_FUNC =
             (String path)-> {
                 try {
                     return Optional.of(new String(Files.readAllBytes(Paths.get(path))));
@@ -60,24 +60,24 @@ public class TextReader extends AbstractReader {
                 }
             };
 
-    public static TextReader partialReader(String path) {
-        return new TextReader(path, PARTIAL_READER_FUNC);
+    static TextReader partialRead(String path) {
+        return new TextReader(path, PARTIAL_READ_FUNC);
     }
 
-    public static TextReader completeReader(String path) {
-        return new TextReader(path, COMPLETE_READER_FUNC);
+    static TextReader completeRead(String path) {
+        return new TextReader(path, COMPLETE_READ_FUNC);
     }
 
     private final String path;
-    private final Function<String, Optional<String>> readerFunc;
+    private final Function<String, Optional<String>> readFunc;
 
-    private TextReader(String path, Function<String, Optional<String>> readerFunc) {
+    private TextReader(String path, Function<String, Optional<String>> readFunc) {
         this.path = path;
-        this.readerFunc = readerFunc;
+        this.readFunc = readFunc;
     }
 
     @Override
     public Optional<String> read() {
-        return readerFunc.apply(path);
+        return readFunc.apply(path);
     }
 }

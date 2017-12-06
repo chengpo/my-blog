@@ -60,7 +60,9 @@
     </filter>
     <filter-mapping>
         <filter-name>UrlRewriteFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/static/*</url-pattern>
+        <url-pattern>/posts/*</url-pattern>
+        <url-pattern>/pages/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>

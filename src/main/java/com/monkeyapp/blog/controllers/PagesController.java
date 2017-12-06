@@ -25,6 +25,7 @@ SOFTWARE.
 package com.monkeyapp.blog.controllers;
 
 import com.monkeyapp.blog.models.*;
+import com.monkeyapp.blog.adapters.PaperAdapter;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;

@@ -7,43 +7,19 @@
 
 -->
 <urlrewrite>
-
-    <rule>
-        <note>
-            The rule means that requests to /test/status/ will be redirected to /rewrite-status
-            the url will be rewritten.
-        </note>
-        <from>/test/status/</from>
-        <to type="redirect">%{context-path}/rewrite-status</to>
-    </rule>
-
-
-    <outbound-rule>
-        <note>
-            The outbound-rule specifies that when response.encodeURL is called (if you are using JSTL c:url)
-            the url /rewrite-status will be rewritten to /test/status/.
-
-            The above rule and this outbound-rule means that end users should never see the
-            url /rewrite-status only /test/status/ both in thier location bar and in hyperlinks
-            in your pages.
-        </note>
-        <from>/rewrite-status</from>
-        <to>/rewrite/status/</to>
-    </outbound-rule>
-
     <rule>
         <from>^/about</from>
-        <to type="redirect">/#!about/</to>
+        <to type="redirect" last="true">/#!about/</to>
     </rule>
 
     <rule>
         <from>^/posts(.*)</from>
-        <to type="redirect">/#!posts$1/</to>
+        <to type="redirect" last="true">/#!posts$1/</to>
     </rule>
 
     <rule>
         <from>^/static/(\d+\.\d+\.\d+)/(.*)</from>
-        <to>/static/$2</to>
+        <to last="true">/libs/$2</to>
     </rule>
     <!--
 

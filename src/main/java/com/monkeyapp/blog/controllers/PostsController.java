@@ -26,6 +26,7 @@ package com.monkeyapp.blog.controllers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.monkeyapp.blog.models.*;
+import com.monkeyapp.blog.adapters.PaperAdapter;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
