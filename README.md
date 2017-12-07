@@ -1,6 +1,7 @@
 # My Blog
 
 Source for my blog - [monkey-blogger.herokuapp.com](http://monkey-blogger.herokuapp.com).
+
 The design is highly influenced by MVC ( Model-View-Controller ) pattern.
 
 ## Technology Behind
@@ -10,7 +11,7 @@ The design is highly influenced by MVC ( Model-View-Controller ) pattern.
 - Jersey for Restful API;
 - HK2 for dependency injection;
 - Bootstrap for frontend page layout;
-- AngularJS for frontend web App;
+- AngularJS for frontend web App.
 
 ## Run with Command Line
 
@@ -21,7 +22,7 @@ $ make build
 $ make run
 
 ```
-##License
+## License
     MIT License
 
 	Copyright (c) 2017 Po Cheng
