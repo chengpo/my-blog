@@ -7,7 +7,7 @@ Then the combination of VirtualBox + Android-x86 could be a good option to get r
 I believe it won't be a trouble for everyone to download the latest Android-x86 livecd iso and VirtualBox installation file.
 So, I only list the steps I took to make a comfortable developing environment for myself.
 
-#### - Create separate partition for GRUB and root file system
+### - Create separate partition for GRUB and root file system
 
 Firstly, the Android-x86 installation stuck at the step of GRUB installation.
 I managed to work around this problem by creating 2 partitions.
@@ -15,7 +15,7 @@ The first partition is for GRUB installation. 100MB is good enough for GRUB.
 The second partition is for hosting Android-x86 system. I make it as large as 2GB.
 After the installation is done, I got around 850MB left.
 
-#### - Add customized video mode to get a 'portrait' display
+### - Add customized video mode to get a 'portrait' display
 
 By default, Android-x86 runs in landscape mode. Unlike the regular emulator comes with Android SDK.
 VirtualBox does not support screen rotation. So, it won't be feasible to change display 'portrait / landscape' mode 
@@ -31,13 +31,13 @@ VBoxManage setextradata "Android" "CustomVideoMode1" "480x800x16"
 Copy and paste the first menu item (including the title, kernel and initrd lines). 
 On the 'title' line, append '480x800'. On the 'kernel' line, append 'UVESA_MODE=480x800 DPI=240' 
 
-#### - Disable virtual network adapter to skip device configuration
+### - Disable virtual network adapter to skip device configuration
 
 After the first reboot completed, Android OS would request Google Account login to complete the initial device configuration.
 As an testing emulator, logon Google Account is unnecessary. To avoid it attempting to connect Google service, 
 I simply disconnect the virtual network adapter.
 
-#### - Connect adb to Android-x86 virtual machine via network
+### - Connect adb to Android-x86 virtual machine via network
 
 Well, the last step is establishing adb connection to the running Android-x86 virtual machine.
 So, I could install / debug my Android App.

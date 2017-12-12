@@ -5,7 +5,7 @@ So, I think it still worth to drill deeper into this typical coding mistake.
 First of all, the typical pattern of an inner Handler class may leak memory is as the below code clip shows:
 
 
-```
+``` java
 public class LeakedActivity extends Activity {
     private final Handler mLeakyHandler = new Handler() {
         @Override
@@ -33,7 +33,7 @@ Since the runnable object has the strong reference to it outer class LeakedActiv
 What we could do to avoid leaking the destroyed activity object? Apparently, the first thought could be remove the strong reference of the LeakedActivity from the Runnable object. This is how the most popular solution proposes. So, we need to convert the inner Handler class to nested Handler class. Furthermore, the nested Handler class hold a weak reference to the Activity. Typically, the code may look like below:
 
 
-```
+``` java
 public class SampleActivity extends Activity {
     private static class MyHandler extends Handler {
         final WeakReference<SampleActivity> mActivityRef;
@@ -76,7 +76,7 @@ After revisit the first solution, I'd like to ask what the good for keeping pend
 Let's move on to the #2 solution:
 
 
-```
+``` java
 public class SampleActivity extends Activity {
     private static class MyHandler extends Handler {
         private SampleActivity mActivity;

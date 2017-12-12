@@ -39,7 +39,7 @@ angular.module('postList')
                     self.offset = $location.search().offset;
 
                     self.forward = function() {
-                        var offset = self.offset - self.posts.length;
+                        var offset = self.offset - self.capacity;
                         $location.search('offset', offset > 0 ? offset : null);
                     }
 
@@ -50,6 +50,7 @@ angular.module('postList')
                     posts.all({tag:self.tag, offset:self.offset}, function(postChunk) {
                         self.posts = postChunk.posts;
                         self.offset = postChunk.offset;
+                        self.capacity = postChunk.capacity;
                         self.eof = postChunk.eof;
 
                         self.disable_forward = self.offset <= 0;
