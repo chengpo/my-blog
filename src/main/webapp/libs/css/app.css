@@ -17,6 +17,10 @@ body {
         margin-left: 39rem;
     }
 
+    .content-body {
+        width: 100% !important;
+    }
+
     .sidebar-content {
         padding-left: 3rem !important;
         width:36rem !important;

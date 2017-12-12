@@ -53,20 +53,20 @@ public class PostsController {
     @Produces(MediaType.APPLICATION_JSON)
     public PostChunk getPostChunk(@DefaultValue("") @QueryParam("tag") String tag,
                                   @DefaultValue("0") @QueryParam("offset") int offset) {
-        final int post_per_chunk = Integer.valueOf(servletContext.getInitParameter("post-per-chunk"));
+        final int chunkCapacity = Integer.valueOf(servletContext.getInitParameter("post-per-chunk"));
 
         final long totalPosts = postRepository.getPostIds(tag).count();
         final List<Paper> posts = postRepository.getPostIds(tag)
                                              .sorted(Comparator.reverseOrder())
                                              .skip(offset)
-                                             .limit(post_per_chunk)
+                                             .limit(chunkCapacity)
                                              .map(paperAdapter::toPartialPost)
                                              .filter(Optional::isPresent)
                                              .map(Optional::get)
                                              .collect(Collectors.toList());
 
         final boolean eof = offset + posts.size() >= totalPosts;
-        return new PostChunk(posts, offset, eof);
+        return new PostChunk(posts, offset, chunkCapacity, eof);
     }
 
     @GET
@@ -77,7 +77,6 @@ public class PostsController {
         return postRepository.getPostIds(year, monthDay, title)
                              .findFirst()
                              .map(paperAdapter::toCompletePost)
-                             .filter(Optional::isPresent)
                              .map(Optional::get)
                              .orElseThrow(() -> new WebApplicationException(404));
     }
@@ -89,12 +88,16 @@ public class PostsController {
         @JsonProperty("offset")
         private final int offset; // offset to the very first blog
 
+        @JsonProperty("capacity")
+        private final int capacity;
+
         @JsonProperty("eof")
         private final boolean eof; // eof = true when reach the last blog
 
-        private PostChunk(List<Paper> posts, int offset, boolean eof) {
+        private PostChunk(List<Paper> posts, int offset, int capacity, boolean eof) {
             this.posts = posts;
             this.offset = offset;
+            this.capacity = capacity;
             this.eof = eof;
         }
     }
