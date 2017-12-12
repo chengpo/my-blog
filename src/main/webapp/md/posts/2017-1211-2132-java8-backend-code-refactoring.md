@@ -1,7 +1,7 @@
 In the past few days, I refactored the backend code of this website. I prefer self explanatory code without "boilerplate".<br>
 I also want the website can be directly runs outside of IDE which enable me to write and preview post from my Linux netbook more comfortable.<br>
 
-Lessons learned from this code refactoring:<br>
+Here are the lessons I learned from this code refactoring:<br>
 ### Prefer optional over checking null pointer
 "Optional" is one of my favorite Java8 feature.<br>
 "Optional" postpones null pointer checking to the very end of the data processing flow. The code has no more worry to null pointer exception while processing data.
