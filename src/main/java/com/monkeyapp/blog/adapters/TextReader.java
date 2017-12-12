@@ -32,6 +32,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class TextReader extends AbstractReader {
     // adapters first 10 of lines
@@ -39,10 +40,9 @@ class TextReader extends AbstractReader {
 
     private static final Function<String, Optional<String>> PARTIAL_READ_FUNC =
             (String path)-> {
-                try {
-                    return Optional.of(Files.lines(Paths.get(path))
-                            .limit(PARTIAL_FILE_LINES)
-                            .collect(Collectors.joining(System.lineSeparator())));
+                try (Stream<String> lines = Files.lines(Paths.get(path))) {
+                    return Optional.of(lines.limit(PARTIAL_FILE_LINES)
+                                  .collect(Collectors.joining(System.lineSeparator())));
                 } catch (IOException e) {
                     return Optional.empty();
                 }
