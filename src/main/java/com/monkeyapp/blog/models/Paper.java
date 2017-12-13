@@ -27,6 +27,7 @@ package com.monkeyapp.blog.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -119,7 +120,7 @@ public class Paper implements Comparable<Paper>{
                     .map(StringUtils::capitalize)
                     .collect(Collectors.joining(" "));
 
-            this.tag = fields.get("tag");
+            this.tag = WordUtils.capitalize(fields.get("tag"));
 
             this.priority = Long.valueOf(fields.get("year")) * 10000L * 10000L +
                     Long.valueOf(fields.get("monthday")) * 10000L +
