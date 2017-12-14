@@ -42,7 +42,6 @@ public class PagesController {
     public Paper getPageContent(@PathParam("name") String name) {
         return Paper.Id.fromFileName(name)
                 .map(paperAdapter::toCompletePage)
-                .filter(Optional::isPresent)
                 .map(Optional::get)
                 .orElseThrow(() -> new WebApplicationException(404));
     }
