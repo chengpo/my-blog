@@ -16,7 +16,7 @@ public class PaperTest {
 
         assertNotNull("failed to recreate paper id with valid file name " + validFilename, id);
 
-        assertEquals("wrong post tag", "tag", id.getTag());
+        assertEquals("wrong post tag", "Tag", id.getTag());
         assertEquals("wrong post name", "Arbitrary Post Title", id.getTitle());
         assertEquals("wrong post priority", 201704181053L, id.getPriority());
 

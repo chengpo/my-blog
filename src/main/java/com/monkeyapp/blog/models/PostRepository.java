@@ -42,7 +42,7 @@ public class PostRepository {
     public Stream<Paper.Id> getPostIds(String tag) {
         final Predicate<Paper.Id> baseOnTag = (tag == null || tag.isEmpty()) ?
                                             (entity) -> true :
-                                            (entity -> entity.getTag().equals(tag));
+                                            (entity -> entity.getTag().equalsIgnoreCase(tag));
 
         return postFileNames.stream()
                             .map(Paper.Id::fromFileName)
