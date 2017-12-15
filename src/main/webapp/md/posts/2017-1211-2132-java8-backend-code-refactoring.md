@@ -62,3 +62,5 @@ I feel this is most concise code I could have for now. I cannot delete more word
 
 Does it sound good? Please leave comments on <a href="https://github.com/chengpo/my-blog/issues" target="_blank"> issues page </a>. <br>
 Bye for now.
+
+<!--eof-->
