@@ -1,6 +1,6 @@
 # My Blog
 
-Source for my blog - [monkey-blogger.herokuapp.com](http://monkey-blogger.herokuapp.com).
+Source for my blog - <a href="http://monkey-blogger.herokuapp.com" target="_blank">monkey-blogger.herokuapp.com</a>
 
 The design is highly influenced by MVC ( Model-View-Controller ) pattern.
 
