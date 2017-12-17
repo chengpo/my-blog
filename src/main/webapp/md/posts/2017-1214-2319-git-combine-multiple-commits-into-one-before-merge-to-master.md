@@ -23,7 +23,7 @@ $ git merge --squash code-refactoring
 $ git commit
 ```
 
-Ta-da, all the commits from code-refactoring branch be squashed into one large commit.<br>
+Voila, all the commits from code-refactoring branch be squashed into one large commit.<br>
 That's it.
 
 <!--eof-->

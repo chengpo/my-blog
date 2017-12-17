@@ -40,6 +40,13 @@ angular.module('postDetail')
                                      function(paper) {
                                         self.id = paper.id;
                                         self.content = paper.content;
+
+                                        // reload syntax highlighter
+                                        setTimeout(function () {
+                                                    $('pre code').each(function(i, block) {
+                                                        hljs.highlightBlock(block);
+                                                    });
+                                                  }, 100);
                                      },
 
                                      function(error) {

@@ -55,6 +55,14 @@ angular.module('postList')
 
                         self.disable_forward = self.offset <= 0;
                         self.disable_backward = self.eof;
+
+                        // reload syntax highlighter
+                        setTimeout(function () {
+                                        $('pre code').each(function(i, block) {
+                                            hljs.highlightBlock(block);
+                                        });
+                                      }, 100);
+
                     }, function(error) {
                         self.error = "Failed to retrieve post list, status: " + error.status + "!";
                     });
