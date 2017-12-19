@@ -30,8 +30,8 @@ public class PostRepositoryTest {
 
     @Test
     public void testPostListOrderByCreatedTime() {
-        assertEquals("wrong post list size", 3, postRepository.getPostIds().count());
-        List<Paper.Id> idList = postRepository.getPostIds().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        assertEquals("wrong post list size", 3, postRepository.getAllPostIds().count());
+        List<Paper.Id> idList = postRepository.getAllPostIds().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
 
         assertEquals("post 1 should be on the top of post list",
                 "Post1",
@@ -50,8 +50,8 @@ public class PostRepositoryTest {
     public void testFilterPostListByTag() {
         List<Paper.Id> idList;
 
-        assertEquals("wrong post list size for tag1", 1, postRepository.getPostIds("tag1").count());
-        idList = postRepository.getPostIds("tag1")
+        assertEquals("wrong post list size for tag1", 1, postRepository.getPostIdsByTag("tag1").count());
+        idList = postRepository.getPostIdsByTag("tag1")
                 .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
 
@@ -59,8 +59,8 @@ public class PostRepositoryTest {
                      "Post1",
                       idList.get(0).getTitle());
 
-        assertEquals("wrong post list size for tag2", 2, postRepository.getPostIds("tag2").count());
-        idList = postRepository.getPostIds("tag2")
+        assertEquals("wrong post list size for tag2", 2, postRepository.getPostIdsByTag("tag2").count());
+        idList = postRepository.getPostIdsByTag("tag2")
                 .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
 

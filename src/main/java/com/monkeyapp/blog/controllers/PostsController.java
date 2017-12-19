@@ -55,8 +55,8 @@ public class PostsController {
                                   @DefaultValue("0") @QueryParam("offset") int offset) {
         final int chunkCapacity = Integer.valueOf(servletContext.getInitParameter("post-per-chunk"));
 
-        final long totalPosts = postRepository.getPostIds(tag).count();
-        final List<Paper> posts = postRepository.getPostIds(tag)
+        final long totalPosts = postRepository.getPostIdsByTag(tag).count();
+        final List<Paper> posts = postRepository.getPostIdsByTag(tag)
                                              .sorted(Comparator.reverseOrder())
                                              .skip(offset)
                                              .limit(chunkCapacity)
@@ -72,9 +72,10 @@ public class PostsController {
     @GET
     @Path("/{year}/{monthday}/{title}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Paper getPostContent(@PathParam("year") String year, @PathParam("monthday") String monthDay,
-                              @PathParam("title") String title) {
-        return postRepository.getPostIds(year, monthDay, title)
+    public Paper getPostContent(@PathParam("year") String year,
+                                @PathParam("monthday") String monthDay,
+                                @PathParam("title") String title) {
+        return postRepository.getPostIdsByName(year, monthDay, title)
                              .findFirst()
                              .map(paperAdapter::toCompletePost)
                              .map(Optional::get)

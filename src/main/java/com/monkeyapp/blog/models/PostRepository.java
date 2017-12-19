@@ -29,53 +29,61 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class PostRepository {
+    private static final Predicate<String> ALL_NAMES = name -> true;
+    private static final Predicate<Paper.Id> ALL_TAGS = id -> true;
+
     private final List<String> postFileNames;
 
     public PostRepository(List<String> postFileNames) {
         this.postFileNames = postFileNames;
     }
 
-    public Stream<Paper.Id> getPostIds(){
-        return getPostIds(null);
+    public Stream<Paper.Id> getAllPostIds() {
+        return getPostIds(ALL_NAMES, ALL_TAGS);
     }
 
-    public Stream<Paper.Id> getPostIds(String tag) {
-        final Predicate<Paper.Id> baseOnTag = (tag == null || tag.isEmpty()) ?
-                                            (entity) -> true :
-                                            (entity -> entity.getTag().equalsIgnoreCase(tag));
+    public Stream<Paper.Id> getPostIdsByTag(String tag) {
+        return getPostIds(ALL_NAMES, filterByTag(tag));
+    }
 
-        return postFileNames.stream()
+    public Stream<Paper.Id> getPostIdsByName(String year, String monthDay, String title) {
+        return getPostIds(filterByName(year, monthDay, title), ALL_TAGS);
+    }
+
+    public Stream<String> getPostTags() {
+        return getPostIds(ALL_NAMES, ALL_TAGS)
+                .map(Paper.Id::getTag)
+                .distinct()
+                .sorted();
+    }
+
+    private Stream<Paper.Id> getPostIds(Predicate<String> baseOnName,
+                                        Predicate<Paper.Id> baseOnTag) {
+        return postFileNames.parallelStream()
+                            .filter(baseOnName)
                             .map(Paper.Id::fromFileName)
                             .filter(Optional::isPresent)
                             .map(Optional::get)
                             .filter(baseOnTag);
     }
 
-    public Stream<Paper.Id> getPostIds(String year, String monthDay, String title) {
-        return postFileNames.stream()
-                .filter((fileName) ->
-                        fileName.startsWith(String.format("%s-%s", year, monthDay)) &&
-                                fileName.endsWith(String.format("%s.md", title)))
-                .map(Paper.Id::fromFileName)
-                .filter(Optional::isPresent)
-                .map(Optional::get);
+    private static Predicate<String> filterByName(String year, String monthDay, String title) {
+        return name ->
+                    name.startsWith(String.format("%s-%s", year, monthDay)) &&
+                    name.endsWith(String.format("%s.md", title));
     }
 
-    public Stream<String> getPostTags() {
-        return postFileNames.stream()
-                            .map(Paper.Id::fromFileName)
-                            .filter(Optional::isPresent)
-                            .map(Optional::get)
-                            .map(Paper.Id::getTag)
-                            .distinct()
-                            .sorted();
+    private static Predicate<Paper.Id> filterByTag(String tag) {
+        return id ->
+                    tag.isEmpty() ||
+                    tag.equalsIgnoreCase(id.getTag());
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("PostRepository --- ");
-        sb.append(String.valueOf(postFileNames.size())).append(" posts in total:\n");
+        sb.append(postFileNames.size()).append(" posts in total:\n");
         sb.append("[\n");
 
         postFileNames.forEach(post -> sb.append(post).append("\n"));
