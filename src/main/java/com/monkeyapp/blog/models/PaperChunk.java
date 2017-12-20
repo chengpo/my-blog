@@ -22,27 +22,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.controllers;
+package com.monkeyapp.blog.models;
 
-import com.monkeyapp.blog.models.PostIdRepository;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Path("/tags")
-public class TagsController {
-    @Inject
-    PostIdRepository postIdRepository;
+public class PaperChunk {
+    @JsonProperty("papers")
+    private final List<Paper> papers;
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<String> getTags() {
-        return postIdRepository.getPostTags()
-                             .collect(Collectors.toList());
+    @JsonProperty("offset")
+    private final int offset; // offset to the very first blog
+
+    @JsonProperty("capacity")
+    private final int capacity;
+
+    @JsonProperty("eof")
+    private final boolean eof; // eof = true when reach the last blog
+
+    public PaperChunk(List<Paper> papers, int offset, int capacity, boolean eof) {
+        this.papers = papers;
+        this.offset = offset;
+        this.capacity = capacity;
+        this.eof = eof;
     }
 }

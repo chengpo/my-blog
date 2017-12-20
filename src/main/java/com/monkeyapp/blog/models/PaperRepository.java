@@ -22,27 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.controllers;
+package com.monkeyapp.blog.models;
 
-import com.monkeyapp.blog.models.PostIdRepository;
 
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
-@Path("/tags")
-public class TagsController {
-    @Inject
-    PostIdRepository postIdRepository;
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<String> getTags() {
-        return postIdRepository.getPostTags()
-                             .collect(Collectors.toList());
-    }
+public interface PaperRepository {
+    PaperChunk getPostsByTag(String tag, int offset, int chunkCapacity);
+    Optional<Paper> getCompletePost(String year, String monthDay, String title);
+    Optional<Paper> getCompletePage(String name);
 }

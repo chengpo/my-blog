@@ -27,7 +27,8 @@ package com.monkeyapp.blog;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.monkeyapp.blog.models.PostRepository;
+import com.monkeyapp.blog.models.PostIdRepository;
+import com.monkeyapp.blog.models.PostIdRepositoryImpl;
 import jersey.repackaged.com.google.common.collect.ImmutableList;
 import org.apache.log4j.Logger;
 
@@ -43,10 +44,10 @@ public class AppContext implements ServletContextListener {
 
     private static String contextRoot;
 
-    private static PostRepository postRepository;
+    private static PostIdRepository postIdRepository;
 
-    public static PostRepository getPostRepository() {
-        return postRepository;
+    public static PostIdRepository getPostIdRepository() {
+        return postIdRepository;
     }
 
     public static String realPostPath(String fileName) {
@@ -73,10 +74,10 @@ public class AppContext implements ServletContextListener {
                         new FileInputStream(
                                 new File(fileListJsonPath))))) {
             List<String> postFileNames = new ObjectMapper().readValue(reader, new TypeReference<List<String>>() {});
-            postRepository = new PostRepository(ImmutableList.copyOf(postFileNames));
+            postIdRepository = new PostIdRepositoryImpl(ImmutableList.copyOf(postFileNames));
         } catch (IOException e) {
             logger.error("failed to load file-list.json. Error: " + e.getMessage());
-            postRepository = new PostRepository(Collections.emptyList());
+            postIdRepository = new PostIdRepositoryImpl(Collections.emptyList());
         }
     }
 

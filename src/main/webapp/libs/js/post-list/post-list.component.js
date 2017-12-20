@@ -44,11 +44,11 @@ angular.module('postList')
                     }
 
                     self.backward = function() {
-                        $location.search('offset', (self.offset + self.posts.length));
+                        $location.search('offset', (self.offset + self.papers.length));
                     }
 
                     posts.all({tag:self.tag, offset:self.offset}, function(postChunk) {
-                        self.posts = postChunk.posts;
+                        self.posts = postChunk.papers;
                         self.offset = postChunk.offset;
                         self.capacity = postChunk.capacity;
                         self.eof = postChunk.eof;

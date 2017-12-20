@@ -24,19 +24,13 @@ SOFTWARE.
 
 package com.monkeyapp.blog.controllers;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.monkeyapp.blog.models.*;
-import com.monkeyapp.blog.adapters.PaperAdapter;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Path("/posts")
 public class PostsController {
@@ -44,29 +38,14 @@ public class PostsController {
     ServletContext servletContext;
 
     @Inject
-    PostRepository postRepository;
-
-    @Inject
-    PaperAdapter paperAdapter;
+    PaperRepository paperRepository;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public PostChunk getPostChunk(@DefaultValue("") @QueryParam("tag") String tag,
-                                  @DefaultValue("0") @QueryParam("offset") int offset) {
+    public PaperChunk getPostChunk(@DefaultValue("") @QueryParam("tag") String tag,
+                                   @DefaultValue("0") @QueryParam("offset") int offset) {
         final int chunkCapacity = Integer.valueOf(servletContext.getInitParameter("post-per-chunk"));
-
-        final long totalPosts = postRepository.getPostIdsByTag(tag).count();
-        final List<Paper> posts = postRepository.getPostIdsByTag(tag)
-                                             .sorted(Comparator.reverseOrder())
-                                             .skip(offset)
-                                             .limit(chunkCapacity)
-                                             .map(paperAdapter::toPartialPost)
-                                             .filter(Optional::isPresent)
-                                             .map(Optional::get)
-                                             .collect(Collectors.toList());
-
-        final boolean eof = offset + posts.size() >= totalPosts;
-        return new PostChunk(posts, offset, chunkCapacity, eof);
+        return paperRepository.getPostsByTag(tag, offset, chunkCapacity);
     }
 
     @GET
@@ -75,31 +54,8 @@ public class PostsController {
     public Paper getPostContent(@PathParam("year") String year,
                                 @PathParam("monthday") String monthDay,
                                 @PathParam("title") String title) {
-        return postRepository.getPostIdsByName(year, monthDay, title)
-                             .findFirst()
-                             .map(paperAdapter::toCompletePost)
-                             .map(Optional::get)
-                             .orElseThrow(() -> new WebApplicationException(404));
+        return paperRepository.getCompletePost(year, monthDay, title)
+                              .orElseThrow(() -> new WebApplicationException(404));
     }
 
-    private static class PostChunk {
-        @JsonProperty("posts")
-        private final List<Paper> posts;
-
-        @JsonProperty("offset")
-        private final int offset; // offset to the very first blog
-
-        @JsonProperty("capacity")
-        private final int capacity;
-
-        @JsonProperty("eof")
-        private final boolean eof; // eof = true when reach the last blog
-
-        private PostChunk(List<Paper> posts, int offset, int capacity, boolean eof) {
-            this.posts = posts;
-            this.offset = offset;
-            this.capacity = capacity;
-            this.eof = eof;
-        }
-    }
 }

@@ -28,28 +28,32 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class PostRepository {
+public class PostIdRepositoryImpl implements PostIdRepository {
     private static final Predicate<String> ALL_NAMES = name -> true;
     private static final Predicate<Paper.Id> ALL_TAGS = id -> true;
 
     private final List<String> postFileNames;
 
-    public PostRepository(List<String> postFileNames) {
+    public PostIdRepositoryImpl(List<String> postFileNames) {
         this.postFileNames = postFileNames;
     }
 
+    @Override
     public Stream<Paper.Id> getAllPostIds() {
         return getPostIds(ALL_NAMES, ALL_TAGS);
     }
 
+    @Override
     public Stream<Paper.Id> getPostIdsByTag(String tag) {
         return getPostIds(ALL_NAMES, filterByTag(tag));
     }
 
+    @Override
     public Stream<Paper.Id> getPostIdsByName(String year, String monthDay, String title) {
         return getPostIds(filterByName(year, monthDay, title), ALL_TAGS);
     }
 
+    @Override
     public Stream<String> getPostTags() {
         return getPostIds(ALL_NAMES, ALL_TAGS)
                 .map(Paper.Id::getTag)
@@ -82,7 +86,7 @@ public class PostRepository {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("PostRepository --- ");
+        sb.append("PostIdRepository --- ");
         sb.append(postFileNames.size()).append(" posts in total:\n");
         sb.append("[\n");
 

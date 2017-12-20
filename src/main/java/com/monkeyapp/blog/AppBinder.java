@@ -25,9 +25,10 @@ SOFTWARE.
 package com.monkeyapp.blog;
 
 
-import com.monkeyapp.blog.adapters.PaperAdapter;
 import com.monkeyapp.blog.adapters.PaperAdapterImpl;
-import com.monkeyapp.blog.models.PostRepository;
+import com.monkeyapp.blog.models.PaperRepository;
+import com.monkeyapp.blog.models.PaperRepositoryImpl;
+import com.monkeyapp.blog.models.PostIdRepository;
 import org.glassfish.hk2.api.Factory;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
@@ -36,19 +37,30 @@ import javax.inject.Singleton;
 public class AppBinder extends AbstractBinder {
     @Override
     protected void configure() {
-        bind(PaperAdapterImpl.class).to(PaperAdapter.class);
-        bindFactory(PostRepositoryFactory.class).to(PostRepository.class).in(Singleton.class);
+        bindFactory(PostIdRepositoryFactory.class).to(PostIdRepository.class).in(Singleton.class);
+        bindFactory(PaperRepositoryFactory.class).to(PaperRepository.class).in(Singleton.class);
     }
 
-    private static class PostRepositoryFactory implements Factory<PostRepository> {
+    private static class PaperRepositoryFactory implements Factory<PaperRepository> {
         @Override
-        public PostRepository provide() {
-            return AppContext.getPostRepository();
+        public PaperRepository provide() {
+            return new PaperRepositoryImpl(AppContext.getPostIdRepository(),
+                                           new PaperAdapterImpl()) ;
         }
 
         @Override
-        public void dispose(PostRepository instance) {
+        public void dispose(PaperRepository instance) {
+        }
+    }
 
+    private static class PostIdRepositoryFactory implements Factory<PostIdRepository> {
+        @Override
+        public PostIdRepository provide() {
+            return AppContext.getPostIdRepository();
+        }
+
+        @Override
+        public void dispose(PostIdRepository instance) {
         }
     }
 }

@@ -25,24 +25,20 @@ SOFTWARE.
 package com.monkeyapp.blog.controllers;
 
 import com.monkeyapp.blog.models.*;
-import com.monkeyapp.blog.adapters.PaperAdapter;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.Optional;
 
 @Path("/pages")
 public class PagesController {
     @Inject
-    PaperAdapter paperAdapter;
+    PaperRepository paperRepository;
 
     @GET @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
     public Paper getPageContent(@PathParam("name") String name) {
-        return Paper.Id.fromFileName(name)
-                .map(paperAdapter::toCompletePage)
-                .map(Optional::get)
-                .orElseThrow(() -> new WebApplicationException(404));
+        return paperRepository.getCompletePage(name)
+                              .orElseThrow(() -> new WebApplicationException(404));
     }
 }
