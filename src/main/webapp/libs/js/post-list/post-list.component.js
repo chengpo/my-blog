@@ -44,7 +44,7 @@ angular.module('postList')
                     }
 
                     self.backward = function() {
-                        $location.search('offset', (self.offset + self.papers.length));
+                        $location.search('offset', (self.offset + self.posts.length));
                     }
 
                     posts.all({tag:self.tag, offset:self.offset}, function(postChunk) {
