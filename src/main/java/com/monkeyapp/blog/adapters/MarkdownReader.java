@@ -24,28 +24,39 @@ SOFTWARE.
 
 package com.monkeyapp.blog.adapters;
 
+import com.monkeyapp.blog.models.Paper;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
 import java.util.Optional;
+import java.util.function.Function;
 
-class MarkdownReader extends AbstractReader {
-    private final AbstractReader reader;
+class MarkdownReader {
+    private final Paper.Id id;
+    private String path;
 
-    MarkdownReader(AbstractReader reader) {
-        this.reader = reader;
+    static MarkdownReader from(Paper.Id id) {
+        return new MarkdownReader(id);
     }
 
-    @Override
-    public Optional<String> read() {
-        return reader.read().map(
-                (content) -> {
+    MarkdownReader with(Function<String, String> pathFunc) {
+        this.path = pathFunc.apply(id.getName());
+        return this;
+    }
+
+    Optional<Paper> by(Function<String, Optional<String>> textReader) {
+        return textReader.apply(path)
+                .map((text) -> {
                     final Parser parser = Parser.builder().build();
-                    final Node document = parser.parse(content);
+                    final Node document = parser.parse(text);
                     final HtmlRenderer renderer = HtmlRenderer.builder().build();
                     return renderer.render(document);
-                }
-        );
+                })
+                .map(markdown -> new Paper(id, markdown));
+    }
+
+    private MarkdownReader(Paper.Id id) {
+        this.id = id;
     }
 }

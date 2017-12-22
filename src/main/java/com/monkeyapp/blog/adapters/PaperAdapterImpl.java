@@ -28,51 +28,26 @@ import com.monkeyapp.blog.AppContext;
 import com.monkeyapp.blog.models.Paper;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 public class PaperAdapterImpl implements PaperAdapter {
     @Override
     public Optional<Paper> toPartialPost(Paper.Id id) {
-        return from(id)
+        return MarkdownReader.from(id)
                 .with(AppContext::realPostPath)
                 .by(TextReader::partialRead);
     }
 
     @Override
     public Optional<Paper> toCompletePost(Paper.Id id) {
-        return from(id)
+        return MarkdownReader.from(id)
                 .with(AppContext::realPostPath)
                 .by(TextReader::completeRead);
     }
 
     @Override
     public Optional<Paper> toCompletePage(Paper.Id id) {
-        return from(id)
+        return MarkdownReader.from(id)
                 .with(AppContext::realPagePath)
                 .by(TextReader::completeRead);
-    }
-
-    private PaperBuilder from(Paper.Id id) {
-        return new PaperBuilder(id);
-    }
-
-    private static class PaperBuilder {
-        private Paper.Id id;
-        private Function<String, String> path;
-
-        private PaperBuilder(Paper.Id id) {
-            this.id = id;
-        }
-
-        private PaperBuilder with(Function<String, String> path){
-            this.path = path;
-            return this;
-        }
-
-        private Optional<Paper> by(Function<String, AbstractReader> reader) {
-            return new MarkdownReader(reader.apply(path.apply(id.getName())))
-                        .read()
-                        .map((content) -> new Paper(id, content));
-        }
     }
 }
