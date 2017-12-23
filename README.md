@@ -22,6 +22,15 @@ $ make build
 $ make run
 
 ```
+
+## Start by Java 9
+Java 9 by default does not include java.se aggregate module on class path.<br>
+To make the Java EE APIs available at runtime, specify the following command-line options: 
+
+```
+--add-modules java.xml.bind --add-modules java.activation
+```
+
 ## License
     MIT License
 
