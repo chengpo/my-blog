@@ -35,7 +35,7 @@ public class PostIdRepositoryImpl implements PostIdRepository {
     private final List<String> postFileNames;
 
     public PostIdRepositoryImpl(List<String> postFileNames) {
-        this.postFileNames = postFileNames;
+        this.postFileNames = Collections.unmodifiableList(postFileNames);
     }
 
     @Override

@@ -24,12 +24,10 @@ SOFTWARE.
 
 package com.monkeyapp.blog;
 
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.monkeyapp.blog.models.PostIdRepository;
 import com.monkeyapp.blog.models.PostIdRepositoryImpl;
-import jersey.repackaged.com.google.common.collect.ImmutableList;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContext;
@@ -73,8 +71,10 @@ public class AppContext implements ServletContextListener {
                 new InputStreamReader(
                         new FileInputStream(
                                 new File(fileListJsonPath))))) {
-            List<String> postFileNames = new ObjectMapper().readValue(reader, new TypeReference<List<String>>() {});
-            postIdRepository = new PostIdRepositoryImpl(ImmutableList.copyOf(postFileNames));
+            List<String> postFileNames = new ObjectMapper()
+                    .readValue(reader, new TypeReference<List<String>>() {
+                    });
+            postIdRepository = new PostIdRepositoryImpl(postFileNames);
         } catch (IOException e) {
             logger.error("failed to load file-list.json. Error: " + e.getMessage());
             postIdRepository = new PostIdRepositoryImpl(Collections.emptyList());
@@ -83,6 +83,5 @@ public class AppContext implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-
     }
 }
