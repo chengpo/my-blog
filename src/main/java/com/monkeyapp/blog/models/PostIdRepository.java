@@ -35,5 +35,5 @@ public interface PostIdRepository {
 
     Stream<Paper.Id> getPostIdsByName(String year, String monthDay, String title);
 
-    List<TagViewModel> getPostTags();
+    List<TagCounter> getPostTags();
 }

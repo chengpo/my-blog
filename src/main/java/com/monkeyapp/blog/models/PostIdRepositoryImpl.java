@@ -55,13 +55,13 @@ public class PostIdRepositoryImpl implements PostIdRepository {
     }
 
     @Override
-    public List<TagViewModel> getPostTags() {
+    public List<TagCounter> getPostTags() {
         return getPostIds(ALL_NAMES, ALL_TAGS)
                 .map(Paper.Id::getTag)
                 .collect(Collectors.groupingBy(tag -> tag, Collectors.counting()))
                 .entrySet()
                 .stream()
-                .map(entry -> new TagViewModel(entry.getKey(), entry.getValue()))
+                .map(entry -> new TagCounter(entry.getKey(), entry.getValue()))
                 .sorted()
                 .collect(Collectors.toList());
     }
