@@ -29,7 +29,9 @@ import com.monkeyapp.blog.adapters.PaperAdapter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PaperRepositoryImpl implements PaperRepository {
     private final PostIdRepository postIdRepository;
@@ -42,8 +44,9 @@ public class PaperRepositoryImpl implements PaperRepository {
 
     @Override
     public PaperChunk getPostsByTag(String tag, int offset, int chunkCapacity) {
-        final long totalPapers = postIdRepository.getPostIdsByTag(tag).count();
-        final List<Paper> papers = postIdRepository.getPostIdsByTag(tag)
+        final Supplier<Stream<Paper.Id>> postIds = () -> postIdRepository.getPostIdsByTag(tag);
+
+        final List<Paper> papers = postIds.get()
                 .sorted(Comparator.reverseOrder())
                 .skip(offset)
                 .limit(chunkCapacity)
@@ -52,7 +55,7 @@ public class PaperRepositoryImpl implements PaperRepository {
                 .map(Optional::get)
                 .collect(Collectors.toList());
 
-        final boolean eof = offset + papers.size() >= totalPapers;
+        final boolean eof = offset + papers.size() >= postIds.get().count();
         return new PaperChunk(papers, offset, chunkCapacity, eof);
     }
 

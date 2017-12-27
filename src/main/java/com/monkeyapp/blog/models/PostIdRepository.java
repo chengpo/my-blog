@@ -24,6 +24,7 @@ SOFTWARE.
 
 package com.monkeyapp.blog.models;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 
@@ -34,5 +35,5 @@ public interface PostIdRepository {
 
     Stream<Paper.Id> getPostIdsByName(String year, String monthDay, String title);
 
-    Stream<String> getPostTags();
+    List<TagViewModel> getPostTags();
 }

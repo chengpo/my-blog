@@ -26,6 +26,7 @@ package com.monkeyapp.blog.models;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PostIdRepositoryImpl implements PostIdRepository {
@@ -54,11 +55,15 @@ public class PostIdRepositoryImpl implements PostIdRepository {
     }
 
     @Override
-    public Stream<String> getPostTags() {
+    public List<TagViewModel> getPostTags() {
         return getPostIds(ALL_NAMES, ALL_TAGS)
                 .map(Paper.Id::getTag)
-                .distinct()
-                .sorted();
+                .collect(Collectors.groupingBy(tag -> tag, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .map(entry -> new TagViewModel(entry.getKey(), entry.getValue()))
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     private Stream<Paper.Id> getPostIds(Predicate<String> baseOnName,

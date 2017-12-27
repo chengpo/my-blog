@@ -25,6 +25,7 @@ SOFTWARE.
 package com.monkeyapp.blog.controllers;
 
 import com.monkeyapp.blog.models.PostIdRepository;
+import com.monkeyapp.blog.models.TagViewModel;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -32,7 +33,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Path("/tags")
 public class TagsController {
@@ -41,8 +41,7 @@ public class TagsController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<String> getTags() {
-        return postIdRepository.getPostTags()
-                             .collect(Collectors.toList());
+    public List<TagViewModel> getTags() {
+        return postIdRepository.getPostTags();
     }
 }
