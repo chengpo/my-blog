@@ -30,9 +30,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PostIdRepositoryImpl implements PostIdRepository {
-    private static final Predicate<String> ALL_NAMES = name -> true;
-    private static final Predicate<Paper.Id> ALL_TAGS = id -> true;
-
     private final List<String> postFileNames;
 
     public PostIdRepositoryImpl(List<String> postFileNames) {
@@ -41,23 +38,23 @@ public class PostIdRepositoryImpl implements PostIdRepository {
 
     @Override
     public Stream<Paper.Id> getAllPostIds() {
-        return getPostIds(ALL_NAMES, ALL_TAGS);
+        return getPostIds(noneFilter(), noneFilter());
     }
 
     @Override
     public Stream<Paper.Id> getPostIdsByTag(String tag) {
-        return getPostIds(ALL_NAMES, filterByTag(tag));
+        return getPostIds(noneFilter(), filterByTag(tag));
     }
 
     @Override
     public Stream<Paper.Id> getPostIdsByName(String year, String monthDay, String title) {
-        return getPostIds(filterByName(year, monthDay, title), ALL_TAGS);
+        return getPostIds(filterByName(year, monthDay, title), noneFilter());
     }
 
     @Override
     public List<TagCounter> getPostTags() {
         final Comparator<TagCounter> byTag = Comparator.comparing(TagCounter::getTag);
-        return getPostIds(ALL_NAMES, ALL_TAGS)
+        return getPostIds(noneFilter(), noneFilter())
                 .map(Paper.Id::getTag)
                 .collect(Collectors.groupingBy(tag -> tag, Collectors.counting()))
                 .entrySet()
@@ -75,6 +72,10 @@ public class PostIdRepositoryImpl implements PostIdRepository {
                             .filter(Optional::isPresent)
                             .map(Optional::get)
                             .filter(baseOnTag);
+    }
+
+    private static <T> Predicate<T> noneFilter() {
+        return (T t) -> true;
     }
 
     private static Predicate<String> filterByName(String year, String monthDay, String title) {
