@@ -17,6 +17,9 @@ public class PostIdRepositoryImplTest {
 
     private PostIdRepository postIdRepository;
 
+    private Comparator<Paper.Id> byPriority = Comparator.comparingLong(Paper.Id::getPriority)
+            .reversed();
+
     @Before
     public void setUp() {
         List<String> fileNameList = Arrays.asList(
@@ -31,7 +34,7 @@ public class PostIdRepositoryImplTest {
     @Test
     public void testPostListOrderByCreatedTime() {
         assertEquals("wrong post list size", 3, postIdRepository.getAllPostIds().count());
-        List<Paper.Id> idList = postIdRepository.getAllPostIds().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        List<Paper.Id> idList = postIdRepository.getAllPostIds().sorted(byPriority).collect(Collectors.toList());
 
         assertEquals("post 1 should be on the top of post list",
                 "Post1",
@@ -52,7 +55,7 @@ public class PostIdRepositoryImplTest {
 
         assertEquals("wrong post list size for tag1", 1, postIdRepository.getPostIdsByTag("tag1").count());
         idList = postIdRepository.getPostIdsByTag("tag1")
-                .sorted(Comparator.reverseOrder())
+                .sorted(byPriority)
                 .collect(Collectors.toList());
 
         assertEquals("post 1 should listed for tag1",
@@ -61,7 +64,7 @@ public class PostIdRepositoryImplTest {
 
         assertEquals("wrong post list size for tag2", 2, postIdRepository.getPostIdsByTag("tag2").count());
         idList = postIdRepository.getPostIdsByTag("tag2")
-                .sorted(Comparator.reverseOrder())
+                .sorted(byPriority)
                 .collect(Collectors.toList());
 
         assertEquals("post 2 should the first of tag2 list",

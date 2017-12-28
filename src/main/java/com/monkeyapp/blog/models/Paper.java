@@ -29,7 +29,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,32 +37,27 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class Paper implements Comparable<Paper>{
+public class Paper {
     @JsonProperty("id")
-    private final Id Id;
+    private final Id id;
 
     @JsonProperty("content")
     private final String content;
 
-    public Paper(Id Id, String content) {
-        this.Id = Id;
+    public Paper(Id id, String content) {
+        this.id = id;
         this.content = content;
     }
 
     public Id getId() {
-        return Id;
+        return id;
     }
 
     public String getContent() {
         return content;
     }
 
-    @Override
-    public int compareTo(@Nonnull Paper other) {
-        return Id.compareTo(other.Id);
-    }
-
-    public static class Id implements Comparable<Id> {
+    public static class Id {
         private static final int POST_FIELD_NUM = 5;
         private static final Pattern NAME_PATTERN = Pattern.compile("^(\\d{4})-(\\d{4})-(\\d{4})-(\\w+)-(.+)\\.md$");
 
@@ -141,11 +135,6 @@ public class Paper implements Comparable<Paper>{
 
         public String getName() {
             return name;
-        }
-
-        @Override
-        public int compareTo(Id other) {
-            return Long.compare(this.priority, other.priority);
         }
 
         @Override

@@ -56,13 +56,14 @@ public class PostIdRepositoryImpl implements PostIdRepository {
 
     @Override
     public List<TagCounter> getPostTags() {
+        final Comparator<TagCounter> byTag = Comparator.comparing(TagCounter::getTag);
         return getPostIds(ALL_NAMES, ALL_TAGS)
                 .map(Paper.Id::getTag)
                 .collect(Collectors.groupingBy(tag -> tag, Collectors.counting()))
                 .entrySet()
                 .stream()
                 .map(entry -> new TagCounter(entry.getKey(), entry.getValue()))
-                .sorted()
+                .sorted(byTag)
                 .collect(Collectors.toList());
     }
 

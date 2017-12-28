@@ -44,10 +44,12 @@ public class PaperRepositoryImpl implements PaperRepository {
 
     @Override
     public PaperChunk getPostsByTag(String tag, int offset, int chunkCapacity) {
+        final Comparator<Paper.Id> byPriority = Comparator.comparingLong(Paper.Id::getPriority)
+                                                          .reversed();
         final Supplier<Stream<Paper.Id>> postIds = () -> postIdRepository.getPostIdsByTag(tag);
 
         final List<Paper> papers = postIds.get()
-                .sorted(Comparator.reverseOrder())
+                .sorted(byPriority)
                 .skip(offset)
                 .limit(chunkCapacity)
                 .map(paperAdapter::toPartialPost)
