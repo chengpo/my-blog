@@ -28,11 +28,11 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 class PaperSelector {
-    public static Predicate<String> all() {
+    static Predicate<String> all() {
         return (fileName) -> true;
     }
 
-    public static Predicate<String> byDate(String year, String monthDay) {
+    static Predicate<String> byDate(String year, String monthDay) {
         return (fileName) -> {
             Pattern tagPattern = Pattern.compile(
                                         String.format("^(%s)-(%s)-(\\d{4})-(\\w+)-(.+)\\.md$", year, monthDay),
@@ -42,7 +42,7 @@ class PaperSelector {
         };
     }
 
-    public static Predicate<String> byTitle(String title) {
+    static Predicate<String> byTitle(String title) {
         return (fileName) -> {
             Pattern tagPattern = Pattern.compile(
                                         String.format("^(\\d{4})-(\\d{4})-(\\d{4})-(\\w+)-(%s)\\.md$", title),
@@ -52,7 +52,7 @@ class PaperSelector {
         };
     }
 
-    public static Predicate<String> byTag(String tag) {
+    static Predicate<String> byTag(String tag) {
         return (fileName) -> {
             if (tag.isEmpty()) {
                 return true;
@@ -65,5 +65,4 @@ class PaperSelector {
             return tagPattern.matcher(fileName).matches();
         };
     }
-
 }
