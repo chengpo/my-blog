@@ -50,7 +50,7 @@ public class PaperRepositoryImpl implements PaperRepository {
     public PaperChunk getPostsByTag(String tag, int offset, int chunkCapacity) {
         final Comparator<PaperId> byPriority = Comparator.comparingLong(PaperId::getPriority)
                                                           .reversed();
-        final Supplier<Stream<PaperId>> postIds = () -> getPostIdsByTag(tag);
+        final Supplier<Stream<PaperId>> postIds = () -> selectPosts(PaperSelector.byTag(tag));
 
         final List<Paper> papers = postIds.get()
                 .sorted(byPriority)
@@ -67,7 +67,11 @@ public class PaperRepositoryImpl implements PaperRepository {
 
     @Override
     public Optional<Paper> getCompletePost(String year, String monthDay, String title) {
-        return getPostIdsByName(year, monthDay, title)
+        final Predicate<String> selector = PaperSelector
+                                                .byDate(year, monthDay)
+                                                .and(PaperSelector.byTitle(title));
+
+        return selectPosts(selector)
                 .findFirst()
                 .map(paperAdapter::toCompletePost)
                 .map(Optional::get);
@@ -83,7 +87,7 @@ public class PaperRepositoryImpl implements PaperRepository {
     @Override
     public List<TagCounter> getPostTags() {
         final Comparator<TagCounter> byTag = Comparator.comparing(TagCounter::getTag);
-        return getPostIds(noneFilter(), noneFilter())
+        return selectPosts(PaperSelector.all())
                 .map(PaperId::getTag)
                 .collect(Collectors.groupingBy(tag -> tag, Collectors.counting()))
                 .entrySet()
@@ -93,41 +97,11 @@ public class PaperRepositoryImpl implements PaperRepository {
                 .collect(Collectors.toList());
     }
 
-    private Stream<PaperId> getAllPostIds() {
-        return getPostIds(noneFilter(), noneFilter());
-    }
-
-    private Stream<PaperId> getPostIdsByTag(String tag) {
-        return getPostIds(noneFilter(), filterByTag(tag));
-    }
-
-    private Stream<PaperId> getPostIdsByName(String year, String monthDay, String title) {
-        return getPostIds(filterByName(year, monthDay, title), noneFilter());
-    }
-
-    private Stream<PaperId> getPostIds(Predicate<String> baseOnName,
-                                       Predicate<PaperId> baseOnTag) {
+    private Stream<PaperId> selectPosts(Predicate<String> selector) {
         return postFileNames.parallelStream()
-                .filter(baseOnName)
+                .filter(selector)
                 .map(PaperId::fromFileName)
                 .filter(Optional::isPresent)
-                .map(Optional::get)
-                .filter(baseOnTag);
-    }
-
-    private static <T> Predicate<T> noneFilter() {
-        return (T t) -> true;
-    }
-
-    private static Predicate<String> filterByName(String year, String monthDay, String title) {
-        return name ->
-                name.startsWith(String.format("%s-%s", year, monthDay)) &&
-                        name.endsWith(String.format("%s.md", title));
-    }
-
-    private static Predicate<PaperId> filterByTag(String tag) {
-        return id ->
-                tag.isEmpty() ||
-                        tag.equalsIgnoreCase(id.getTag());
+                .map(Optional::get);
     }
 }
