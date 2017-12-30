@@ -19,7 +19,7 @@
 
     <rule>
         <from>^/posts(.*)</from>
-        <to type="redirect" last="true">/#!posts$1/</to>
+        <to type="redirect" last="true">/#!posts$1?%{query-string}</to>
     </rule>
     <!--
 
