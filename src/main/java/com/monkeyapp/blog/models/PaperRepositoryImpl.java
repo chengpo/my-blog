@@ -43,7 +43,7 @@ public class PaperRepositoryImpl implements PaperRepository {
         this.paperAdapter = paperAdapter;
         this.postFileNames = paperAdapter
                                 .toPostFileNames("file-list.json")
-                                .orElseThrow(FileSystemNotFoundException::new);
+                                .orElseThrow(() -> new FileSystemNotFoundException("Failed to load post file list."));
     }
 
     @Override

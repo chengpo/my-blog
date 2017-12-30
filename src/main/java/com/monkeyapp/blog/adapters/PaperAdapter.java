@@ -33,7 +33,7 @@ import com.monkeyapp.blog.models.PaperId;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 public class PaperAdapter {
     private PathHelper pathHelper;
@@ -43,12 +43,12 @@ public class PaperAdapter {
     }
 
     public Optional<List<String>> toPostFileNames(String jsonPath) {
-        return toFileNames(() -> pathHelper.realPostPath(jsonPath));
+        return toFileNames(pathHelper::realPostPath, jsonPath);
     }
 
-    private Optional<List<String>> toFileNames(Supplier<String> filePath) {
+    private Optional<List<String>> toFileNames(UnaryOperator<String> realPath, String jsonPath) {
         return TextReader
-                .completeRead(filePath.get())
+                .completeRead(realPath.apply(jsonPath))
                 .map((json) -> {
                     try {
                         return new ObjectMapper()
