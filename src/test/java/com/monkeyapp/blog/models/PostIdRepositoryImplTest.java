@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
+@Deprecated
 public class PostIdRepositoryImplTest {
 
     private PostIdRepository postIdRepository;

@@ -24,14 +24,58 @@ SOFTWARE.
 
 package com.monkeyapp.blog.adapters;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.monkeyapp.blog.models.Paper;
+import com.monkeyapp.blog.PathHelper;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
-public interface PaperAdapter {
-    Optional<Paper> toPartialPost(Paper.Id id);
+public class PaperAdapter {
+    private PathHelper pathHelper;
 
-    Optional<Paper> toCompletePost(Paper.Id id);
+    public PaperAdapter(PathHelper pathHelper) {
+        this.pathHelper = pathHelper;
+    }
 
-    Optional<Paper> toCompletePage(Paper.Id id);
+    public Optional<List<String>> toPostFileNames(String jsonPath) {
+        return toFileNames(() -> pathHelper.realPostPath(jsonPath));
+    }
+
+    private Optional<List<String>> toFileNames(Supplier<String> filePath) {
+        return TextReader
+                .completeRead(filePath.get())
+                .map((json) -> {
+                    try {
+                        return new ObjectMapper()
+                                .readValue(json, new TypeReference<List<String>>() {
+                                });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+    }
+
+    public Optional<Paper> toPartialPost(Paper.Id id) {
+        return MarkdownReader.from(id)
+                .with(pathHelper::realPostPath)
+                .by(TextReader::partialRead);
+    }
+
+    public Optional<Paper> toCompletePost(Paper.Id id) {
+        return MarkdownReader.from(id)
+                .with(pathHelper::realPostPath)
+                .by(TextReader::completeRead);
+    }
+
+    public Optional<Paper> toCompletePage(Paper.Id id) {
+        return MarkdownReader.from(id)
+                .with(pathHelper::realPagePath)
+                .by(TextReader::completeRead);
+    }
 }

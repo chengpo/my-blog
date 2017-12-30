@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 
+@Deprecated
 public interface PostIdRepository {
     Stream<Paper.Id> getAllPostIds();
 

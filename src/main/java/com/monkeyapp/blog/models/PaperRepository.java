@@ -25,10 +25,12 @@ SOFTWARE.
 package com.monkeyapp.blog.models;
 
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PaperRepository {
     PaperChunk getPostsByTag(String tag, int offset, int chunkCapacity);
     Optional<Paper> getCompletePost(String year, String monthDay, String title);
     Optional<Paper> getCompletePage(String name);
+    List<TagCounter> getPostTags();
 }

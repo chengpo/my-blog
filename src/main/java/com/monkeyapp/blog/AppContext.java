@@ -24,61 +24,22 @@ SOFTWARE.
 
 package com.monkeyapp.blog;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.monkeyapp.blog.models.PostIdRepository;
-import com.monkeyapp.blog.models.PostIdRepositoryImpl;
-import org.apache.log4j.Logger;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import java.io.*;
-import java.util.Collections;
-import java.util.List;
 
 public class AppContext implements ServletContextListener {
-    private final Logger logger = Logger.getLogger(AppContext.class);
+    private static PathHelper pathHelper;
 
-    private static String contextRoot;
-
-    private static PostIdRepository postIdRepository;
-
-    public static PostIdRepository getPostIdRepository() {
-        return postIdRepository;
-    }
-
-    public static String realPostPath(String fileName) {
-        return contextRoot + ("md/posts/" + fileName).replace("/", File.separator);
-    }
-
-    public static String realPagePath(String fileName) {
-        return contextRoot + ("md/pages/" + fileName).replace("/", File.separator);
+    public static PathHelper getPathHelper() {
+        return pathHelper;
     }
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         final ServletContext context = sce.getServletContext();
 
-        contextRoot = context.getRealPath("/");
-        String fileListJsonPath = contextRoot + context.getInitParameter("file-list").replace("/", File.separator);
-
-        logger.info("servlet context root = " + contextRoot);
-        logger.info("file-list.json path = " + fileListJsonPath);
-
-        // init post repository
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(
-                        new FileInputStream(
-                                new File(fileListJsonPath))))) {
-            List<String> postFileNames = new ObjectMapper()
-                    .readValue(reader, new TypeReference<List<String>>() {
-                    });
-            postIdRepository = new PostIdRepositoryImpl(postFileNames);
-        } catch (IOException e) {
-            logger.error("failed to load file-list.json. Error: " + e.getMessage());
-            postIdRepository = new PostIdRepositoryImpl(Collections.emptyList());
-        }
+        pathHelper = new PathHelper(context.getRealPath("/"));
     }
 
     @Override

@@ -24,6 +24,7 @@ SOFTWARE.
 
 package com.monkeyapp.blog.controllers;
 
+import com.monkeyapp.blog.models.PaperRepository;
 import com.monkeyapp.blog.models.PostIdRepository;
 import com.monkeyapp.blog.models.TagCounter;
 
@@ -37,11 +38,11 @@ import java.util.List;
 @Path("/tags")
 public class TagsController {
     @Inject
-    PostIdRepository postIdRepository;
+    PaperRepository paperRepository;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<TagCounter> getTags() {
-        return postIdRepository.getPostTags();
+        return paperRepository.getPostTags();
     }
 }

@@ -26,27 +26,31 @@ package com.monkeyapp.blog.models;
 
 import com.monkeyapp.blog.adapters.PaperAdapter;
 
+import java.nio.file.FileSystemNotFoundException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PaperRepositoryImpl implements PaperRepository {
-    private final PostIdRepository postIdRepository;
+    private final List<String> postFileNames;
     private final PaperAdapter paperAdapter;
 
-    public PaperRepositoryImpl(PostIdRepository postIdRepository, PaperAdapter paperAdapter) {
-        this.postIdRepository = postIdRepository;
+    public PaperRepositoryImpl(PaperAdapter paperAdapter) {
         this.paperAdapter = paperAdapter;
+        this.postFileNames = paperAdapter
+                                .toPostFileNames("file-list.json")
+                                .orElseThrow(FileSystemNotFoundException::new);
     }
 
     @Override
     public PaperChunk getPostsByTag(String tag, int offset, int chunkCapacity) {
         final Comparator<Paper.Id> byPriority = Comparator.comparingLong(Paper.Id::getPriority)
                                                           .reversed();
-        final Supplier<Stream<Paper.Id>> postIds = () -> postIdRepository.getPostIdsByTag(tag);
+        final Supplier<Stream<Paper.Id>> postIds = () -> getPostIdsByTag(tag);
 
         final List<Paper> papers = postIds.get()
                 .sorted(byPriority)
@@ -63,7 +67,7 @@ public class PaperRepositoryImpl implements PaperRepository {
 
     @Override
     public Optional<Paper> getCompletePost(String year, String monthDay, String title) {
-        return postIdRepository.getPostIdsByName(year, monthDay, title)
+        return getPostIdsByName(year, monthDay, title)
                 .findFirst()
                 .map(paperAdapter::toCompletePost)
                 .map(Optional::get);
@@ -74,5 +78,56 @@ public class PaperRepositoryImpl implements PaperRepository {
         return Paper.Id.fromFileName(name)
                 .map(paperAdapter::toCompletePage)
                 .map(Optional::get);
+    }
+
+    @Override
+    public List<TagCounter> getPostTags() {
+        final Comparator<TagCounter> byTag = Comparator.comparing(TagCounter::getTag);
+        return getPostIds(noneFilter(), noneFilter())
+                .map(Paper.Id::getTag)
+                .collect(Collectors.groupingBy(tag -> tag, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .map(entry -> new TagCounter(entry.getKey(), entry.getValue()))
+                .sorted(byTag)
+                .collect(Collectors.toList());
+    }
+
+    private Stream<Paper.Id> getAllPostIds() {
+        return getPostIds(noneFilter(), noneFilter());
+    }
+
+    private Stream<Paper.Id> getPostIdsByTag(String tag) {
+        return getPostIds(noneFilter(), filterByTag(tag));
+    }
+
+    private Stream<Paper.Id> getPostIdsByName(String year, String monthDay, String title) {
+        return getPostIds(filterByName(year, monthDay, title), noneFilter());
+    }
+
+    private Stream<Paper.Id> getPostIds(Predicate<String> baseOnName,
+                                        Predicate<Paper.Id> baseOnTag) {
+        return postFileNames.parallelStream()
+                .filter(baseOnName)
+                .map(Paper.Id::fromFileName)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .filter(baseOnTag);
+    }
+
+    private static <T> Predicate<T> noneFilter() {
+        return (T t) -> true;
+    }
+
+    private static Predicate<String> filterByName(String year, String monthDay, String title) {
+        return name ->
+                name.startsWith(String.format("%s-%s", year, monthDay)) &&
+                        name.endsWith(String.format("%s.md", title));
+    }
+
+    private static Predicate<Paper.Id> filterByTag(String tag) {
+        return id ->
+                tag.isEmpty() ||
+                        tag.equalsIgnoreCase(id.getTag());
     }
 }

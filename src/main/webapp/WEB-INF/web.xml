@@ -74,11 +74,6 @@
 
     <!-- context params -->
     <context-param>
-        <param-name>file-list</param-name>
-        <param-value>md/posts/file-list.json</param-value>
-    </context-param>
-
-    <context-param>
         <param-name>post-per-chunk</param-name>
         <param-value>3</param-value>
     </context-param>

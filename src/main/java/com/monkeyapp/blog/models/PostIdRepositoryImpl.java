@@ -29,6 +29,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Deprecated
 public class PostIdRepositoryImpl implements PostIdRepository {
     private final List<String> postFileNames;
 
