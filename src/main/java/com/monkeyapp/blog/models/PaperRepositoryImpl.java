@@ -35,6 +35,8 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.monkeyapp.blog.models.PaperSelector.*;
+
 public class PaperRepositoryImpl implements PaperRepository {
     private final List<String> postFileNames;
     private final PaperAdapter paperAdapter;
@@ -48,10 +50,10 @@ public class PaperRepositoryImpl implements PaperRepository {
 
     @Override
     public PaperChunk getPostsByTag(String tag, int offset, int chunkCapacity) {
+        final Supplier<Stream<PaperId>> postIds = () -> selectPosts(byTag(tag));
+
         final Comparator<PaperId> byPriority = Comparator.comparingLong(PaperId::getPriority)
                                                           .reversed();
-        final Supplier<Stream<PaperId>> postIds = () -> selectPosts(PaperSelector.byTag(tag));
-
         final List<Paper> papers = postIds.get()
                 .sorted(byPriority)
                 .skip(offset)
@@ -67,11 +69,7 @@ public class PaperRepositoryImpl implements PaperRepository {
 
     @Override
     public Optional<Paper> getCompletePost(String year, String monthDay, String title) {
-        final Predicate<String> selector = PaperSelector
-                                                .byDate(year, monthDay)
-                                                .and(PaperSelector.byTitle(title));
-
-        return selectPosts(selector)
+        return selectPosts(byDate(year, monthDay).and(byTitle(title)))
                 .findFirst()
                 .map(paperAdapter::toCompletePost)
                 .map(Optional::get);
@@ -87,7 +85,7 @@ public class PaperRepositoryImpl implements PaperRepository {
     @Override
     public List<TagCounter> getPostTags() {
         final Comparator<TagCounter> byTag = Comparator.comparing(TagCounter::getTag);
-        return selectPosts(PaperSelector.all())
+        return selectPosts(all())
                 .map(PaperId::getTag)
                 .collect(Collectors.groupingBy(tag -> tag, Collectors.counting()))
                 .entrySet()

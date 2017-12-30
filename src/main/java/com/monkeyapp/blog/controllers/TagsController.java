@@ -25,7 +25,6 @@ SOFTWARE.
 package com.monkeyapp.blog.controllers;
 
 import com.monkeyapp.blog.models.PaperRepository;
-import com.monkeyapp.blog.models.PostIdRepository;
 import com.monkeyapp.blog.models.TagCounter;
 
 import javax.inject.Inject;
