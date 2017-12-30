@@ -42,7 +42,7 @@ public class AppBinder extends AbstractBinder {
     private static class PaperRepositoryFactory implements Factory<PaperRepository> {
         @Override
         public PaperRepository provide() {
-            return new PaperRepositoryImpl(new PaperAdapter(AppContext.getPathHelper())) ;
+            return new PaperRepositoryImpl(new PaperAdapter()) ;
         }
 
         @Override

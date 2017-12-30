@@ -35,19 +35,19 @@ import java.util.function.Function;
 
 class MarkdownReader {
     private final PaperId id;
-    private String path;
+    private Function<String, String> pathTransform;
 
     static MarkdownReader from(PaperId id) {
         return new MarkdownReader(id);
     }
 
-    MarkdownReader with(Function<String, String> pathFunc) {
-        this.path = pathFunc.apply(id.getName());
+    MarkdownReader with(Function<String, String> pathTransform) {
+        this.pathTransform = pathTransform;
         return this;
     }
 
     Optional<Paper> by(Function<String, Optional<String>> textReader) {
-        return textReader.apply(path)
+        return textReader.apply(pathTransform.apply(id.getName()))
                 .map((text) -> {
                     final Parser parser = Parser.builder().build();
                     final Node document = parser.parse(text);

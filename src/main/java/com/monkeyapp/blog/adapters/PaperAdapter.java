@@ -26,8 +26,8 @@ package com.monkeyapp.blog.adapters;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.monkeyapp.blog.AppContext;
 import com.monkeyapp.blog.models.Paper;
-import com.monkeyapp.blog.PathHelper;
 import com.monkeyapp.blog.models.PaperId;
 
 import java.io.IOException;
@@ -36,14 +36,8 @@ import java.util.Optional;
 import java.util.function.UnaryOperator;
 
 public class PaperAdapter {
-    private PathHelper pathHelper;
-
-    public PaperAdapter(PathHelper pathHelper) {
-        this.pathHelper = pathHelper;
-    }
-
     public Optional<List<String>> toPostFileNames(String jsonPath) {
-        return toFileNames(pathHelper::realPostPath, jsonPath);
+        return toFileNames(AppContext::realPostPath, jsonPath);
     }
 
     private Optional<List<String>> toFileNames(UnaryOperator<String> realPath, String jsonPath) {
@@ -63,19 +57,19 @@ public class PaperAdapter {
 
     public Optional<Paper> toPartialPost(PaperId id) {
         return MarkdownReader.from(id)
-                .with(pathHelper::realPostPath)
+                .with(AppContext::realPostPath)
                 .by(TextReader::partialRead);
     }
 
     public Optional<Paper> toCompletePost(PaperId id) {
         return MarkdownReader.from(id)
-                .with(pathHelper::realPostPath)
+                .with(AppContext::realPostPath)
                 .by(TextReader::completeRead);
     }
 
     public Optional<Paper> toCompletePage(PaperId id) {
         return MarkdownReader.from(id)
-                .with(pathHelper::realPagePath)
+                .with(AppContext::realPagePath)
                 .by(TextReader::completeRead);
     }
 }

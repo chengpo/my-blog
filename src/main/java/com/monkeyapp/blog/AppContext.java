@@ -27,22 +27,26 @@ package com.monkeyapp.blog;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import java.io.File;
 
 public class AppContext implements ServletContextListener {
-    private static PathHelper pathHelper;
+    private static ServletContext context;
 
-    public static PathHelper getPathHelper() {
-        return pathHelper;
+    public static String realPostPath(String fileName) {
+        return context.getRealPath(String.format("/md/posts/%s", fileName));
+    }
+
+    public static String realPagePath(String fileName) {
+        return context.getRealPath(String.format("/md/pages/%s", fileName));
     }
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        final ServletContext context = sce.getServletContext();
-
-        pathHelper = new PathHelper(context.getRealPath("/"));
+        context = sce.getServletContext();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
+        context = null;
     }
 }
