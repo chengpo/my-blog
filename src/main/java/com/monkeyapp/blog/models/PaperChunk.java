@@ -30,21 +30,25 @@ import java.util.List;
 
 public class PaperChunk {
     @JsonProperty("papers")
-    private final List<Paper> papers;
+    final List<Paper> papers;
 
     @JsonProperty("offset")
-    private final int offset; // offset to the very first blog
+    final int offset; // offset to the very first blog
 
     @JsonProperty("capacity")
-    private final int capacity;
+    final int capacity;
 
     @JsonProperty("eof")
-    private final boolean eof; // eof = true when reach the last blog
+    final boolean eof; // eof = true when reach the last blog
 
-    public PaperChunk(List<Paper> papers, int offset, int capacity, boolean eof) {
+    PaperChunk(List<Paper> papers, int offset, int capacity, boolean eof) {
         this.papers = papers;
         this.offset = offset;
         this.capacity = capacity;
         this.eof = eof;
+    }
+
+    public List<Paper> getPapers() {
+        return papers;
     }
 }

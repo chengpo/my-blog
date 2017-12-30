@@ -117,8 +117,12 @@ public class PaperId {
         return name;
     }
 
+    public String getCreationTime() {
+        return creationTime;
+    }
+
     @Override
     public String toString() {
-        return "local file url: " + this.url;
+        return String.format("paper(creationTime = %s, tag = %s, title = %s)", creationTime, tag, title);
     }
 }

@@ -27,8 +27,9 @@ package com.monkeyapp.blog.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.monkeyapp.blog.models.Paper;
+import com.monkeyapp.blog.models.PaperId;
 import com.monkeyapp.blog.models.PaperRepository;
-import com.monkeyapp.blog.models.PostIdRepository;
 import org.glassfish.jersey.server.monitoring.MonitoringStatistics;
 
 import javax.inject.Inject;
@@ -39,8 +40,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import java.io.FileNotFoundException;
-import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Path("/status")
@@ -53,7 +53,7 @@ public class StatusController {
 
     @GET
     @Produces({MediaType.TEXT_PLAIN})
-    public String getStatus(@Context HttpHeaders headers) throws JsonProcessingException, FileNotFoundException {
+    public String getStatus(@Context HttpHeaders headers) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
@@ -68,6 +68,16 @@ public class StatusController {
         String monitoringJson = mapper.writeValueAsString(monitoringStatisticsProvider.get().getRequestStatistics());
         sb.append(monitoringJson);
         sb.append("\n\n");
+
+        sb.append("posts = ");
+        List<String> postNames = paperRepository.getPostsByTag("", 0, Integer.MAX_VALUE)
+                                         .getPapers()
+                                         .stream()
+                                         .map(Paper::getId)
+                                         .map(PaperId::getName)
+                                         .collect(Collectors.toList());
+
+        sb.append(mapper.writeValueAsString(postNames));
 
         return sb.toString();
     }
