@@ -30,11 +30,11 @@ import java.util.stream.Stream;
 
 @Deprecated
 public interface PostIdRepository {
-    Stream<Paper.Id> getAllPostIds();
+    Stream<PaperId> getAllPostIds();
 
-    Stream<Paper.Id> getPostIdsByTag(String tag);
+    Stream<PaperId> getPostIdsByTag(String tag);
 
-    Stream<Paper.Id> getPostIdsByName(String year, String monthDay, String title);
+    Stream<PaperId> getPostIdsByName(String year, String monthDay, String title);
 
     List<TagCounter> getPostTags();
 }

@@ -25,6 +25,7 @@ SOFTWARE.
 package com.monkeyapp.blog.adapters;
 
 import com.monkeyapp.blog.models.Paper;
+import com.monkeyapp.blog.models.PaperId;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
@@ -33,10 +34,10 @@ import java.util.Optional;
 import java.util.function.Function;
 
 class MarkdownReader {
-    private final Paper.Id id;
+    private final PaperId id;
     private String path;
 
-    static MarkdownReader from(Paper.Id id) {
+    static MarkdownReader from(PaperId id) {
         return new MarkdownReader(id);
     }
 
@@ -56,7 +57,7 @@ class MarkdownReader {
                 .map(markdown -> new Paper(id, markdown));
     }
 
-    private MarkdownReader(Paper.Id id) {
+    private MarkdownReader(PaperId id) {
         this.id = id;
     }
 }

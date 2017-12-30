@@ -24,32 +24,21 @@ SOFTWARE.
 
 package com.monkeyapp.blog.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class Paper {
     @JsonProperty("id")
-    private final Id id;
+    private final PaperId id;
 
     @JsonProperty("content")
     private final String content;
 
-    public Paper(Id id, String content) {
+    public Paper(PaperId id, String content) {
         this.id = id;
         this.content = content;
     }
 
-    public Id getId() {
+    public PaperId getId() {
         return id;
     }
 
@@ -57,89 +46,4 @@ public class Paper {
         return content;
     }
 
-    public static class Id {
-        private static final int POST_FIELD_NUM = 5;
-        private static final Pattern NAME_PATTERN = Pattern.compile("^(\\d{4})-(\\d{4})-(\\d{4})-(\\w+)-(.+)\\.md$");
-
-        @JsonProperty("creationTime")
-        private final String creationTime;
-
-        @JsonProperty("url")
-        private final String url;
-
-        @JsonProperty("title")
-        private final String title;
-
-        @JsonProperty("tag")
-        private final String tag;
-
-        @JsonIgnore
-        private final String name;
-
-        @JsonIgnore
-        private final long priority;
-
-        public static Optional<Id> fromFileName(String fileName) {
-            final Matcher matcher = NAME_PATTERN.matcher(fileName);
-            if (matcher.matches()) {
-                return Optional.of(new Id(new HashMap<String, String>(POST_FIELD_NUM) {
-                    {
-                        put("name", matcher.group(0));
-                        put("year", matcher.group(1));
-                        put("monthday", matcher.group(2));
-                        put("time", matcher.group(3));
-                        put("tag", matcher.group(4));
-                        put("title", matcher.group(5));
-                    }
-                }));
-            }
-
-            return Optional.empty();
-        }
-
-        private Id(Map<String, String> fields) {
-            final String year = fields.get("year");
-            final String month = fields.get("monthday").substring(0, 2);
-            final String day = fields.get("monthday").substring(2);
-            final String hour = fields.get("time").substring(0, 2);
-            final String minute = fields.get("time").substring(2);
-
-            this.creationTime = String.format("%s/%s/%s %s:%s", year, month, day, hour, minute);
-
-            this.name = fields.get("name");
-
-            this.url = String.format("%s/%s/%s", fields.get("year"), fields.get("monthday"), fields.get("title"));
-
-            this.title = Arrays.stream(fields.get("title").split("-"))
-                    .map(StringUtils::capitalize)
-                    .collect(Collectors.joining(" "));
-
-            this.tag = WordUtils.capitalize(fields.get("tag"));
-
-            this.priority = Long.valueOf(fields.get("year")) * 10000L * 10000L +
-                    Long.valueOf(fields.get("monthday")) * 10000L +
-                    Long.valueOf(fields.get("time"));
-        }
-
-        public String getTag() {
-            return tag;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public long getPriority() {
-            return priority;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        @Override
-        public String toString() {
-            return "local file url: " + this.url;
-        }
-    }
 }

@@ -38,17 +38,17 @@ public class PostIdRepositoryImpl implements PostIdRepository {
     }
 
     @Override
-    public Stream<Paper.Id> getAllPostIds() {
+    public Stream<PaperId> getAllPostIds() {
         return getPostIds(noneFilter(), noneFilter());
     }
 
     @Override
-    public Stream<Paper.Id> getPostIdsByTag(String tag) {
+    public Stream<PaperId> getPostIdsByTag(String tag) {
         return getPostIds(noneFilter(), filterByTag(tag));
     }
 
     @Override
-    public Stream<Paper.Id> getPostIdsByName(String year, String monthDay, String title) {
+    public Stream<PaperId> getPostIdsByName(String year, String monthDay, String title) {
         return getPostIds(filterByName(year, monthDay, title), noneFilter());
     }
 
@@ -56,7 +56,7 @@ public class PostIdRepositoryImpl implements PostIdRepository {
     public List<TagCounter> getPostTags() {
         final Comparator<TagCounter> byTag = Comparator.comparing(TagCounter::getTag);
         return getPostIds(noneFilter(), noneFilter())
-                .map(Paper.Id::getTag)
+                .map(PaperId::getTag)
                 .collect(Collectors.groupingBy(tag -> tag, Collectors.counting()))
                 .entrySet()
                 .stream()
@@ -65,11 +65,11 @@ public class PostIdRepositoryImpl implements PostIdRepository {
                 .collect(Collectors.toList());
     }
 
-    private Stream<Paper.Id> getPostIds(Predicate<String> baseOnName,
-                                        Predicate<Paper.Id> baseOnTag) {
+    private Stream<PaperId> getPostIds(Predicate<String> baseOnName,
+                                       Predicate<PaperId> baseOnTag) {
         return postFileNames.parallelStream()
                             .filter(baseOnName)
-                            .map(Paper.Id::fromFileName)
+                            .map(PaperId::fromFileName)
                             .filter(Optional::isPresent)
                             .map(Optional::get)
                             .filter(baseOnTag);
@@ -85,7 +85,7 @@ public class PostIdRepositoryImpl implements PostIdRepository {
                     name.endsWith(String.format("%s.md", title));
     }
 
-    private static Predicate<Paper.Id> filterByTag(String tag) {
+    private static Predicate<PaperId> filterByTag(String tag) {
         return id ->
                     tag.isEmpty() ||
                     tag.equalsIgnoreCase(id.getTag());

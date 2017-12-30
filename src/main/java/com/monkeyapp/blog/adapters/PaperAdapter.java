@@ -28,9 +28,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.monkeyapp.blog.models.Paper;
 import com.monkeyapp.blog.PathHelper;
+import com.monkeyapp.blog.models.PaperId;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -61,19 +61,19 @@ public class PaperAdapter {
                 });
     }
 
-    public Optional<Paper> toPartialPost(Paper.Id id) {
+    public Optional<Paper> toPartialPost(PaperId id) {
         return MarkdownReader.from(id)
                 .with(pathHelper::realPostPath)
                 .by(TextReader::partialRead);
     }
 
-    public Optional<Paper> toCompletePost(Paper.Id id) {
+    public Optional<Paper> toCompletePost(PaperId id) {
         return MarkdownReader.from(id)
                 .with(pathHelper::realPostPath)
                 .by(TextReader::completeRead);
     }
 
-    public Optional<Paper> toCompletePage(Paper.Id id) {
+    public Optional<Paper> toCompletePage(PaperId id) {
         return MarkdownReader.from(id)
                 .with(pathHelper::realPagePath)
                 .by(TextReader::completeRead);
