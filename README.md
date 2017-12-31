@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/chengpo/my-blog.svg?branch=master)](https://travis-ci.org/chengpo/my-blog)
 # My Blog
 
 Source for my blog - <a href="http://monkey-blogger.herokuapp.com" target="_blank">monkey-blogger.herokuapp.com</a>
