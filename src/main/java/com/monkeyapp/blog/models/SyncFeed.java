@@ -42,8 +42,12 @@ public class SyncFeed {
     private final Channel channel = new Channel();
 
     SyncFeed setItems(List<Item> items) {
-        channel.items = items;
+        channel.items = Collections.unmodifiableList(items);
         return this;
+    }
+
+    List<Item> getItems() {
+        return channel.items;
     }
 
     static final class Channel {

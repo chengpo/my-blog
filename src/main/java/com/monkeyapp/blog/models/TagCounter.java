@@ -17,4 +17,8 @@ public class TagCounter {
     String getTag() {
         return tag;
     }
+
+    long getCount() {
+        return count;
+    }
 }

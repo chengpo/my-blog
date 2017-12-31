@@ -31,10 +31,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -57,22 +54,43 @@ public class PaperRepositoryImplTest {
         doReturn(Optional.of(fileNameList)).when(paperAdapter).toPostFileNames(anyString());
         doAnswer(invocationOnMock -> {
             PaperId id = (PaperId) invocationOnMock.getArguments()[0];
-            return Optional.of(new Paper(id, "mock content of " + id));
+            return Optional.of(new Paper(id, "mock partial post content of " + id));
         }).when(paperAdapter).toPartialPost(any(PaperId.class));
+
+        doAnswer(invocationOnMock -> {
+            PaperId id = (PaperId) invocationOnMock.getArguments()[0];
+            return Optional.of(new Paper(id, "mock complete post content of " + id));
+        }).when(paperAdapter).toCompletePost(any(PaperId.class));
 
         paperRepository = new PaperRepositoryImpl(paperAdapter);
     }
 
     @Test
     public void testPostListIsOrderedByCreatedTime() {
-        final List<Paper> papers = paperRepository.getPostsByTag("", 0, Integer.MAX_VALUE).papers;
+        final PaperChunk paperChunk = paperRepository.getPostsByTag("", 0, Integer.MAX_VALUE);
+        final List<Paper> papers = paperChunk.getPapers();
+
+        assertTrue(paperChunk.eof);
+        assertEquals(0, paperChunk.offset);
+        assertEquals(Integer.MAX_VALUE, paperChunk.capacity);
+
         final List<String> expectedTitles = Arrays.asList("Post1", "Post2", "Post3");
         final List<String> expectedTags = Arrays.asList("Tag1", "Tag2", "Tag2");
         final List<String> expectedCreationTimes = Arrays.asList("2018/04/18 12:05", "2017/04/18 11:53", "2017/04/18 10:53");
+        final List<String> expectedUrls = Arrays.asList("2018/0418/post1", "2017/0418/post2", "2017/0418/post3");
 
         verifyPaperList(papers, PaperId::getTitle, expectedTitles);
         verifyPaperList(papers, PaperId::getTag, expectedTags);
         verifyPaperList(papers, PaperId::getCreationTime, expectedCreationTimes);
+        verifyPaperList(papers, PaperId::getUrl, expectedUrls);
+
+        final List<String> expectedPaperContents = new ArrayList<>();
+        papers.forEach(paper -> expectedPaperContents.add("mock partial post content of " + paper.getId()));
+        final List<String> actualPaperContents = papers.stream()
+                                                       .map(Paper::getContent)
+                                                       .collect(Collectors.toList());
+
+        assertThat(actualPaperContents, CoreMatchers.is(expectedPaperContents));
     }
 
     @Test
@@ -86,6 +104,46 @@ public class PaperRepositoryImplTest {
         final List<String> expectedTag2Titles = Arrays.asList("Post2", "Post3");
 
         verifyPaperList(tag2Papers, PaperId::getTitle, expectedTag2Titles);
+    }
+
+
+    @Test
+    public void testGetCompletePost() {
+        final Optional<Paper> paper = paperRepository.getCompletePost("2017", "0418", "post2");
+        assertTrue(paper.isPresent());
+        assertEquals("mock complete post content of " + paper.get().getId(), paper.get().getContent());
+    }
+
+    @Test
+    public void testGetTags() {
+        final List<TagCounter> actualTagCounters = paperRepository.getPostTags();
+        final List<TagCounter> expectedTagCounters = Arrays.asList(new TagCounter("Tag1", 1), new TagCounter("Tag2", 2));
+
+        final List<String> actualTags = actualTagCounters.stream()
+                                            .map(TagCounter::getTag)
+                                            .collect(Collectors.toList());
+
+        final List<String> expectedTags = expectedTagCounters.stream()
+                .map(TagCounter::getTag)
+                .collect(Collectors.toList());
+
+        assertThat(actualTags, CoreMatchers.is(expectedTags));
+
+        final List<Long> actualCounts = actualTagCounters.stream()
+                                                .map(TagCounter::getCount)
+                                                .collect(Collectors.toList());
+
+        final List<Long> expectedCounts = expectedTagCounters.stream()
+                .map(TagCounter::getCount)
+                .collect(Collectors.toList());
+
+        assertThat(actualCounts, CoreMatchers.is(expectedCounts));
+    }
+
+    @Test
+    public void testGetFeed() {
+        SyncFeed syncFeed = paperRepository.getPostFeed();
+        assertEquals(3, syncFeed.getItems().size());
     }
 
     /**
