@@ -22,16 +22,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.models;
+package com.monkeyapp.blog.controllers;
 
+import com.monkeyapp.blog.models.PaperRepository;
+import com.monkeyapp.blog.models.SyncFeed;
 
-import java.util.List;
-import java.util.Optional;
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
-public interface PaperRepository {
-    PaperChunk getPostsByTag(String tag, int offset, int chunkCapacity);
-    Optional<Paper> getCompletePost(String year, String monthDay, String title);
-    Optional<Paper> getCompletePage(String name);
-    List<TagCounter> getPostTags();
-    SyncFeed getPostFeed();
+@Path("/feed")
+public class FeedController {
+    @Inject
+    PaperRepository paperRepository;
+
+    @GET
+    @Produces("application/rss+xml")
+    public SyncFeed getFeed() {
+        return paperRepository.getPostFeed();
+    }
 }

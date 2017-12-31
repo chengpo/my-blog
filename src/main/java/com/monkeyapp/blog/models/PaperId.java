@@ -121,6 +121,10 @@ public class PaperId {
         return creationTime;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
     @Override
     public String toString() {
         return String.format("paper(creationTime = %s, tag = %s, title = %s)", creationTime, tag, title);

@@ -13,6 +13,11 @@
     </rule>
 
     <rule>
+        <from>^/posts/feed</from>
+        <to last="true">/rest/feed</to>
+    </rule>
+
+    <rule>
         <from>^/about</from>
         <to type="redirect" last="true">/#!about/</to>
     </rule>

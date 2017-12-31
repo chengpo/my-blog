@@ -95,6 +95,17 @@ public class PaperRepositoryImpl implements PaperRepository {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public SyncFeed getPostFeed() {
+        final List<SyncFeed.Item> items = getPostsByTag("", 0, Integer.MAX_VALUE)
+                                        .getPapers()
+                                        .parallelStream()
+                                        .map(SyncFeed.Item::new)
+                                        .collect(Collectors.toList());
+
+        return new SyncFeed().setItems(items);
+    }
+
     private Stream<PaperId> selectPosts(Predicate<String> selector) {
         return postFileNames.parallelStream()
                 .filter(selector)
