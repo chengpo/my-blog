@@ -43,7 +43,7 @@ public class PaperAdapter {
     private Optional<List<String>> toFileNames(UnaryOperator<String> realPath, String jsonPath) {
         return TextReader
                 .completeRead(realPath.apply(jsonPath))
-                .map((json) -> {
+                .map(json -> {
                     try {
                         return new ObjectMapper()
                                 .readValue(json, new TypeReference<List<String>>() {

@@ -11,10 +11,7 @@ A simplified processing flow of loading post is as:
 
 ``` java
 Optional.ofNullable(readTextFile(path))
-        .map(
-          (content) -> {
-                return parseMarkdown(content);
-          })
+        .map(content -> parseMarkdown(content))
         .map(Optional::get)
         .orElseThrow(() -> new WebApplicationException(404));
 ```
