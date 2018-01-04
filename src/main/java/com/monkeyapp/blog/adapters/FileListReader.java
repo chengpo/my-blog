@@ -24,34 +24,22 @@ SOFTWARE.
 
 package com.monkeyapp.blog.adapters;
 
-import org.apache.log4j.Logger;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.List;
 
-class TextReader {
-    private static final int PARTIAL_FILE_LINES = 10;
-
-    static Optional<String> partialRead(String path) {
-        try (Stream<String> lines = Files.lines(Paths.get(path))) {
-            return Optional.of(lines.limit(PARTIAL_FILE_LINES)
-                    .collect(Collectors.joining(System.lineSeparator())));
-        } catch (IOException e) {
-            return Optional.empty();
-        }
-    }
-
-    static Optional<String> completeRead(String path) {
+class FileListReader {
+    static List<String> read(String json) {
         try {
-            return Optional.of(new String(Files.readAllBytes(Paths.get(path))));
+            return new ObjectMapper()
+                    .readValue(json, new TypeReference<List<String>>() {
+                    });
         } catch (IOException e) {
-            Logger.getLogger(TextReader.class).fatal("failed to read file: " + path);
-            Logger.getLogger(TextReader.class).fatal("IO exception: " + e.getMessage());
-            return Optional.empty();
+            e.printStackTrace();
         }
+
+        return null;
     }
 }

@@ -47,14 +47,18 @@ class MarkdownReader {
     }
 
     Optional<Paper> by(Function<String, Optional<String>> textReader) {
-        return textReader.apply(pathTransform.apply(id.getName()))
-                .map((text) -> {
-                    final Parser parser = Parser.builder().build();
-                    final Node document = parser.parse(text);
-                    final HtmlRenderer renderer = HtmlRenderer.builder().build();
-                    return renderer.render(document);
-                })
+        return textReader
+                .compose(pathTransform)
+                .apply(id.getName())
+                .map(this::parseMarkdown)
                 .map(markdown -> new Paper(id, markdown));
+    }
+
+    private String parseMarkdown(String markdown) {
+        final Parser parser = Parser.builder().build();
+        final Node document = parser.parse(markdown);
+        final HtmlRenderer renderer = HtmlRenderer.builder().build();
+        return renderer.render(document);
     }
 
     private MarkdownReader(PaperId id) {

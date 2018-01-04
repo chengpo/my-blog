@@ -24,45 +24,43 @@ SOFTWARE.
 
 package com.monkeyapp.blog.adapters;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.monkeyapp.blog.AppContext;
 import com.monkeyapp.blog.models.Paper;
 import com.monkeyapp.blog.models.PaperId;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 public class PaperAdapter {
     public Optional<List<String>> toPostFileNames(String jsonPath) {
-        return toFileNames(AppContext::realPostPath, jsonPath);
+        return loadFileList(AppContext::realPostPath)
+                .apply(jsonPath);
     }
 
-    private Optional<List<String>> toFileNames(UnaryOperator<String> realPath, String jsonPath) {
-        return TextReader
-                .completeRead(realPath.apply(jsonPath))
-                .map(json -> {
-                    try {
-                        return new ObjectMapper()
-                                .readValue(json, new TypeReference<List<String>>() {
-                                });
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                });
+    public Optional<List<String>> toPageFileNames(String jsonPath) {
+        return loadFileList(AppContext::realPagePath)
+                .apply(jsonPath);
+    }
+
+    private Function<String, Optional<List<String>>> loadFileList(UnaryOperator<String> pathTransform) {
+        return path -> pathTransform
+                        .andThen(TextReader::completeRead)
+                        .apply(path)
+                        .map(FileListReader::read);
     }
 
     public Optional<Paper> toPartialPost(PaperId id) {
-        return MarkdownReader.from(id)
+        return MarkdownReader
+                .from(id)
                 .with(AppContext::realPostPath)
                 .by(TextReader::partialRead);
     }
 
     public Optional<Paper> toCompletePost(PaperId id) {
-        return MarkdownReader.from(id)
+        return MarkdownReader
+                .from(id)
                 .with(AppContext::realPostPath)
                 .by(TextReader::completeRead);
     }
