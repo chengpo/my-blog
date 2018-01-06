@@ -14,6 +14,7 @@ The design is highly influenced by MVC ( Model-View-Controller ) pattern.
 - Java8 for backend service;
 - Jersey for Restful API;
 - HK2 for dependency injection;
+- Mockito for mocking test objects;
 - Bootstrap for frontend page layout;
 - AngularJS for frontend web App.
 
