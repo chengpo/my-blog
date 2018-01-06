@@ -65,6 +65,7 @@
 
         <external.dir>${project.basedir}/src/main/webapp/external</external.dir>
         <posts.dir>${project.basedir}/src/main/webapp/md/posts</posts.dir>
+        <pages.dir>${project.basedir}/src/main/webapp/md/pages</pages.dir>
     </properties>
 
     <build>
@@ -88,15 +89,29 @@
                 <version>1.0.0</version>
                 <executions>
                     <execution>
+                        <id>list-pages</id>
                         <phase>compile</phase>
                         <goals><goal>list</goal></goals>
+
+                        <configuration>
+                            <baseDir>${pages.dir}</baseDir>
+                            <includes>*.md</includes>
+                            <outputFile>${pages.dir}/file-list.json</outputFile>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>list-posts</id>
+                        <phase>compile</phase>
+                        <goals><goal>list</goal></goals>
+
+                        <configuration>
+                            <baseDir>${posts.dir}</baseDir>
+                            <includes>*.md</includes>
+                            <outputFile>${posts.dir}/file-list.json</outputFile>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <baseDir>${posts.dir}</baseDir>
-                    <includes>*.md</includes>
-                    <outputFile>${posts.dir}/file-list.json</outputFile>
-                </configuration>
             </plugin>
 
             <plugin>

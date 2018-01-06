@@ -31,7 +31,7 @@ angular.
       return $resource("rest/pages/:name", {}, {
         about: {
           method: 'GET',
-          params: {name:'2017-0509-0011-site-about-myself.md'},
+          params: {name:'about-myself'},
           isArray: false
         }
       });

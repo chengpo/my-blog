@@ -28,7 +28,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.monkeyapp.blog.models.Paper;
-import com.monkeyapp.blog.models.PaperId;
+import com.monkeyapp.blog.models.PaperFile;
 import com.monkeyapp.blog.models.PaperRepository;
 import org.glassfish.jersey.server.monitoring.MonitoringStatistics;
 
@@ -46,10 +46,10 @@ import java.util.stream.Collectors;
 @Path("/status")
 public class StatusController {
     @Inject
-    Provider<MonitoringStatistics> monitoringStatisticsProvider;
+    private Provider<MonitoringStatistics> monitoringStatisticsProvider;
 
     @Inject
-    PaperRepository paperRepository;
+    private PaperRepository paperRepository;
 
     @GET
     @Produces({MediaType.TEXT_PLAIN})
@@ -73,8 +73,8 @@ public class StatusController {
         List<String> postNames = paperRepository.getPostsByTag("", 0, Integer.MAX_VALUE)
                                          .getPapers()
                                          .stream()
-                                         .map(Paper::getId)
-                                         .map(PaperId::getName)
+                                         .map(Paper::getFile)
+                                         .map(PaperFile::getTitle)
                                          .collect(Collectors.toList());
 
         sb.append(mapper.writeValueAsString(postNames));

@@ -32,7 +32,7 @@ angular.module('about')
                         var self = this;
                         pages.about(
                             function(paper) {
-                                self.id = paper.id;
+                                self.file = paper.file;
                                 self.content = paper.content;
                             });
                     }]

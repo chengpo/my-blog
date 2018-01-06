@@ -26,20 +26,34 @@ package com.monkeyapp.blog.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Optional;
+
 public class Paper {
-    @JsonProperty("id")
-    private final PaperId id;
+    @JsonProperty("file")
+    private final PaperFile file;
 
     @JsonProperty("content")
     private final String content;
 
-    public Paper(PaperId id, String content) {
-        this.id = id;
+    public Paper(PaperFile file, String content) {
+        this.file = file;
         this.content = content;
     }
 
-    public PaperId getId() {
-        return id;
+    public static Optional<Paper> completePaper(PaperFile id) {
+        return id.fileWrapper
+                .completeRead()
+                .map((content) -> new Paper(id, content));
+    }
+
+    public static Optional<Paper> partialPaper(PaperFile id) {
+        return id.fileWrapper
+                .partialRead()
+                .map((content) -> new Paper(id, content));
+    }
+
+    public PaperFile getFile() {
+        return file;
     }
 
     public String getContent() {

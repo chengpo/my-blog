@@ -30,7 +30,7 @@ angular.module('sidebar')
 
                 self.title = 'Monkey Blogger';
                 self.links = [{url: '/about/', external: false, name:'About'},
-                              {url: 'https://github.com/chengpo?tab=repositories', external: true, name:'Projects'},
+                              {url: 'https://github.com/chengpo?tab=overview', external: true, name:'Projects'},
                               {url: '/posts/feed', external:true, name:'Rss Feed'}];
             }
        });

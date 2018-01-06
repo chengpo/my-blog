@@ -22,24 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.adapters;
+package com.monkeyapp.blog.readers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 
-import java.io.IOException;
-import java.util.List;
-
-class FileListReader {
-    static List<String> read(String json) {
-        try {
-            return new ObjectMapper()
-                    .readValue(json, new TypeReference<List<String>>() {
-                    });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+public class MarkdownReader {
+    public static String read(String markdown) {
+        final Parser parser = Parser.builder().build();
+        final Node document = parser.parse(markdown);
+        final HtmlRenderer renderer = HtmlRenderer.builder().build();
+        return renderer.render(document);
     }
 }

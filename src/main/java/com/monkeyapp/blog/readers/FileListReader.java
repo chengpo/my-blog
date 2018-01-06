@@ -22,24 +22,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.controllers;
+package com.monkeyapp.blog.readers;
 
-import com.monkeyapp.blog.models.*;
-import com.monkeyapp.blog.models.Paper;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.List;
 
-@Path("/pages")
-public class PagesController {
-    @Inject
-    private PaperRepository paperRepository;
+public class FileListReader {
+    public static List<String> read(String json) {
+        try {
+            return new ObjectMapper()
+                    .readValue(json, new TypeReference<List<String>>() {
+                    });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-    @GET @Path("/{name}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Paper getPageContent(@PathParam("name") String name) {
-        return paperRepository.getCompletePage(name)
-                              .orElseThrow(() -> new WebApplicationException(404));
+        return null;
     }
 }
