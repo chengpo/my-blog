@@ -22,40 +22,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog;
+package com.monkeyapp.blog.readers;
 
-import com.monkeyapp.blog.wrappers.FileWrapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
-public class FileWrapperImplTest {
+public class FileListReaderTest {
     @Test
-    public void testCreatedByPaperFileName() {
-        final String paperFilename = "2017-0418-1053-tag-arbitrary-post-title.md";
-
-        FileWrapper file = new FileWrapperImpl("post/" + paperFilename);
-
-        assertThat(file.getName(), is("2017-0418-1053-tag-arbitrary-post-title.md"));
-        assertThat(file.getTag(), is("tag"));
-        assertThat(file.getYear(), is("2017"));
-        assertThat(file.getMonthday(), is("0418"));
-        assertThat(file.getTime(), is("1053"));
-        assertThat(file.getTitle(), is("arbitrary-post-title"));
-        assertThat(file.getPriority(), is(201704181053L));
-        assertThat(file.isPaper(), is(true));
-        assertThat(file.getName(), is(paperFilename));
-    }
-
-    @Test
-    public void testCreateIdInstanceWithInvalidFileName() {
-        final String jsonFileName = "file-list.json";
-
-        FileWrapper file = new FileWrapperImpl("post/" + jsonFileName);
-        assertThat(file.isPaper(), is(false));
+    public void testReadFileList() {
+        final String json = "[\"file1\", \"file2\", \"file3\"]";
+        List<String> fileNames = FileListReader.read(json);
+        assertThat(fileNames, is(Arrays.asList("file1", "file2", "file3")));
     }
 }

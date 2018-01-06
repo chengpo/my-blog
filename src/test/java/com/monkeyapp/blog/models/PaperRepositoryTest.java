@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Po Cheng
+Copyright (c) 2017 - 2018 Po Cheng
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -38,8 +38,13 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.anyString;
+import static org.junit.Assert.assertThat;
+
 
 @RunWith(JUnit4.class)
 public class PaperRepositoryTest {
@@ -125,14 +130,14 @@ public class PaperRepositoryTest {
     @Test
     public void testGetCompletePost() {
         final Optional<Paper> paper = paperRepository.getCompletePost("2017", "0418", "post2");
-        assertTrue(paper.isPresent());
+        assertThat(paper.isPresent(), is(true));
         assertThat(paper.get().getContent(), is("<p>mock complete post content</p>\n"));
     }
 
     @Test
     public void testGetCompletePage() {
         final Optional<Paper> paper = paperRepository.getCompletePage("about-myself");
-        assertTrue(paper.isPresent());
+        assertThat(paper.isPresent(), is(true));
         assertThat(paper.get().getContent(), is("<p>mock complete page content</p>\n"));
     }
 
@@ -165,7 +170,7 @@ public class PaperRepositoryTest {
     @Test
     public void testGetFeed() {
         SyncFeed syncFeed = paperRepository.getPostFeed();
-        assertEquals(3, syncFeed.getItems().size());
+        assertThat(syncFeed.getItems().size(), is(3));
     }
 
     /**
