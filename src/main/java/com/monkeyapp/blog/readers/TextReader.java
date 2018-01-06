@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.adapters;
+package com.monkeyapp.blog.readers;
 
 import org.apache.log4j.Logger;
 
@@ -33,10 +33,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-class TextReader {
+public class TextReader {
     private static final int PARTIAL_FILE_LINES = 10;
 
-    static Optional<String> partialRead(String path) {
+    public static Optional<String> partialRead(String path) {
         try (Stream<String> lines = Files.lines(Paths.get(path))) {
             return Optional.of(lines.limit(PARTIAL_FILE_LINES)
                     .collect(Collectors.joining(System.lineSeparator())));
@@ -45,7 +45,7 @@ class TextReader {
         }
     }
 
-    static Optional<String> completeRead(String path) {
+    public static Optional<String> completeRead(String path) {
         try {
             return Optional.of(new String(Files.readAllBytes(Paths.get(path))));
         } catch (IOException e) {

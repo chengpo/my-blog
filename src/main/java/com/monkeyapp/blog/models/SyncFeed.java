@@ -50,7 +50,7 @@ public class SyncFeed {
         return channel.items;
     }
 
-    static final class Channel {
+    private static final class Channel {
         @XmlElement(name = "title")
         private final String title = "Monkey Blogger";
 
@@ -81,14 +81,14 @@ public class SyncFeed {
         private final String guid;
 
         Item(Paper paper) {
-            this.title = paper.getId().getTitle();
-            this.link = "http://monkey-blogger.herokuapp.com/posts/" + paper.getId().getUrl();
+            this.title = paper.getFile().getTitle();
+            this.link = "http://monkey-blogger.herokuapp.com/posts/" + paper.getFile().getUrl();
             this.guid = this.link;
             this.description = paper.getContent() + "<p> ... </p>";
 
             try {
                 Date date = new SimpleDateFormat("yyyy/MM/dd hh:mm")
-                                    .parse(paper.getId().getCreationTime());
+                                    .parse(paper.getFile().getCreationTime());
 
                 this.pubDate = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z").format(date);
             } catch (ParseException e) {

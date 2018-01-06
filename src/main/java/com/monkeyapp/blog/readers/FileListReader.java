@@ -22,45 +22,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.models;
+package com.monkeyapp.blog.readers;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.monkeyapp.blog.readers.MarkdownReader;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.Optional;
+import java.io.IOException;
+import java.util.List;
 
-public class Paper {
-    @JsonProperty("file")
-    private final PaperFile file;
+public class FileListReader {
+    public static List<String> read(String json) {
+        try {
+            return new ObjectMapper()
+                    .readValue(json, new TypeReference<List<String>>() {
+                    });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-    @JsonProperty("content")
-    private final String content;
-
-    public Paper(PaperFile file, String content) {
-        this.file = file;
-        this.content = content;
+        return null;
     }
-
-    public static Optional<Paper> completePaper(PaperFile id) {
-        return id.fileWrapper
-                .completeRead()
-                .map(MarkdownReader::read)
-                .map((content) -> new Paper(id, content));
-    }
-
-    public static Optional<Paper> partialPaper(PaperFile id) {
-        return id.fileWrapper
-                .partialRead()
-                .map(MarkdownReader::read)
-                .map((content) -> new Paper(id, content));
-    }
-
-    public PaperFile getFile() {
-        return file;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
 }

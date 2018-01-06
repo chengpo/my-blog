@@ -25,6 +25,7 @@ SOFTWARE.
 package com.monkeyapp.blog.controllers;
 
 import com.monkeyapp.blog.models.*;
+import com.monkeyapp.blog.models.Paper;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -33,7 +34,7 @@ import javax.ws.rs.core.MediaType;
 @Path("/pages")
 public class PagesController {
     @Inject
-    PaperRepository paperRepository;
+    private PaperRepository paperRepository;
 
     @GET @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)

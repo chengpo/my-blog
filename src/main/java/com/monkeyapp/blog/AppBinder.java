@@ -24,10 +24,7 @@ SOFTWARE.
 
 package com.monkeyapp.blog;
 
-
-import com.monkeyapp.blog.adapters.PaperAdapter;
 import com.monkeyapp.blog.models.PaperRepository;
-import com.monkeyapp.blog.models.PaperRepositoryImpl;
 import org.glassfish.hk2.api.Factory;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
@@ -42,7 +39,7 @@ public class AppBinder extends AbstractBinder {
     private static class PaperRepositoryFactory implements Factory<PaperRepository> {
         @Override
         public PaperRepository provide() {
-            return new PaperRepositoryImpl(new PaperAdapter()) ;
+            return new PaperRepository(new StorageWrapperImpl()) ;
         }
 
         @Override

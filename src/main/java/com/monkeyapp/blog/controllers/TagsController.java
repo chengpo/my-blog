@@ -37,7 +37,7 @@ import java.util.List;
 @Path("/tags")
 public class TagsController {
     @Inject
-    PaperRepository paperRepository;
+    private PaperRepository paperRepository;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

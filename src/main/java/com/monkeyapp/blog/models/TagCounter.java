@@ -14,11 +14,11 @@ public class TagCounter {
         this.count = count;
     }
 
-    String getTag() {
+    public String getTag() {
         return tag;
     }
 
-    long getCount() {
+    public long getCount() {
         return count;
     }
 }

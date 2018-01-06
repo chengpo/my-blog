@@ -35,7 +35,7 @@ import javax.ws.rs.Produces;
 @Path("/feed")
 public class FeedController {
     @Inject
-    PaperRepository paperRepository;
+    private PaperRepository paperRepository;
 
     @GET
     @Produces("application/rss+xml")

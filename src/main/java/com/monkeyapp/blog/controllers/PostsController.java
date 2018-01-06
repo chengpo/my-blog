@@ -25,6 +25,8 @@ SOFTWARE.
 package com.monkeyapp.blog.controllers;
 
 import com.monkeyapp.blog.models.*;
+import com.monkeyapp.blog.models.Paper;
+import com.monkeyapp.blog.models.PaperChunk;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -35,10 +37,10 @@ import javax.ws.rs.core.MediaType;
 @Path("/posts")
 public class PostsController {
     @Context
-    ServletContext servletContext;
+    private ServletContext servletContext;
 
     @Inject
-    PaperRepository paperRepository;
+    private PaperRepository paperRepository;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
