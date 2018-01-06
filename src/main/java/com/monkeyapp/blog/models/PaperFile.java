@@ -60,7 +60,6 @@ public class PaperFile {
 
         this.creationTime = String.format("%s/%s/%s %s:%s", year, month, day, hour, minute);
 
-
         this.url = String.format("%s/%s/%s",
                                 fileWrapper.getYear(),
                                 fileWrapper.getMonthday(),

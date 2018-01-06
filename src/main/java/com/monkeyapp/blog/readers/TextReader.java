@@ -49,8 +49,9 @@ public class TextReader {
         try {
             return Optional.of(new String(Files.readAllBytes(Paths.get(path))));
         } catch (IOException e) {
-            Logger.getLogger(TextReader.class).fatal("failed to read file: " + path);
-            Logger.getLogger(TextReader.class).fatal("IO exception: " + e.getMessage());
+            final Logger logger = Logger.getLogger(TextReader.class);
+            logger.fatal("failed to read file: " + path);
+            logger.fatal("IO exception: " + e.getMessage());
             return Optional.empty();
         }
     }

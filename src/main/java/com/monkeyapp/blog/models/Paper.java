@@ -28,6 +28,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.monkeyapp.blog.readers.MarkdownReader;
 
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class Paper {
     @JsonProperty("file")
@@ -41,18 +43,21 @@ public class Paper {
         this.content = content;
     }
 
-    public static Optional<Paper> completePaper(PaperFile id) {
-        return id.fileWrapper
-                .completeRead()
-                .map(MarkdownReader::read)
-                .map((content) -> new Paper(id, content));
+    public static Optional<Paper> completePaper(PaperFile file) {
+        return toPaper(file.fileWrapper::completeRead)
+                .apply(file);
     }
 
-    public static Optional<Paper> partialPaper(PaperFile id) {
-        return id.fileWrapper
-                .partialRead()
+    public static Optional<Paper> partialPaper(PaperFile file) {
+        return toPaper(file.fileWrapper::partialRead)
+                .apply(file);
+    }
+
+    private static Function<PaperFile, Optional<Paper>> toPaper(Supplier<Optional<String>> reader) {
+        return (file) -> reader
+                .get()
                 .map(MarkdownReader::read)
-                .map((content) -> new Paper(id, content));
+                .map((content) -> new Paper(file, content));
     }
 
     public PaperFile getFile() {
