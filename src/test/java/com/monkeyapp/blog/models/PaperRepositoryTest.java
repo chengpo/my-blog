@@ -24,7 +24,12 @@ SOFTWARE.
 
 package com.monkeyapp.blog.models;
 
+import com.monkeyapp.blog.FileWrapperImpl;
+import com.monkeyapp.blog.wrappers.FileWrapper;
+import com.monkeyapp.blog.wrappers.StorageWrapper;
 import org.hamcrest.CoreMatchers;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -32,34 +37,47 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
-public class PaperRepositoryImplTest {
+public class PaperRepositoryTest {
     private PaperRepository paperRepository;
 
-    /*
     @Before
     public void setUp() {
-        final List<String> fileNameList = Arrays.asList(
-                "2017-0418-1053-tag2-post3.md",
-                "2017-0418-1153-tag2-post2.md",
-                "2018-0418-1205-tag1-post1.md"
-        );
+        StorageWrapper storageWrapper = mock(StorageWrapper.class);
+        doReturn(
+            Arrays.asList(
+                    "2017-0418-1053-tag2-post3.md",
+                    "2017-0418-1153-tag2-post2.md",
+                    "2018-0418-1205-tag1-post1.md"
+            )).when(storageWrapper).listPostFiles();
 
-        final PaperAdapter paperAdapter = mock(PaperAdapter.class);
-        doReturn(Optional.of(fileNameList)).when(paperAdapter).toPostFileNames(anyString());
+        doReturn(
+                Collections.singletonList(
+                        "2018-0418-1205-site-about-myself.md"
+                )).when(storageWrapper).listPageFiles();
+
+
         doAnswer(invocationOnMock -> {
-            PaperId id = (PaperId) invocationOnMock.getArguments()[0];
-            return Optional.of(new Paper(id, "mock partial post content of " + id));
-        }).when(paperAdapter).toPartialPost(any(PaperId.class));
+            String fileName = (String) invocationOnMock.getArguments()[0];
+            FileWrapper fileWrapper = spy(new FileWrapperImpl(fileName));
+            doReturn(Optional.of("mock complete post content")).when(fileWrapper).completeRead();
+            doReturn(Optional.of("mock partial post content")).when(fileWrapper).partialRead();
+            return fileWrapper;
+        }).when(storageWrapper).openPostFile(anyString());
 
         doAnswer(invocationOnMock -> {
-            PaperId id = (PaperId) invocationOnMock.getArguments()[0];
-            return Optional.of(new Paper(id, "mock complete post content of " + id));
-        }).when(paperAdapter).toCompletePost(any(PaperId.class));
+            String fileName = (String) invocationOnMock.getArguments()[0];
+            FileWrapper fileWrapper = spy(new FileWrapperImpl(fileName));
+            doReturn(Optional.of("mock complete page content")).when(fileWrapper).completeRead();
+            // doReturn(Optional.of("mock partial page content")).when(fileWrapper).partialRead();
+            return fileWrapper;
+        }).when(storageWrapper).openPageFile(anyString());
 
-        paperRepository = new PaperRepositoryImpl(paperAdapter);
+        paperRepository = new PaperRepository(storageWrapper);
     }
 
     @Test
@@ -67,27 +85,27 @@ public class PaperRepositoryImplTest {
         final PaperChunk paperChunk = paperRepository.getPostsByTag("", 0, Integer.MAX_VALUE);
         final List<Paper> papers = paperChunk.getPapers();
 
-        assertTrue(paperChunk.eof);
-        assertEquals(0, paperChunk.offset);
-        assertEquals(Integer.MAX_VALUE, paperChunk.capacity);
+        assertThat(paperChunk.eof, is(true));
+        assertThat(paperChunk.offset, is(0));
+        assertThat(paperChunk.capacity, is(Integer.MAX_VALUE));
 
         final List<String> expectedTitles = Arrays.asList("Post1", "Post2", "Post3");
         final List<String> expectedTags = Arrays.asList("Tag1", "Tag2", "Tag2");
         final List<String> expectedCreationTimes = Arrays.asList("2018/04/18 12:05", "2017/04/18 11:53", "2017/04/18 10:53");
         final List<String> expectedUrls = Arrays.asList("2018/0418/post1", "2017/0418/post2", "2017/0418/post3");
 
-        verifyPaperList(papers, PaperId::getTitle, expectedTitles);
-        verifyPaperList(papers, PaperId::getTag, expectedTags);
-        verifyPaperList(papers, PaperId::getCreationTime, expectedCreationTimes);
-        verifyPaperList(papers, PaperId::getUrl, expectedUrls);
+        verifyPaperList(papers, PaperFile::getTitle, expectedTitles);
+        verifyPaperList(papers, PaperFile::getTag, expectedTags);
+        verifyPaperList(papers, PaperFile::getCreationTime, expectedCreationTimes);
+        verifyPaperList(papers, PaperFile::getUrl, expectedUrls);
 
         final List<String> expectedPaperContents = new ArrayList<>();
-        papers.forEach(paper -> expectedPaperContents.add("mock partial post content of " + paper.getId()));
+        papers.forEach(paper -> expectedPaperContents.add("<p>mock partial post content</p>\n"));
         final List<String> actualPaperContents = papers.stream()
                                                        .map(Paper::getContent)
                                                        .collect(Collectors.toList());
 
-        assertThat(actualPaperContents, CoreMatchers.is(expectedPaperContents));
+        assertThat(actualPaperContents, is(expectedPaperContents));
     }
 
     @Test
@@ -95,12 +113,12 @@ public class PaperRepositoryImplTest {
         final List<Paper> tag1Papers = paperRepository.getPostsByTag("tag1", 0, Integer.MAX_VALUE).papers;
         final List<String> expectedTag1Titles = Collections.singletonList("Post1");
 
-        verifyPaperList(tag1Papers, PaperId::getTitle, expectedTag1Titles);
+        verifyPaperList(tag1Papers, PaperFile::getTitle, expectedTag1Titles);
 
         final List<Paper> tag2Papers = paperRepository.getPostsByTag("tag2", 0, Integer.MAX_VALUE).papers;
         final List<String> expectedTag2Titles = Arrays.asList("Post2", "Post3");
 
-        verifyPaperList(tag2Papers, PaperId::getTitle, expectedTag2Titles);
+        verifyPaperList(tag2Papers, PaperFile::getTitle, expectedTag2Titles);
     }
 
 
@@ -108,7 +126,14 @@ public class PaperRepositoryImplTest {
     public void testGetCompletePost() {
         final Optional<Paper> paper = paperRepository.getCompletePost("2017", "0418", "post2");
         assertTrue(paper.isPresent());
-        assertEquals("mock complete post content of " + paper.get().getId(), paper.get().getContent());
+        assertThat(paper.get().getContent(), is("<p>mock complete post content</p>\n"));
+    }
+
+    @Test
+    public void testGetCompletePage() {
+        final Optional<Paper> paper = paperRepository.getCompletePage("about-myself");
+        assertTrue(paper.isPresent());
+        assertThat(paper.get().getContent(), is("<p>mock complete page content</p>\n"));
     }
 
     @Test
@@ -142,7 +167,7 @@ public class PaperRepositoryImplTest {
         SyncFeed syncFeed = paperRepository.getPostFeed();
         assertEquals(3, syncFeed.getItems().size());
     }
-*/
+
     /**
      * Verify the given paper list meets expectation
      * @param papers - paper list for checking
@@ -157,7 +182,7 @@ public class PaperRepositoryImplTest {
                 .map(transform)
                 .collect(Collectors.toList());
 
-        assertThat(actualValues, CoreMatchers.is(expectedValues));
+        assertThat(actualValues, is(expectedValues));
     }
 
 }

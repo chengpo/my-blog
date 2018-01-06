@@ -25,6 +25,7 @@ SOFTWARE.
 package com.monkeyapp.blog.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.monkeyapp.blog.readers.MarkdownReader;
 
 import java.util.Optional;
 
@@ -43,12 +44,14 @@ public class Paper {
     public static Optional<Paper> completePaper(PaperFile id) {
         return id.fileWrapper
                 .completeRead()
+                .map(MarkdownReader::read)
                 .map((content) -> new Paper(id, content));
     }
 
     public static Optional<Paper> partialPaper(PaperFile id) {
         return id.fileWrapper
                 .partialRead()
+                .map(MarkdownReader::read)
                 .map((content) -> new Paper(id, content));
     }
 

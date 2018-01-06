@@ -1,13 +1,11 @@
 package com.monkeyapp.blog;
 
-import com.monkeyapp.blog.readers.MarkdownReader;
 import com.monkeyapp.blog.readers.TextReader;
 import com.monkeyapp.blog.wrappers.FileWrapper;
 import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -96,22 +94,11 @@ public class FileWrapperImpl implements FileWrapper {
 
     @Override
     public Optional<String> completeRead() {
-        return read(TextReader::completeRead).apply(realPath);
+        return TextReader.completeRead(realPath);
     }
 
     @Override
     public Optional<String> partialRead() {
-        return read(TextReader::partialRead).apply(realPath);
-    }
-
-    private static Function<String, Optional<String>> read(Function<String, Optional<String>> reader) {
-        return (path) -> {
-            if (path.endsWith(".md")) {
-                return reader.apply(path)
-                        .map(MarkdownReader::read);
-            } else {
-                return reader.apply(path);
-            }
-        };
+        return TextReader.partialRead(realPath);
     }
 }

@@ -22,34 +22,40 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.models;
+package com.monkeyapp.blog;
 
+import com.monkeyapp.blog.wrappers.FileWrapper;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
+
 @RunWith(JUnit4.class)
-public class PaperIdTest {
-    /*
+public class FileWrapperImplTest {
     @Test
-    public void testCreateIdInstanceWithValidFileName() {
-        final String validFilename = "2017-0418-1053-tag-arbitrary-post-title.md";
+    public void testCreatedByPaperFileName() {
+        final String paperFilename = "2017-0418-1053-tag-arbitrary-post-title.md";
 
-        PaperId id = PaperId.fromFileName(validFilename).orElseThrow(() -> new AssertionFailedError("failed to path file name"));
+        FileWrapper file = new FileWrapperImpl("post/" + paperFilename);
 
-        assertNotNull("failed to recreate paper id with valid file name " + validFilename, id);
-
-        assertEquals("wrong post tag", "Tag", id.getTag());
-        assertEquals("wrong post name", "Arbitrary Post Title", id.getTitle());
-        assertEquals("wrong post priority", 201704181053L, id.getPriority());
-
-        assertEquals("wrong post file name", validFilename, id.getName());
+        assertThat(file.getName(), is("2017-0418-1053-tag-arbitrary-post-title.md"));
+        assertThat(file.getTag(), is("tag"));
+        assertThat(file.getYear(), is("2017"));
+        assertThat(file.getMonthday(), is("0418"));
+        assertThat(file.getTime(), is("1053"));
+        assertThat(file.getTitle(), is("arbitrary-post-title"));
+        assertThat(file.getPriority(), is(201704181053L));
+        assertTrue(file.isPaper());
+        assertThat(file.getName(), is(paperFilename));
     }
 
     @Test
     public void testCreateIdInstanceWithInvalidFileName() {
-        final String invalidFileName = "201704181053-tag-arbitrary-post-title.md";
-        assertFalse("should not create paper id instance with invalid file name " + invalidFileName,
-                PaperId.fromFileName(invalidFileName).isPresent());
+        final String jsonFileName = "file-list.json";
+
+        FileWrapper file = new FileWrapperImpl("post/" + jsonFileName);
+        assertFalse(file.isPaper());
     }
-    */
 }
