@@ -64,10 +64,13 @@ public class StatusController {
         sb.append(headerJson);
         sb.append("\n\n");
 
-        sb.append("monitoring = ");
-        String monitoringJson = mapper.writeValueAsString(monitoringStatisticsProvider.get().getRequestStatistics());
-        sb.append(monitoringJson);
-        sb.append("\n\n");
+        final MonitoringStatistics statistics = monitoringStatisticsProvider.get();
+        if (statistics != null) {
+            sb.append("monitoring = ");
+            String monitoringJson = mapper.writeValueAsString(statistics.getRequestStatistics());
+            sb.append(monitoringJson);
+            sb.append("\n\n");
+        }
 
         sb.append("posts = ");
         List<String> postNames = paperRepository.getPostsByTag("", 0, Integer.MAX_VALUE)
