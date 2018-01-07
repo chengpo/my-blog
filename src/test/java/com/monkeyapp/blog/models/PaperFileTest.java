@@ -4,24 +4,24 @@ import com.monkeyapp.blog.wrappers.FileWrapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
-@RunWith(JUnit4.class)
+@RunWith(MockitoJUnitRunner.class)
 public class PaperFileTest {
+    @Mock
     private FileWrapper fileWrapper;
 
     @Before
     public void setUp() {
-        fileWrapper = mock(FileWrapper.class);
         doReturn("2017").when(fileWrapper).getYear();
         doReturn("0418").when(fileWrapper).getMonthday();
         doReturn("1053").when(fileWrapper).getTime();
         doReturn("tag").when(fileWrapper).getTag();
-        doReturn("2017-0418-1053-tag-arbitrary-post-title.md").when(fileWrapper).getName();
         doReturn("arbitrary-post-title").when(fileWrapper).getTitle();
     }
 

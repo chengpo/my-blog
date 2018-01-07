@@ -31,14 +31,14 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
@@ -46,13 +46,15 @@ import static org.mockito.Mockito.anyString;
 import static org.junit.Assert.assertThat;
 
 
-@RunWith(JUnit4.class)
+@RunWith(MockitoJUnitRunner.class)
 public class PaperRepositoryTest {
+    @Mock
+    private StorageWrapper storageWrapper;
+
     private PaperRepository paperRepository;
 
     @Before
     public void setUp() {
-        StorageWrapper storageWrapper = mock(StorageWrapper.class);
         doReturn(
             Arrays.asList(
                     "2017-0418-1053-tag2-post3.md",
@@ -64,7 +66,6 @@ public class PaperRepositoryTest {
                 Collections.singletonList(
                         "2018-0418-1205-site-about-myself.md"
                 )).when(storageWrapper).listPageFiles();
-
 
         doAnswer(invocationOnMock -> {
             String fileName = (String) invocationOnMock.getArguments()[0];
