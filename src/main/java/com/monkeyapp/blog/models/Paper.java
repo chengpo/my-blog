@@ -44,12 +44,12 @@ public class Paper {
     }
 
     public static Optional<Paper> completePaper(PaperFile file) {
-        return toPaper(file.fileWrapper::completeRead)
+        return toPaper(file::completeRead)
                 .apply(file);
     }
 
     public static Optional<Paper> partialPaper(PaperFile file) {
-        return toPaper(file.fileWrapper::partialRead)
+        return toPaper(file::partialRead)
                 .apply(file);
     }
 

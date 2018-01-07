@@ -24,6 +24,8 @@ SOFTWARE.
 
 package com.monkeyapp.blog.wrappers;
 
+import com.monkeyapp.blog.readers.TextReader;
+
 import java.util.Optional;
 
 public interface FileWrapper {
@@ -33,8 +35,22 @@ public interface FileWrapper {
     String getTime();
     String getTag();
     String getTitle();
-    long getPriority();
     boolean isPaper();
-    Optional<String> completeRead();
-    Optional<String> partialRead();
+    String getRealPath();
+
+    default long getPriority() {
+        return isPaper() ?
+                Long.valueOf(getYear()) * 10000L * 10000L +
+                        Long.valueOf(getMonthday()) * 10000L +
+                        Long.valueOf(getTime())
+                : 0L;
+    }
+
+    default Optional<String> completeRead() {
+        return TextReader.completeRead(getRealPath());
+    }
+
+    default Optional<String> partialRead() {
+        return TextReader.partialRead(getRealPath());
+    }
 }

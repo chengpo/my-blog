@@ -31,6 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class PaperFile {
@@ -47,7 +48,7 @@ public class PaperFile {
     private final String tag;
 
     @JsonIgnore
-    final FileWrapper fileWrapper;
+    private final FileWrapper fileWrapper;
 
     PaperFile(FileWrapper fileWrapper) {
         this.fileWrapper = fileWrapper;
@@ -86,6 +87,14 @@ public class PaperFile {
 
     public String getUrl() {
         return url;
+    }
+
+    public Optional<String> completeRead() {
+        return fileWrapper.completeRead();
+    }
+
+    public Optional<String> partialRead() {
+        return fileWrapper.partialRead();
     }
 
     @Override
