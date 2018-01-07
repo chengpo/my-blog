@@ -59,5 +59,4 @@ public class PostsController {
         return paperRepository.getCompletePost(year, monthDay, title)
                               .orElseThrow(() -> new WebApplicationException(404));
     }
-
 }

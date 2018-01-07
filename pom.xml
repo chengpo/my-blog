@@ -61,7 +61,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
         <tomcat.version>8.0.28</tomcat.version>
-        <jersey.version>2.25.1</jersey.version>
+        <jersey.version>2.26</jersey.version>
 
         <external.dir>${project.basedir}/src/main/webapp/external</external.dir>
         <posts.dir>${project.basedir}/src/main/webapp/md/posts</posts.dir>
@@ -220,6 +220,12 @@
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
             <version>${jersey.version}</version>
         </dependency>
 

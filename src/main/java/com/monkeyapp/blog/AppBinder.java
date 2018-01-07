@@ -25,25 +25,14 @@ SOFTWARE.
 package com.monkeyapp.blog;
 
 import com.monkeyapp.blog.models.PaperRepository;
-import org.glassfish.hk2.api.Factory;
-import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import org.glassfish.jersey.internal.inject.AbstractBinder;
 
 import javax.inject.Singleton;
 
 public class AppBinder extends AbstractBinder {
     @Override
     protected void configure() {
-        bindFactory(PaperRepositoryFactory.class).to(PaperRepository.class).in(Singleton.class);
-    }
-
-    private static class PaperRepositoryFactory implements Factory<PaperRepository> {
-        @Override
-        public PaperRepository provide() {
-            return new PaperRepository(new StorageWrapperImpl()) ;
-        }
-
-        @Override
-        public void dispose(PaperRepository instance) {
-        }
+        bindFactory(() -> new PaperRepository(new StorageWrapperImpl()))
+                .to(PaperRepository.class).in(Singleton.class);
     }
 }
