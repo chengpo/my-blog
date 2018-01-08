@@ -29,7 +29,6 @@ import com.monkeyapp.blog.readers.MarkdownReader;
 
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class Paper {
     @JsonProperty("file")
@@ -44,18 +43,18 @@ public class Paper {
     }
 
     public static Optional<Paper> completePaper(PaperFile file) {
-        return toPaper(file::completeRead)
+        return toPaper(PaperFile::completeRead)
                 .apply(file);
     }
 
     public static Optional<Paper> partialPaper(PaperFile file) {
-        return toPaper(file::partialRead)
+        return toPaper(PaperFile::partialRead)
                 .apply(file);
     }
 
-    private static Function<PaperFile, Optional<Paper>> toPaper(Supplier<Optional<String>> reader) {
+    private static Function<PaperFile, Optional<Paper>> toPaper(Function<PaperFile, Optional<String>> reader) {
         return (file) -> reader
-                .get()
+                .apply(file)
                 .map(MarkdownReader::read)
                 .map((content) -> new Paper(file, content));
     }

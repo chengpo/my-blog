@@ -27,6 +27,7 @@ package com.monkeyapp.blog.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.monkeyapp.blog.wrappers.FileWrapper;
+import com.monkeyapp.blog.wrappers.ReadableWrapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -34,7 +35,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class PaperFile {
+public class PaperFile implements ReadableWrapper {
     @JsonProperty("creationTime")
     private final String creationTime;
 
@@ -89,12 +90,9 @@ public class PaperFile {
         return url;
     }
 
-    public Optional<String> completeRead() {
-        return fileWrapper.completeRead();
-    }
-
-    public Optional<String> partialRead() {
-        return fileWrapper.partialRead();
+    @Override
+    public FileWrapper getFileWrapper() {
+        return fileWrapper;
     }
 
     @Override
