@@ -1,5 +1,10 @@
 language: java
 sudo: false
+cache:
+  directories:
+  - .autoconf
+  - $HOME/.m2
+
 script: mvn clean cobertura:cobertura
 
 after_success:
