@@ -16,7 +16,8 @@ The design is highly influenced by MVC ( Model-View-Controller ) pattern.
 - HK2 for dependency injection;
 - Mockito for mocking test objects;
 - Bootstrap for frontend page layout;
-- AngularJS for frontend web App.
+- AngularJS for frontend web App;
+- Docker for running in container environment.
 
 ## Run with Command Line
 
@@ -27,6 +28,16 @@ $ make build
 $ make run
 
 ```
+
+## Run docker image
+
+```
+
+$ make docker-image
+$ make run-docker
+
+```
+
 
 ## Start by Java 9
 Java 9 by default does not include java.se aggregate module on class path.<br>
