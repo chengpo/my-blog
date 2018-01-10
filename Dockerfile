@@ -1,4 +1,4 @@
-FROM openjdk:alpine
+FROM openjdk:8-jre-alpine
 ADD src/main/webapp  /opt/my-blog/src/main/webapp
 ADD target  /opt/my-blog/target
 WORKDIR /opt/my-blog/

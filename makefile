@@ -3,7 +3,7 @@
 build:
 	mvn package
 
-docker-image: build
+docker-image:
 	docker build -t my-blog .
 
 run-docker:
