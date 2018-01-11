@@ -33,8 +33,8 @@ $ make run
 
 ```
 
-$ make docker-image
-$ make run-docker
+$ make docker-build
+$ make docker-run
 
 ```
 
