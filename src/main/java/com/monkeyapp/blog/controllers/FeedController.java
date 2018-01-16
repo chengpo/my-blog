@@ -24,6 +24,8 @@ SOFTWARE.
 
 package com.monkeyapp.blog.controllers;
 
+import com.monkeyapp.blog.dtos.SyncFeedDto;
+import com.monkeyapp.blog.dtos.TypeConverter;
 import com.monkeyapp.blog.models.PaperRepository;
 import com.monkeyapp.blog.models.SyncFeed;
 
@@ -37,9 +39,13 @@ public class FeedController {
     @Inject
     private PaperRepository paperRepository;
 
+    @Inject
+    private TypeConverter typeConverter;
+
     @GET
     @Produces("application/rss+xml")
-    public SyncFeed getFeed() {
-        return paperRepository.getPostFeed();
+    public SyncFeedDto getFeed() {
+        final SyncFeed syncFeed = paperRepository.getPostFeed();
+        return typeConverter.toSyncFeedDto(syncFeed);
     }
 }

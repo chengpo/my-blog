@@ -24,6 +24,7 @@ SOFTWARE.
 
 package com.monkeyapp.blog;
 
+import com.monkeyapp.blog.dtos.TypeConverter;
 import com.monkeyapp.blog.models.PaperRepository;
 import org.glassfish.jersey.internal.inject.AbstractBinder;
 
@@ -34,5 +35,8 @@ public class AppBinder extends AbstractBinder {
     protected void configure() {
         bindFactory(() -> new PaperRepository(new StorageWrapperImpl()))
                 .to(PaperRepository.class).in(Singleton.class);
+
+        bindFactory(TypeConverter::new)
+                .to(TypeConverter.class).in(Singleton.class);
     }
 }

@@ -29,6 +29,7 @@ import org.junit.Test;
 import javax.ws.rs.core.Response;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 public class FeedControllerTest extends BaseControllerTest {
@@ -36,5 +37,8 @@ public class FeedControllerTest extends BaseControllerTest {
     public void testGetFeed() {
         Response response = target("/feed").request().get();
         assertThat(response.getStatus(), is(200));
+
+        //String syncFeed = response.readEntity(String.class);
+        //assertNotNull(syncFeed);
     }
 }

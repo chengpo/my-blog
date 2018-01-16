@@ -25,6 +25,7 @@ SOFTWARE.
 package com.monkeyapp.blog.controllers;
 
 import com.monkeyapp.blog.FileWrapperImpl;
+import com.monkeyapp.blog.dtos.TypeConverter;
 import com.monkeyapp.blog.models.PaperRepository;
 import com.monkeyapp.blog.wrappers.FileWrapper;
 import com.monkeyapp.blog.wrappers.StorageWrapper;
@@ -67,5 +68,8 @@ public class MockBinder extends AbstractBinder {
         doReturn("10").when(servletContext).getInitParameter(eq("post-per-chunk"));
 
         bindFactory(() -> servletContext).to(ServletContext.class);
+
+        bindFactory(TypeConverter::new)
+                .to(TypeConverter.class).in(Singleton.class);
     }
 }

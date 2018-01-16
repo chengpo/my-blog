@@ -24,6 +24,9 @@ SOFTWARE.
 
 package com.monkeyapp.blog.controllers;
 
+import com.monkeyapp.blog.dtos.PaperChunkDto;
+import com.monkeyapp.blog.dtos.PaperDto;
+import com.monkeyapp.blog.dtos.TypeConverter;
 import com.monkeyapp.blog.models.*;
 import com.monkeyapp.blog.models.Paper;
 import com.monkeyapp.blog.models.PaperChunk;
@@ -42,21 +45,27 @@ public class PostsController {
     @Inject
     private PaperRepository paperRepository;
 
+    @Inject
+    private TypeConverter typeConverter;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public PaperChunk getPostChunk(@DefaultValue("") @QueryParam("tag") String tag,
-                                   @DefaultValue("0") @QueryParam("offset") int offset) {
+    public PaperChunkDto getPostChunk(@DefaultValue("") @QueryParam("tag") String tag,
+                                      @DefaultValue("0") @QueryParam("offset") int offset) {
         final int chunkCapacity = Integer.valueOf(servletContext.getInitParameter("post-per-chunk"));
-        return paperRepository.getPostsByTag(tag, offset, chunkCapacity);
+        final PaperChunk paperChunk = paperRepository.getPostsByTag(tag, offset, chunkCapacity);
+        return typeConverter.toPaperChunkDto(paperChunk);
     }
 
     @GET
     @Path("/{year}/{monthday}/{title}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Paper getPostContent(@PathParam("year") String year,
-                                @PathParam("monthday") String monthDay,
-                                @PathParam("title") String title) {
-        return paperRepository.getCompletePost(year, monthDay, title)
+    public PaperDto getPostContent(@PathParam("year") String year,
+                                   @PathParam("monthday") String monthDay,
+                                   @PathParam("title") String title) {
+        final Paper paper = paperRepository.getCompletePost(year, monthDay, title)
                               .orElseThrow(() -> new WebApplicationException(404));
+
+        return typeConverter.toPaperDto(paper);
     }
 }

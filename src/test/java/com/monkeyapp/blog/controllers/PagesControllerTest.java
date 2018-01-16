@@ -24,11 +24,13 @@ SOFTWARE.
 
 package com.monkeyapp.blog.controllers;
 
+import com.monkeyapp.blog.dtos.PaperDto;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 public class PagesControllerTest extends BaseControllerTest {
@@ -36,6 +38,15 @@ public class PagesControllerTest extends BaseControllerTest {
     public void testGetValidPage() {
          Response response = target("/pages/mock-page").request().get();
          assertThat(response.getStatus(), is(200));
+
+         PaperDto paperDto = response.readEntity(PaperDto.class);
+         assertNotNull(paperDto);
+         assertThat(paperDto.getContent(), is("<p>mock page content</p>\n"));
+         assertNotNull(paperDto.getFile());
+         assertThat(paperDto.getFile().getCreationTime(), is("2017/05/09 00:11"));
+         assertThat(paperDto.getFile().getTag(), is("Tag"));
+         assertThat(paperDto.getFile().getTitle(), is("Mock Page"));
+         assertThat(paperDto.getFile().getUrl(), is("2017/0509/mock-page"));
     }
 
     @Test

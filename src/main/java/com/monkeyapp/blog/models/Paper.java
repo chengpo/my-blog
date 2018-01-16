@@ -24,23 +24,21 @@ SOFTWARE.
 
 package com.monkeyapp.blog.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.monkeyapp.blog.readers.MarkdownReader;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 import java.util.function.Function;
 
+@RequiredArgsConstructor @Getter
 public class Paper {
-    @JsonProperty("file")
+    @NonNull
     private final PaperFile file;
 
-    @JsonProperty("content")
+    @NonNull
     private final String content;
-
-    public Paper(PaperFile file, String content) {
-        this.file = file;
-        this.content = content;
-    }
 
     public static Optional<Paper> completePaper(PaperFile file) {
         return toPaper(PaperFile::completeRead)
@@ -58,13 +56,4 @@ public class Paper {
                 .map(MarkdownReader::read)
                 .map((content) -> new Paper(file, content));
     }
-
-    public PaperFile getFile() {
-        return file;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
 }

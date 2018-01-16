@@ -45,7 +45,6 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.anyString;
 import static org.junit.Assert.assertThat;
 
-
 @RunWith(MockitoJUnitRunner.class)
 public class PaperRepositoryTest {
     @Mock
@@ -91,9 +90,9 @@ public class PaperRepositoryTest {
         final PaperChunk paperChunk = paperRepository.getPostsByTag("", 0, Integer.MAX_VALUE);
         final List<Paper> papers = paperChunk.getPapers();
 
-        assertThat(paperChunk.eof, is(true));
-        assertThat(paperChunk.offset, is(0));
-        assertThat(paperChunk.capacity, is(Integer.MAX_VALUE));
+        assertThat(paperChunk.isEof(), is(true));
+        assertThat(paperChunk.getOffset(), is(0));
+        assertThat(paperChunk.getCapacity(), is(Integer.MAX_VALUE));
 
         final List<String> expectedTitles = Arrays.asList("Post1", "Post2", "Post3");
         final List<String> expectedTags = Arrays.asList("Tag1", "Tag2", "Tag2");
@@ -116,12 +115,12 @@ public class PaperRepositoryTest {
 
     @Test
     public void testPostListIsFilteredByTag() {
-        final List<Paper> tag1Papers = paperRepository.getPostsByTag("tag1", 0, Integer.MAX_VALUE).papers;
+        final List<Paper> tag1Papers = paperRepository.getPostsByTag("tag1", 0, Integer.MAX_VALUE).getPapers();
         final List<String> expectedTag1Titles = Collections.singletonList("Post1");
 
         verifyPaperList(tag1Papers, PaperFile::getTitle, expectedTag1Titles);
 
-        final List<Paper> tag2Papers = paperRepository.getPostsByTag("tag2", 0, Integer.MAX_VALUE).papers;
+        final List<Paper> tag2Papers = paperRepository.getPostsByTag("tag2", 0, Integer.MAX_VALUE).getPapers();
         final List<String> expectedTag2Titles = Arrays.asList("Post2", "Post3");
 
         verifyPaperList(tag2Papers, PaperFile::getTitle, expectedTag2Titles);
@@ -171,7 +170,7 @@ public class PaperRepositoryTest {
     @Test
     public void testGetFeed() {
         SyncFeed syncFeed = paperRepository.getPostFeed();
-        assertThat(syncFeed.getItems().size(), is(3));
+        assertThat(syncFeed.getChannel().getItems().size(), is(3));
     }
 
     /**
@@ -190,5 +189,4 @@ public class PaperRepositoryTest {
 
         assertThat(actualValues, is(expectedValues));
     }
-
 }

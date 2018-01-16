@@ -24,17 +24,25 @@ SOFTWARE.
 
 package com.monkeyapp.blog.controllers;
 
+import com.monkeyapp.blog.dtos.TagCounterDto;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 public class TagsControllerTest extends BaseControllerTest {
     @Test
+    @SuppressWarnings("unchecked")
     public void testGetStatus() {
         Response response = target("/tags").request().get();
         assertThat(response.getStatus(), is(200));
+
+        List<TagCounterDto> tagCounterDtos = response.readEntity(List.class);
+        assertNotNull(tagCounterDtos);
     }
 }

@@ -24,60 +24,33 @@ SOFTWARE.
 
 package com.monkeyapp.blog.models;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-@XmlRootElement(name = "rss")
+@Getter
 public class SyncFeed {
-    @XmlAttribute(name = "version")
     private final String version = "2.0";
-
-    @XmlElement(name = "channel")
     private final Channel channel = new Channel();
 
-    SyncFeed setItems(List<Item> items) {
-        channel.items = Collections.unmodifiableList(items);
-        return this;
-    }
-
-    List<Item> getItems() {
-        return channel.items;
-    }
-
-    private static final class Channel {
-        @XmlElement(name = "title")
+    @Setter @Getter
+    public static final class Channel {
         private final String title = "Monkey Blogger";
-
-        @XmlElement(name = "link")
         private final String link = "http://monkey-blogger.herokuapp.com";
-
-        @XmlElement(name = "description")
         private final String description = "Po Cheng's technical blog";
-
-        @XmlElement(name = "item")
-        private List<Item> items = Collections.emptyList();
+        private List<Item> items;
     }
 
-    static final class Item {
-        @XmlElement(name = "title")
+    @Getter
+    public static final class Item {
         private final String title;
-
-        @XmlElement(name = "link")
         private final String link;
-
-        @XmlElement(name = "description")
         private final String description;
-
-        @XmlElement(name = "pubDate")
         private String pubDate;
-
-        @XmlElement(name = "guid")
         private final String guid;
 
         Item(Paper paper) {

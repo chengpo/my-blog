@@ -24,31 +24,23 @@ SOFTWARE.
 
 package com.monkeyapp.blog.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.monkeyapp.blog.wrappers.FileWrapper;
 import com.monkeyapp.blog.wrappers.ReadableWrapper;
+import lombok.Getter;
+import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Getter @ToString
 public class PaperFile implements ReadableWrapper {
-    @JsonProperty("creationTime")
     private final String creationTime;
-
-    @JsonProperty("url")
     private final String url;
-
-    @JsonProperty("title")
     private final String title;
-
-    @JsonProperty("tag")
     private final String tag;
 
-    @JsonIgnore
     private final FileWrapper fileWrapper;
 
     PaperFile(FileWrapper fileWrapper) {
@@ -72,31 +64,5 @@ public class PaperFile implements ReadableWrapper {
                 .collect(Collectors.joining(" "));
 
         this.tag = WordUtils.capitalize(fileWrapper.getTag());
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getCreationTime() {
-        return creationTime;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    @Override
-    public FileWrapper getFileWrapper() {
-        return fileWrapper;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("paper(creationTime = %s, tag = %s, title = %s)", creationTime, tag, title);
     }
 }

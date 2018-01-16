@@ -24,6 +24,8 @@ SOFTWARE.
 
 package com.monkeyapp.blog.controllers;
 
+import com.monkeyapp.blog.dtos.TagCounterDto;
+import com.monkeyapp.blog.dtos.TypeConverter;
 import com.monkeyapp.blog.models.PaperRepository;
 import com.monkeyapp.blog.models.TagCounter;
 
@@ -39,9 +41,13 @@ public class TagsController {
     @Inject
     private PaperRepository paperRepository;
 
+    @Inject
+    private TypeConverter typeConverter;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<TagCounter> getTags() {
-        return paperRepository.getPostTags();
+    public List<TagCounterDto> getTags() {
+        final List<TagCounter> tagCounters = paperRepository.getPostTags();
+        return typeConverter.tagCounterDto(tagCounters);
     }
 }

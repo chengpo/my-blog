@@ -37,7 +37,8 @@ public class BaseControllerTest extends JerseyTest {
                                                          PostsController.class,
                                                          FeedController.class,
                                                          TagsController.class,
-                                                         StatusController.class);
+                                                         StatusController.class,
+                                                         MyExceptionMapper.class);
         return new ResourceConfig(new HashSet<>(controllers))
                     .register(new MockBinder());
     }

@@ -128,6 +128,8 @@ public class PaperRepository {
                                         .map(SyncFeed.Item::new)
                                         .collect(Collectors.toList());
 
-        return new SyncFeed().setItems(items);
+        final SyncFeed syncFeed = new SyncFeed();
+        syncFeed.getChannel().setItems(items);
+        return syncFeed;
     }
 }

@@ -24,11 +24,14 @@ SOFTWARE.
 
 package com.monkeyapp.blog.controllers;
 
+import com.monkeyapp.blog.dtos.PaperChunkDto;
+import com.monkeyapp.blog.dtos.PaperDto;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 public class PostsControllerTest extends BaseControllerTest {
@@ -36,11 +39,25 @@ public class PostsControllerTest extends BaseControllerTest {
     public void testGetPostChunk() {
         Response response = target("/posts").request().get();
         assertThat(response.getStatus(), is(200));
+
+        PaperChunkDto paperChunk = response.readEntity(PaperChunkDto.class);
+        assertNotNull(paperChunk);
+        assertNotNull(paperChunk.getPapers());
+        assertThat(paperChunk.getPapers().size(), is(1));
     }
 
     @Test
     public void testGetValidPost() {
         Response response = target("/posts/2017/0521/mock-post").request().get();
         assertThat(response.getStatus(), is(200));
+
+        PaperDto paperDto = response.readEntity(PaperDto.class);
+        assertNotNull(paperDto);
+        assertThat(paperDto.getContent(), is("<p>mock post content</p>\n"));
+        assertNotNull(paperDto.getFile());
+        assertThat(paperDto.getFile().getCreationTime(), is("2017/05/21 01:48"));
+        assertThat(paperDto.getFile().getTag(), is("Tag"));
+        assertThat(paperDto.getFile().getTitle(), is("Mock Post"));
+        assertThat(paperDto.getFile().getUrl(), is("2017/0521/mock-post"));
     }
 }

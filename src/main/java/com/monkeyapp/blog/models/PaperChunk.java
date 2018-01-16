@@ -24,31 +24,15 @@ SOFTWARE.
 
 package com.monkeyapp.blog.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+@RequiredArgsConstructor @Getter
 public class PaperChunk {
-    @JsonProperty("papers")
-    final List<Paper> papers;
-
-    @JsonProperty("offset")
-    final int offset; // offset to the very first blog
-
-    @JsonProperty("capacity")
-    final int capacity;
-
-    @JsonProperty("eof")
-    final boolean eof; // eof = true when reach the last blog
-
-    PaperChunk(List<Paper> papers, int offset, int capacity, boolean eof) {
-        this.papers = papers;
-        this.offset = offset;
-        this.capacity = capacity;
-        this.eof = eof;
-    }
-
-    public List<Paper> getPapers() {
-        return papers;
-    }
+    private final List<Paper> papers;
+    private final int offset; // offset to the very first blog
+    private final int capacity;
+    private final boolean eof; // eof = true when reach the last blog
 }
