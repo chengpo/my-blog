@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Po Cheng
+Copyright (c) 2017 - 2018 Po Cheng
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,6 +36,12 @@ import java.io.File;
 import java.net.MalformedURLException;
 
 public class App {
+    static {
+        // Turn off apache bean utils log
+        System.setProperty("org.apache.commons.logging.Log",
+                "org.apache.commons.logging.impl.NoOpLog");
+    }
+
     private static final int PORT = 8080;
     private static final String WEB_CONTENT = "src/main/webapp/";
     private static final String WEB_XML = (WEB_CONTENT + "WEB-INF/web.xml").replace("/", File.separator);
@@ -60,7 +66,7 @@ public class App {
             tomcat.setPort(PORT);
         }
 
-        // enable compression response
+        // Enable compression response
         final Connector connector = tomcat.getConnector();
         connector.setProperty("compression", "on");
         connector.setProperty("compressionMinSize", "256");
