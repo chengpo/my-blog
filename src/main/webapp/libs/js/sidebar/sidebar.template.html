@@ -23,12 +23,18 @@ SOFTWARE.
 -->
 
 <div class="sidebar">
+    <div class="menu-toggle" ng-click="$ctrl.toggle()">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
+
     <div class="sidebar-content">
         <div class="sidebar-module">
             <a href="/"><h1 class="sidebar-link">{{$ctrl.title}}</h1></a>
         </div>
 
-        <div class="sidebar-module">
+        <div class="sidebar-module sidebar-menu">
             <ul>
                 <div ng-repeat="link in $ctrl.links">
                     <li> <a href="{{link.url}}" target="_blank" ng-if="link.external"><h4 class="sidebar-link">{{link.name}}</h4> </a></li>

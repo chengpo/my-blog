@@ -32,5 +32,17 @@ angular.module('sidebar')
                 self.links = [{url: '/about/', external: false, name:'About'},
                               {url: 'https://github.com/chengpo?tab=overview', external: true, name:'Projects'},
                               {url: '/posts/feed', external:true, name:'Rss Feed'}];
+
+                self.toggle = function() {
+                        var menuToggle = $('.sidebar .menu-toggle');
+                        menuToggle.toggleClass('change');
+
+                        var menuList = $('.sidebar-menu');
+                        if (menuList.css('display') === 'none') {
+                            menuList.fadeIn('fast');
+                        } else {
+                            menuList.fadeOut('fast');
+                        }
+                }
             }
        });
