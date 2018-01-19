@@ -38,11 +38,7 @@ angular.module('sidebar')
                         menuToggle.toggleClass('change');
 
                         var menuList = $('.sidebar-menu');
-                        if (menuList.css('display') === 'none') {
-                            menuList.fadeIn('fast');
-                        } else {
-                            menuList.fadeOut('fast');
-                        }
+                        menuList.slideToggle({duration:300});
                 }
             }
        });
