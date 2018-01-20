@@ -27,10 +27,6 @@ package com.monkeyapp.blog.controllers;
 import com.monkeyapp.blog.dtos.PaperDto;
 import com.monkeyapp.blog.dtos.TypeConverter;
 import com.monkeyapp.blog.models.*;
-import com.monkeyapp.blog.models.Paper;
-import lombok.SneakyThrows;
-import org.apache.commons.beanutils.BeanUtils;
-
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -47,10 +43,8 @@ public class PagesController {
     @GET @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
     public PaperDto getPageContent(@PathParam("name") String name) {
-        final Paper paper = paperRepository.getCompletePage(name)
+        return paperRepository.getCompletePage(name)
+                              .map(typeConverter::toPaperDto)
                               .orElseThrow(() -> new WebApplicationException(404));
-
-
-        return typeConverter.toPaperDto(paper);
     }
 }

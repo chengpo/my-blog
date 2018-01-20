@@ -28,7 +28,6 @@ import com.monkeyapp.blog.dtos.PaperChunkDto;
 import com.monkeyapp.blog.dtos.PaperDto;
 import com.monkeyapp.blog.dtos.TypeConverter;
 import com.monkeyapp.blog.models.*;
-import com.monkeyapp.blog.models.Paper;
 import com.monkeyapp.blog.models.PaperChunk;
 
 import javax.inject.Inject;
@@ -63,9 +62,8 @@ public class PostsController {
     public PaperDto getPostContent(@PathParam("year") String year,
                                    @PathParam("monthday") String monthDay,
                                    @PathParam("title") String title) {
-        final Paper paper = paperRepository.getCompletePost(year, monthDay, title)
+        return paperRepository.getCompletePost(year, monthDay, title)
+                              .map(typeConverter::toPaperDto)
                               .orElseThrow(() -> new WebApplicationException(404));
-
-        return typeConverter.toPaperDto(paper);
     }
 }
