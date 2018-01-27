@@ -1,7 +1,7 @@
 <!--
 MIT License
 
-Copyright (c) 2017 Po Cheng
+Copyright (c) 2017 - 2018 Po Cheng
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
+<%@page language="java" import="com.monkeyapp.blog.StaticUrl" contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,17 +83,31 @@ SOFTWARE.
     <script src="external/angular-resource/angular-resource.js"></script>
     <script src="external/angular-animate/angular-animate.js"></script>
     <script src="external/ngprogress/build/ngprogress.js"></script>
+    <script src="external/requirejs/require.js"></script>
 
     <!-- syntax highlighter -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 
+    <link rel="stylesheet" href="<%= StaticUrl.of("css/app.css") %>">
+    <link rel="stylesheet" href="<%= StaticUrl.of("css/app.animate.css") %>">
+
+    <script type='text/javascript'>
+      /* $(function(){
+            'use strict';
+
+            requirejs.config({
+                baseUrl: '<%= StaticUrl.of("js") %>'
+            });
+
+        });*/
+    </script>
+
     <script type='text/javascript'>
         var Resource = (function(){
             var resMap = {
-               version : '1.0.14',
-               urls : ['app.css',
-                        'app.animate.css',
+               version : '1.0.0',
+               urls : [
                         'app.module.js',
                         'app.config.js',
                         'core/core.module.js',

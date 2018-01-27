@@ -5,7 +5,7 @@
     <groupId>com.monkeyapp.blog</groupId>
     <artifactId>my-blog</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>my-blog</name>
     <url>http://monkey-blogger.herokuapp.com</url>
     <developers>
@@ -67,6 +67,13 @@
         <posts.dir>${project.basedir}/src/main/webapp/md/posts</posts.dir>
         <pages.dir>${project.basedir}/src/main/webapp/md/pages</pages.dir>
     </properties>
+
+    <scm>
+        <connection>scm:git:git@github.com:chengpo/my-blog.git</connection>
+        <developerConnection>scm:git:git@github.com:chengpo/my-blog.git</developerConnection>
+        <tag>HEAD</tag>
+        <url>https://github.com/chengpo/my-blog</url>
+    </scm>
 
     <build>
         <plugins>
@@ -161,7 +168,49 @@
                 </configuration>
             </plugin>
 
+            <!-- build number -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <id>buildnumber</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <format>{0,number}</format>
+                    <items>
+                        <item>buildNumber</item>
+                    </items>
+                    <doCheck>false</doCheck>
+                    <doUpdate>false</doUpdate>
+                    <revisionOnScmFailure>unknownbuild</revisionOnScmFailure>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <WebApp-Version>${project.version}.${buildNumber}</WebApp-Version>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
         </plugins>
+
+        <finalName>${project.artifactId}-${project.version}.${buildNumber}</finalName>
 
         <resources>
             <resource>
@@ -283,6 +332,12 @@
             <artifactId>lombok</artifactId>
             <version>1.16.20</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jcabi</groupId>
+            <artifactId>jcabi-manifests</artifactId>
+            <version>1.1</version>
         </dependency>
 
         <!-- test scope begin -->
