@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Po Cheng
+Copyright (c) 2017 - 2018 Po Cheng
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,35 +22,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-'use strict';
+define(['static-url',
+        'post-detail/post-detail.module'],
+        function(staticUrl, postDetailModule) {
 
-angular.module('postDetail')
-       .component('postDetail', {
-            templateUrl: Resource.versioningUrl('js/post-detail/post-detail.template.html'),
-            controller: ['$routeParams', 'postContent',
-                function postDetailController($routeParams, postContent) {
-                    var self = this;
-                    self.error = "";
+    'use strict';
 
-                    postContent.get({year:$routeParams.year,
-                                     monthday:$routeParams.monthday,
-                                     title:$routeParams.title
-                                     },
+    postDetailModule.component('postDetail', {
+                                  templateUrl: staticUrl.of('js/post-detail/post-detail.template.html'),
+                                  controller: ['$routeParams', 'postContent',
+                                      function postDetailController($routeParams, postContent) {
+                                          var self = this;
+                                          self.error = "";
 
-                                     function(paper) {
-                                        self.file = paper.file;
-                                        self.content = paper.content;
+                                          postContent.get({year:$routeParams.year,
+                                                           monthday:$routeParams.monthday,
+                                                           title:$routeParams.title
+                                                           },
 
-                                        // reload syntax highlighter
-                                        setTimeout(function () {
-                                                    $('pre code').each(function(i, block) {
-                                                        hljs.highlightBlock(block);
-                                                    });
-                                                  }, 100);
-                                     },
+                                                           function(paper) {
+                                                              self.file = paper.file;
+                                                              self.content = paper.content;
 
-                                     function(error) {
-                                        self.error = "Failed to retrieve post content, status: " + error.status + "!";
-                                     });
-                }]
-       });
+                                                              // reload syntax highlighter
+                                                              setTimeout(function () {
+                                                                          $('pre code').each(function(i, block) {
+                                                                              hljs.highlightBlock(block);
+                                                                          });
+                                                                        }, 100);
+                                                           },
+
+                                                           function(error) {
+                                                              self.error = "Failed to retrieve post content, status: " + error.status + "!";
+                                                           });
+                                      }]
+                             });
+});

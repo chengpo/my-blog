@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Po Cheng
+Copyright (c) 2017 - 2018 Po Cheng
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,49 +22,53 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-'use strict';
+define(['static-url',
+        'post-list/post-list.module'],
+        function(staticUrl, postListModule) {
 
-angular.module('postList')
-       .component('postList', {
-           templateUrl: Resource.versioningUrl('js/post-list/post-list.template.html'),
-           controller: ['$location', 'posts',
-                function PostListController($location, posts) {
-                    var self = this;
+    'use strict';
 
-                    self.disable_forward = true;
-                    self.disable_backward = true;
-                    self.error = "";
+    postListModule.component('postList', {
+                                templateUrl: staticUrl.of('js/post-list/post-list.template.html'),
+                                controller: ['$location', 'posts',
+                                     function PostListController($location, posts) {
+                                         var self = this;
 
-                    self.tag = $location.search().tag;
-                    self.offset = $location.search().offset;
+                                         self.disable_forward = true;
+                                         self.disable_backward = true;
+                                         self.error = "";
 
-                    self.forward = function() {
-                        var offset = self.offset - self.capacity;
-                        $location.search('offset', offset > 0 ? offset : null);
-                    }
+                                         self.tag = $location.search().tag;
+                                         self.offset = $location.search().offset;
 
-                    self.backward = function() {
-                        $location.search('offset', (self.offset + self.posts.length));
-                    }
+                                         self.forward = function() {
+                                             var offset = self.offset - self.capacity;
+                                             $location.search('offset', offset > 0 ? offset : null);
+                                         }
 
-                    posts.all({tag:self.tag, offset:self.offset}, function(postChunk) {
-                        self.posts = postChunk.papers;
-                        self.offset = postChunk.offset;
-                        self.capacity = postChunk.capacity;
-                        self.eof = postChunk.eof;
+                                         self.backward = function() {
+                                             $location.search('offset', (self.offset + self.posts.length));
+                                         }
 
-                        self.disable_forward = self.offset <= 0;
-                        self.disable_backward = self.eof;
+                                         posts.all({tag:self.tag, offset:self.offset}, function(postChunk) {
+                                             self.posts = postChunk.papers;
+                                             self.offset = postChunk.offset;
+                                             self.capacity = postChunk.capacity;
+                                             self.eof = postChunk.eof;
 
-                        // reload syntax highlighter
-                        setTimeout(function () {
-                                        $('pre code').each(function(i, block) {
-                                            hljs.highlightBlock(block);
-                                        });
-                                      }, 100);
+                                             self.disable_forward = self.offset <= 0;
+                                             self.disable_backward = self.eof;
 
-                    }, function(error) {
-                        self.error = "Failed to retrieve post list, status: " + error.status + "!";
-                    });
-                }]
-       });
+                                             // reload syntax highlighter
+                                             setTimeout(function () {
+                                                             $('pre code').each(function(i, block) {
+                                                                 hljs.highlightBlock(block);
+                                                             });
+                                                           }, 100);
+
+                                         }, function(error) {
+                                             self.error = "Failed to retrieve post list, status: " + error.status + "!";
+                                         });
+                                     }]
+                            });
+});

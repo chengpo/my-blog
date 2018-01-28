@@ -83,7 +83,6 @@ SOFTWARE.
     <script src="external/angular-resource/angular-resource.js"></script>
     <script src="external/angular-animate/angular-animate.js"></script>
     <script src="external/ngprogress/build/ngprogress.js"></script>
-    <script src="external/requirejs/require.js"></script>
 
     <!-- syntax highlighter -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
@@ -92,17 +91,48 @@ SOFTWARE.
     <link rel="stylesheet" href="<%= StaticUrl.of("css/app.css") %>">
     <link rel="stylesheet" href="<%= StaticUrl.of("css/app.animate.css") %>">
 
+    <script src="external/requirejs/require.js"></script>
     <script type='text/javascript'>
-      /* $(function(){
+        define('loader-progress', function() {
+            'use strict';
+            var _hide = function() {
+                 $('#loader').hide();
+            }
+
+            return {
+                hide : _hide
+            };
+        });
+
+        define('static-url', function() {
             'use strict';
 
-            requirejs.config({
-                baseUrl: '<%= StaticUrl.of("js") %>'
-            });
+            var _of = function(path) {
+                 return 'static/<%= StaticUrl.VERSION %>/' + path;
+            };
 
-        });*/
+            return {
+                of : _of
+                };
+        });
+
+        requirejs.config({
+                        baseUrl: '<%= StaticUrl.of("js") %>'
+                    });
+
+        require(['loader-progress',
+                 'app.config'],
+                 function(loaderProgress, appConfig) {
+
+               loaderProgress.hide();
+
+               angular.element(function() {
+                    angular.bootstrap(document, ['blogApp']);
+               });
+        });
     </script>
 
+<%--
     <script type='text/javascript'>
         var Resource = (function(){
             var resMap = {
@@ -201,6 +231,8 @@ SOFTWARE.
                     .init();
         });
     </script>
+--%>
+
 </body>
 
 </html>

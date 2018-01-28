@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Po Cheng
+Copyright (c) 2017 - 2018 Po Cheng
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,18 +22,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-'use strict';
+ define(['static-url',
+         'about/about.module'],
+         function(staticUrl, aboutModule) {
 
-angular.module('about')
-       .component('about', {
-            templateUrl: Resource.versioningUrl('js/about/about.template.html'),
-            controller: ['pages',
-                    function AboutController(pages) {
-                        var self = this;
-                        pages.about(
-                            function(paper) {
-                                self.file = paper.file;
-                                self.content = paper.content;
-                            });
-                    }]
-   });
+    'use strict';
+    aboutModule.component('about', {
+                            templateUrl: staticUrl.of('js/about/about.template.html'),
+                            controller: ['pages',
+                                    function AboutController(pages) {
+                                        var self = this;
+                                        pages.about(
+                                            function(paper) {
+                                                self.file = paper.file;
+                                                self.content = paper.content;
+                                            });
+                                    }]
+                   });
+ });
+
+

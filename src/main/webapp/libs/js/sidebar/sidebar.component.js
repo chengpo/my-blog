@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Po Cheng
+Copyright (c) 2017 - 2018 Po Cheng
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,23 +22,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-angular.module('sidebar')
-       .component('sidebar', {
-            templateUrl: Resource.versioningUrl('js/sidebar/sidebar.template.html'),
-            controller: function() {
-                var self = this;
+define(['static-url',
+        'sidebar/sidebar.module'],
+        function(staticUrl, sidebarModule) {
 
-                self.title = 'Monkey Blogger';
-                self.links = [{url: '/about/', external: false, name:'About'},
-                              {url: 'https://github.com/chengpo?tab=overview', external: true, name:'Projects'},
-                              {url: '/posts/feed', external:true, name:'Rss Feed'}];
+    'use strict';
 
-                self.toggle = function() {
-                        var menuToggle = $('.sidebar .menu-toggle');
-                        menuToggle.toggleClass('change');
+    sidebarModule.component('sidebar', {
+                             templateUrl: staticUrl.of('js/sidebar/sidebar.template.html'),
+                             controller: function() {
+                                 var self = this;
 
-                        var menuList = $('.sidebar-menu');
-                        menuList.slideToggle({duration:300});
-                }
-            }
-       });
+                                 self.title = 'Monkey Blogger';
+                                 self.links = [{url: '/about/', external: false, name:'About'},
+                                               {url: 'https://github.com/chengpo?tab=overview', external: true, name:'Projects'},
+                                               {url: '/posts/feed', external:true, name:'RSS'}];
+
+                                 self.toggle = function() {
+                                         var menuToggle = $('.sidebar .menu-toggle');
+                                         menuToggle.toggleClass('change');
+
+                                         var menuList = $('.sidebar-menu');
+                                         menuList.slideToggle({duration:300});
+                                 }
+                             }
+                        });
+
+});

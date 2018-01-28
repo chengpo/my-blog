@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Po Cheng
+Copyright (c) 2017 - 2018 Po Cheng
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-'use strict';
+define(['core/core.module'], function(coreModule) {
+    'use strict';
 
-angular.module('postDetail', [
-    'ngRoute',
-    'core'
-]);
+    angular.module('postDetail', [
+        'ngRoute',
+        'core'
+    ]);
+
+    return angular.module('postDetail');
+});
+

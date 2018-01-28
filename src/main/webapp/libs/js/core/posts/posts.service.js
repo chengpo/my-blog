@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Po Cheng
+Copyright (c) 2017 - 2018 Po Cheng
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,23 +22,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-'use strict';
+define(['core/posts/posts.module'], function(postsModule) {
+    'use strict';
 
-angular
-  .module('core.posts')
-  .factory('posts', ['$resource',
-    function($resource) {
-      return $resource("rest/posts/?tag=:tag&offset=:offset", {}, {
-        all: {
-          method: 'GET',
-          params: {tag:'', offset:'0'},
-          isArray: false
+    postsModule.factory('posts', ['$resource',
+        function($resource) {
+          return $resource("rest/posts/?tag=:tag&offset=:offset", {}, {
+            all: {
+              method: 'GET',
+              params: {tag:'', offset:'0'},
+              isArray: false
+            }
+          });
         }
-      });
-    }
-  ])
-  .factory('postContent', ['$resource',
-    function($resource) {
-        return $resource("rest/posts/:year/:monthday/:title", {}, {});
-    }
-  ]);
+      ])
+      .factory('postContent', ['$resource',
+        function($resource) {
+            return $resource("rest/posts/:year/:monthday/:title", {}, {});
+        }
+      ]);
+});
