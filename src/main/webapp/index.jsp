@@ -120,15 +120,8 @@ SOFTWARE.
                         baseUrl: '<%= StaticUrl.of("js") %>'
                     });
 
-        require(['loader-progress',
-                 'app.config'],
-                 function(loaderProgress, appConfig) {
-
-               loaderProgress.hide();
-
-               angular.element(function() {
-                    angular.bootstrap(document, ['blogApp']);
-               });
+        require(['app'], function(app) {
+               app.start();
         });
     </script>
 

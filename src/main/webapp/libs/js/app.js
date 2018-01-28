@@ -22,24 +22,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-define(['app.module'], function(appModule) {
+define(['loader-progress',
+        'app.config'],
+        function(loaderProgress, appConfig) {
+
     'use strict';
 
-     appModule.config(['$locationProvider', '$routeProvider',
-        function config($locationProvider, $routeProvider) {
-          //$locationProvider.hashPrefix('!');
-          $locationProvider.html5Mode(true);
-          $routeProvider.
-            when('/posts', {
-                template: '<post-list></post-list>'
-            }).
-            when('/posts/:year/:monthday/:title', {
-                template: '<post-detail></post-detail>'
-            }).
-            when('/about', {
-                template: '<about></about>'
-            }).
-            otherwise('/posts');
-        }
-      ]);
+    var _start = function() {
+        loaderProgress.hide();
+
+        angular.element(function() {
+            angular.bootstrap(document, ['blogApp']);
+        });
+    };
+
+    return {
+        start: _start
+    };
 });
