@@ -23,7 +23,9 @@ SOFTWARE.
  */
 
 define(['loader-progress',
-        'app.config'],
+        'app.config',
+        'bootstrap',
+        'angular'],
         function(loaderProgress, appConfig) {
 
     'use strict';

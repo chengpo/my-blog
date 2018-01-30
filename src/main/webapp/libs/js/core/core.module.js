@@ -23,7 +23,8 @@ SOFTWARE.
  */
 
 define(['core/posts/posts.service',
-        'core/pages/pages.service'], function() {
+        'core/pages/pages.service',
+        'angular'], function() {
 
     'use strict';
 

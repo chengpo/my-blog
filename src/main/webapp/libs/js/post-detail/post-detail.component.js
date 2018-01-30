@@ -23,8 +23,9 @@ SOFTWARE.
  */
 
 define(['static-url',
+        'highlight',
         'post-detail/post-detail.module'],
-        function(staticUrl, postDetailModule) {
+        function(staticUrl, highlight, postDetailModule) {
 
     'use strict';
 
@@ -47,7 +48,7 @@ define(['static-url',
                                                               // reload syntax highlighter
                                                               setTimeout(function () {
                                                                           $('pre code').each(function(i, block) {
-                                                                              hljs.highlightBlock(block);
+                                                                              highlight.highlightBlock(block);
                                                                           });
                                                                         }, 100);
                                                            },

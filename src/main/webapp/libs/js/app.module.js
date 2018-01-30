@@ -27,7 +27,10 @@ define(['core/core.module',
         'sidebar/sidebar.component',
         'about/about.component',
         'post-list/post-list.component',
-        'post-detail/post-detail.component'], function() {
+        'post-detail/post-detail.component',
+        'angular',
+        'angular-animate',
+        'ng-progress'], function() {
 
     'use strict';
 
@@ -45,7 +48,7 @@ define(['core/core.module',
         .run(function ($rootScope, ngProgressFactory) {
             // first create instance when app starts
             $rootScope.progressbar = ngProgressFactory.createInstance();
-            $rootScope.progressbar.setColor('#808080');
+            $rootScope.progressbar.setColor('#F0F0F0');
 
             $rootScope.$on("$routeChangeStart", function () {
                 $rootScope.progressbar.start();

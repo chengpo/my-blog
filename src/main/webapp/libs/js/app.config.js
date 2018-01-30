@@ -22,7 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-define(['app.module'], function(appModule) {
+define(['app.module',
+        'angular-route'], function(appModule) {
     'use strict';
 
      appModule.config(['$locationProvider', '$routeProvider',

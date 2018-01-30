@@ -76,24 +76,15 @@ SOFTWARE.
     <link rel="stylesheet" href="external/ngprogress/ngProgress.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Play">
 
-    <script src="external/jquery/dist/jquery.js"></script>
-    <script src="external/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="external/angular/angular.js"></script>
-    <script src="external/angular-route/angular-route.js"></script>
-    <script src="external/angular-resource/angular-resource.js"></script>
-    <script src="external/angular-animate/angular-animate.js"></script>
-    <script src="external/ngprogress/build/ngprogress.js"></script>
-
     <!-- syntax highlighter -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 
     <link rel="stylesheet" href="<%= StaticUrl.of("css/app.css") %>">
     <link rel="stylesheet" href="<%= StaticUrl.of("css/app.animate.css") %>">
 
     <script src="external/requirejs/require.js"></script>
     <script type='text/javascript'>
-        define('loader-progress', function() {
+        define('loader-progress', ['jquery'], function($) {
             'use strict';
             var _hide = function() {
                  $('#loader').hide();
@@ -117,7 +108,29 @@ SOFTWARE.
         });
 
         requirejs.config({
-                        baseUrl: '<%= StaticUrl.of("js") %>'
+                        baseUrl: '<%= StaticUrl.of("js") %>',
+                        paths : {
+                            jquery : '/external/jquery/dist/jquery',
+                            bootstrap : '/external/bootstrap/dist/js/bootstrap',
+                            angular : '/external/angular/angular',
+                            'angular-route' : '/external/angular-route/angular-route',
+                            'angular-resource' : '/external/angular-resource/angular-resource',
+                            'angular-animate' : '/external/angular-animate/angular-animate',
+                            'ng-progress' : '/external/ngprogress/build/ngprogress',
+                            highlight : 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min'
+                        },
+
+                        shim: {
+                            'bootstrap' : ['jquery'],
+                            'highlight' : {
+                                deps : ['jquery'],
+                                exports: 'highlight'
+                             },
+                             'angular-route' : ['angular'],
+                             'angular-resource' : ['angular'],
+                             'angular-animate' : ['angular'],
+                             'ng-progress' : ['angular']
+                        }
                     });
 
         require(['app'], function(app) {
