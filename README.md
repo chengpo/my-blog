@@ -10,13 +10,15 @@ The design is highly influenced by MVC ( Model-View-Controller ) pattern.
 
 ## Technology Behind
 
-- Embedded Tomcat for hosting the website;
-- Java8 for backend service;
-- Jersey for Restful API;
-- HK2 for dependency injection;
-- Mockito for mocking test objects;
+
 - Bootstrap for frontend page layout;
+- RequireJS for loading Javascript modules;
 - AngularJS for frontend web App;
+- HK2 for dependency injection;
+- Jersey for Restful API;
+- Mockito for mocking test objects;
+- Java8 for backend service;
+- Embedded Tomcat for hosting the website;
 - Docker for running in container environment.
 
 ## Run with Command Line
@@ -50,7 +52,7 @@ To make the Java EE APIs available at runtime, specify the following command-lin
 ## License
     MIT License
 
-	Copyright (c) 2017 Po Cheng
+	Copyright (c) 2017 - 2018 Po Cheng
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
