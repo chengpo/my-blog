@@ -37,9 +37,7 @@ public class FileListReader {
                     .readValue(json, new TypeReference<List<String>>() {
                     });
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to parse file list!", e);
         }
-
-        return null;
     }
 }
