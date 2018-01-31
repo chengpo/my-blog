@@ -109,6 +109,7 @@ SOFTWARE.
 
         requirejs.config({
                         baseUrl: '<%= StaticUrl.of("js") %>',
+                        waitSeconds : 600,
                         paths : {
                             jquery : '/external/jquery/dist/jquery',
                             bootstrap : '/external/bootstrap/dist/js/bootstrap',
