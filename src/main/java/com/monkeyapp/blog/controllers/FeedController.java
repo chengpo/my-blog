@@ -28,6 +28,7 @@ import com.monkeyapp.blog.dtos.SyncFeedDto;
 import com.monkeyapp.blog.dtos.TypeConverter;
 import com.monkeyapp.blog.models.PaperRepository;
 import com.monkeyapp.blog.models.SyncFeed;
+import com.monkeyapp.blog.models.SyncFeedBuilder;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -45,7 +46,7 @@ public class FeedController {
     @GET
     @Produces("application/rss+xml")
     public SyncFeedDto getFeed() {
-        final SyncFeed syncFeed = paperRepository.getPostFeed();
+        final SyncFeed syncFeed = new SyncFeedBuilder(paperRepository).build();
         return typeConverter.toSyncFeedDto(syncFeed);
     }
 }

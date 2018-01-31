@@ -73,7 +73,7 @@ public class StatusController {
         }
 
         sb.append("posts = ");
-        List<String> postNames = paperRepository.getPostsByTag("", 0, Integer.MAX_VALUE)
+        List<String> postNames = paperRepository.getPostPaperChunk("", 0, Integer.MAX_VALUE)
                                          .getPapers()
                                          .stream()
                                          .map(Paper::getFile)

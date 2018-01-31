@@ -42,7 +42,7 @@ public class PaperRepository {
         this.storage = storage;
     }
 
-    public PaperChunk getPostsByTag(String tag, int offset, int chunkCapacity) {
+    public PaperChunk getPostPaperChunk(String tag, int offset, int chunkCapacity) {
         final Predicate<FileWrapper> byTag =
                 (file) -> tag.isEmpty() ||
                           tag.equalsIgnoreCase(file.getTag());
@@ -119,17 +119,5 @@ public class PaperRepository {
                 .map(entry -> new TagCounter(entry.getKey(), entry.getValue()))
                 .sorted(byTag)
                 .collect(Collectors.toList());
-    }
-
-    public SyncFeed getPostFeed() {
-        final List<SyncFeed.Item> items = getPostsByTag("", 0, Integer.MAX_VALUE)
-                                        .getPapers()
-                                        .parallelStream()
-                                        .map(SyncFeed.Item::new)
-                                        .collect(Collectors.toList());
-
-        final SyncFeed syncFeed = new SyncFeed();
-        syncFeed.getChannel().setItems(items);
-        return syncFeed;
     }
 }

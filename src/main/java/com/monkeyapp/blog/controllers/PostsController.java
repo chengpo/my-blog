@@ -52,7 +52,7 @@ public class PostsController {
     public PaperChunkDto getPostChunk(@DefaultValue("") @QueryParam("tag") String tag,
                                       @DefaultValue("0") @QueryParam("offset") int offset) {
         final int chunkCapacity = Integer.valueOf(servletContext.getInitParameter("post-per-chunk"));
-        final PaperChunk paperChunk = paperRepository.getPostsByTag(tag, offset, chunkCapacity);
+        final PaperChunk paperChunk = paperRepository.getPostPaperChunk(tag, offset, chunkCapacity);
         return typeConverter.toPaperChunkDto(paperChunk);
     }
 

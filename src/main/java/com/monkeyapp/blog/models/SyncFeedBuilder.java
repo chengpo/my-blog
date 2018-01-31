@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 - 2018 Po Cheng
+Copyright (c) 2017 Po Cheng
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,14 +24,25 @@ SOFTWARE.
 
 package com.monkeyapp.blog.models;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@RequiredArgsConstructor @Getter
-public class TagCounter {
-    @NonNull
-    private final String tag;
+public class SyncFeedBuilder {
+    private final PaperRepository paperRepository;
 
-    private final long count;
+    public SyncFeedBuilder(PaperRepository paperRepository) {
+        this.paperRepository = paperRepository;
+    }
+
+    public SyncFeed build() {
+        final List<SyncFeed.Item> items = paperRepository.getPostPaperChunk("", 0, Integer.MAX_VALUE)
+                                                        .getPapers()
+                                                        .parallelStream()
+                                                        .map(SyncFeed.Item::new)
+                                                        .collect(Collectors.toList());
+
+        final SyncFeed syncFeed = new SyncFeed();
+        syncFeed.getChannel().setItems(items);
+        return syncFeed;
+    }
 }

@@ -87,7 +87,7 @@ public class PaperRepositoryTest {
 
     @Test
     public void testPostListIsOrderedByCreatedTime() {
-        final PaperChunk paperChunk = paperRepository.getPostsByTag("", 0, Integer.MAX_VALUE);
+        final PaperChunk paperChunk = paperRepository.getPostPaperChunk("", 0, Integer.MAX_VALUE);
         final List<Paper> papers = paperChunk.getPapers();
 
         assertThat(paperChunk.isEof(), is(true));
@@ -115,12 +115,12 @@ public class PaperRepositoryTest {
 
     @Test
     public void testPostListIsFilteredByTag() {
-        final List<Paper> tag1Papers = paperRepository.getPostsByTag("tag1", 0, Integer.MAX_VALUE).getPapers();
+        final List<Paper> tag1Papers = paperRepository.getPostPaperChunk("tag1", 0, Integer.MAX_VALUE).getPapers();
         final List<String> expectedTag1Titles = Collections.singletonList("Post1");
 
         verifyPaperList(tag1Papers, PaperFile::getTitle, expectedTag1Titles);
 
-        final List<Paper> tag2Papers = paperRepository.getPostsByTag("tag2", 0, Integer.MAX_VALUE).getPapers();
+        final List<Paper> tag2Papers = paperRepository.getPostPaperChunk("tag2", 0, Integer.MAX_VALUE).getPapers();
         final List<String> expectedTag2Titles = Arrays.asList("Post2", "Post3");
 
         verifyPaperList(tag2Papers, PaperFile::getTitle, expectedTag2Titles);
@@ -165,12 +165,6 @@ public class PaperRepositoryTest {
                 .collect(Collectors.toList());
 
         assertThat(actualCounts, CoreMatchers.is(expectedCounts));
-    }
-
-    @Test
-    public void testGetFeed() {
-        SyncFeed syncFeed = paperRepository.getPostFeed();
-        assertThat(syncFeed.getChannel().getItems().size(), is(3));
     }
 
     /**
