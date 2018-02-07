@@ -31,6 +31,7 @@ SOFTWARE.
     <meta charset="UTF-8">
     <meta name="theme-color" content="#202020">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="google-site-verification" content="aBgNRVBo5y1-FwLrwGCbmBXADuB8i5FLxUIKG-ReX1w" />
 
     <title>Coding Is Fun</title>
 
