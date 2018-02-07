@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.controllers;
+package com.monkeyapp.blog.resources;
 
 import com.monkeyapp.blog.dtos.PaperChunkDto;
 import com.monkeyapp.blog.dtos.PaperDto;
@@ -34,7 +34,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
-public class PostsControllerTest extends BaseControllerTest {
+public class PostsResourceTest extends BaseResourceTest {
     @Test
     public void testGetPostChunk() {
         Response response = target("/posts").request().get();

@@ -22,32 +22,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.controllers;
+package com.monkeyapp.blog.resources;
 
-import com.monkeyapp.blog.dtos.TagCounterDto;
-import com.monkeyapp.blog.dtos.TypeConverter;
-import com.monkeyapp.blog.models.PaperRepository;
-import com.monkeyapp.blog.models.TagCounter;
+import org.junit.Test;
 
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import java.util.List;
+import javax.ws.rs.core.Response;
 
-@Path("/tags")
-public class TagsController {
-    @Inject
-    private PaperRepository paperRepository;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
-    @Inject
-    private TypeConverter typeConverter;
+public class FeedResourceTest extends BaseResourceTest {
+    @Test
+    public void testGetFeed() {
+        Response response = target("/feed").request().get();
+        assertThat(response.getStatus(), is(200));
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<TagCounterDto> getTags() {
-        final List<TagCounter> tagCounters = paperRepository.getPostTags();
-        return typeConverter.tagCounterDto(tagCounters);
+        //String syncFeed = response.readEntity(String.class);
+        //assertNotNull(syncFeed);
     }
 }

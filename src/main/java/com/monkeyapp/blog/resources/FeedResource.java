@@ -22,24 +22,31 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.controllers;
+package com.monkeyapp.blog.resources;
 
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.test.JerseyTest;
+import com.monkeyapp.blog.dtos.SyncFeedDto;
+import com.monkeyapp.blog.dtos.TypeConverter;
+import com.monkeyapp.blog.models.PaperRepository;
+import com.monkeyapp.blog.models.SyncFeed;
+import com.monkeyapp.blog.models.SyncFeedBuilder;
 
-import javax.ws.rs.core.Application;
-import java.util.*;
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
-public class BaseControllerTest extends JerseyTest {
-    @Override
-    protected Application configure() {
-        final List<Class<?>> controllers = Arrays.asList(PagesController.class,
-                                                         PostsController.class,
-                                                         FeedController.class,
-                                                         TagsController.class,
-                                                         StatusController.class,
-                                                         MyExceptionMapper.class);
-        return new ResourceConfig(new HashSet<>(controllers))
-                    .register(new MockBinder());
+@Path("/feed")
+public class FeedResource {
+    @Inject
+    private PaperRepository paperRepository;
+
+    @Inject
+    private TypeConverter typeConverter;
+
+    @GET
+    @Produces("application/rss+xml")
+    public SyncFeedDto getFeed() {
+        final SyncFeed syncFeed = new SyncFeedBuilder(paperRepository).build();
+        return typeConverter.toSyncFeedDto(syncFeed);
     }
 }

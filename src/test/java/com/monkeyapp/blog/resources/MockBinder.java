@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.controllers;
+package com.monkeyapp.blog.resources;
 
 import com.monkeyapp.blog.FileWrapperImpl;
 import com.monkeyapp.blog.dtos.TypeConverter;
@@ -30,9 +30,7 @@ import com.monkeyapp.blog.models.PaperRepository;
 import com.monkeyapp.blog.wrappers.FileWrapper;
 import com.monkeyapp.blog.wrappers.StorageWrapper;
 import org.glassfish.jersey.internal.inject.AbstractBinder;
-import org.glassfish.jersey.server.monitoring.MonitoringStatistics;
 
-import javax.inject.Provider;
 import javax.inject.Singleton;
 import javax.servlet.ServletContext;
 import java.util.Collections;

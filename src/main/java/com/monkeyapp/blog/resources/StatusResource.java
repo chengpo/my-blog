@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.controllers;
+package com.monkeyapp.blog.resources;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,7 +44,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Path("/status")
-public class StatusController {
+public class StatusResource {
     @Inject
     private Provider<MonitoringStatistics> monitoringStatisticsProvider;
 

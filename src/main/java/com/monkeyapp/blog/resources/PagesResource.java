@@ -22,47 +22,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.controllers;
+package com.monkeyapp.blog.resources;
 
-import com.monkeyapp.blog.dtos.PaperChunkDto;
 import com.monkeyapp.blog.dtos.PaperDto;
 import com.monkeyapp.blog.dtos.TypeConverter;
 import com.monkeyapp.blog.models.*;
-import com.monkeyapp.blog.models.PaperChunk;
 
 import javax.inject.Inject;
-import javax.servlet.ServletContext;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-@Path("/posts")
-public class PostsController {
-    @Context
-    private ServletContext servletContext;
-
+@Path("/pages")
+public class PagesResource {
     @Inject
     private PaperRepository paperRepository;
 
     @Inject
     private TypeConverter typeConverter;
 
-    @GET
+    @GET @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public PaperChunkDto getPostChunk(@DefaultValue("") @QueryParam("tag") String tag,
-                                      @DefaultValue("0") @QueryParam("offset") int offset) {
-        final int chunkCapacity = Integer.valueOf(servletContext.getInitParameter("post-per-chunk"));
-        final PaperChunk paperChunk = paperRepository.getPostPaperChunk(tag, offset, chunkCapacity);
-        return typeConverter.toPaperChunkDto(paperChunk);
-    }
-
-    @GET
-    @Path("/{year}/{monthday}/{title}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public PaperDto getPostContent(@PathParam("year") String year,
-                                   @PathParam("monthday") String monthDay,
-                                   @PathParam("title") String title) {
-        return paperRepository.getCompletePost(year, monthDay, title)
+    public PaperDto getPageContent(@PathParam("name") String name) {
+        return paperRepository.getCompletePage(name)
                               .map(typeConverter::toPaperDto)
                               .orElseThrow(() -> new WebApplicationException(404));
     }

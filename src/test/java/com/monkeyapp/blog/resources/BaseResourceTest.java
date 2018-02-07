@@ -22,27 +22,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.controllers;
+package com.monkeyapp.blog.resources;
 
-import com.monkeyapp.blog.dtos.TagCounterDto;
-import org.junit.Test;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.test.JerseyTest;
 
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Application;
+import java.util.*;
 
-import java.util.List;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-
-public class TagsControllerTest extends BaseControllerTest {
-    @Test
-    @SuppressWarnings("unchecked")
-    public void testGetStatus() {
-        Response response = target("/tags").request().get();
-        assertThat(response.getStatus(), is(200));
-
-        List<TagCounterDto> tagCounterDtos = response.readEntity(List.class);
-        assertNotNull(tagCounterDtos);
+public class BaseResourceTest extends JerseyTest {
+    @Override
+    protected Application configure() {
+        final List<Class<?>> controllers = Arrays.asList(PagesResource.class,
+                                                         PostsResource.class,
+                                                         FeedResource.class,
+                                                         TagsResource.class,
+                                                         StatusResource.class,
+                                                         MyExceptionMapper.class);
+        return new ResourceConfig(new HashSet<>(controllers))
+                    .register(new MockBinder());
     }
 }

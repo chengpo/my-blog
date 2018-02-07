@@ -22,23 +22,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.controllers;
+package com.monkeyapp.blog.resources;
 
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
-public class FeedControllerTest extends BaseControllerTest {
+public class StatusResourceTest extends BaseResourceTest {
     @Test
-    public void testGetFeed() {
-        Response response = target("/feed").request().get();
+    public void testGetStatus() {
+        Response response = target("/status").request().get();
         assertThat(response.getStatus(), is(200));
-
-        //String syncFeed = response.readEntity(String.class);
-        //assertNotNull(syncFeed);
     }
 }

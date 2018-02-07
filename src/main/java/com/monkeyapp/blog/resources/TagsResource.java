@@ -22,21 +22,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.controllers;
+package com.monkeyapp.blog.resources;
 
-import com.monkeyapp.blog.dtos.SyncFeedDto;
+import com.monkeyapp.blog.dtos.TagCounterDto;
 import com.monkeyapp.blog.dtos.TypeConverter;
 import com.monkeyapp.blog.models.PaperRepository;
-import com.monkeyapp.blog.models.SyncFeed;
-import com.monkeyapp.blog.models.SyncFeedBuilder;
+import com.monkeyapp.blog.models.TagCounter;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
 
-@Path("/feed")
-public class FeedController {
+@Path("/tags")
+public class TagsResource {
     @Inject
     private PaperRepository paperRepository;
 
@@ -44,9 +45,9 @@ public class FeedController {
     private TypeConverter typeConverter;
 
     @GET
-    @Produces("application/rss+xml")
-    public SyncFeedDto getFeed() {
-        final SyncFeed syncFeed = new SyncFeedBuilder(paperRepository).build();
-        return typeConverter.toSyncFeedDto(syncFeed);
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<TagCounterDto> getTags() {
+        final List<TagCounter> tagCounters = paperRepository.getPostTags();
+        return typeConverter.tagCounterDto(tagCounters);
     }
 }

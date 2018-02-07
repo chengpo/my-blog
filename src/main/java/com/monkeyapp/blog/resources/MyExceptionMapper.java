@@ -1,4 +1,4 @@
-package com.monkeyapp.blog.controllers;
+package com.monkeyapp.blog.resources;
 
 import org.apache.log4j.Logger;
 
