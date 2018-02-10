@@ -45,7 +45,8 @@ define(['core/core.module',
         .run(['$animate', function($animate) {
             $animate.enabled(true);
           }])
-        .run(function ($rootScope, ngProgressFactory) {
+        .run(['$rootScope', '$location', 'ngProgressFactory',
+             function ($rootScope, $location, ngProgressFactory) {
             // first create instance when app starts
             $rootScope.progressbar = ngProgressFactory.createInstance();
             $rootScope.progressbar.setColor('#F0F0F0');
@@ -56,8 +57,11 @@ define(['core/core.module',
 
             $rootScope.$on("$routeChangeSuccess", function () {
                 $rootScope.progressbar.complete();
+
+                // update location for google analytics events
+                gtag('config', 'GA_TRACKING_ID', {'page_path': $location.path()});
             });
-        });
+        }]);
 
     return angular.module('blogApp');
 });
