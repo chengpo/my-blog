@@ -58,11 +58,24 @@
             <param-value>true</param-value>
         </init-param>
     </filter>
+    
+    <filter>
+        <filter-name>ResponseFilter</filter-name>
+        <filter-class>com.monkeyapp.blog.ResponseFilter</filter-class>
+    </filter>
+
     <filter-mapping>
         <filter-name>UrlRewriteFilter</filter-name>
         <url-pattern>/static/*</url-pattern>
         <url-pattern>/posts/*</url-pattern>
         <url-pattern>/about/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>ResponseFilter</filter-name>
+        <url-pattern>/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
