@@ -55,7 +55,7 @@ public class SyncFeed {
 
         Item(Paper paper) {
             this.title = paper.getFile().getTitle();
-            this.link = "http://monkey-blogger.herokuapp.com/posts/" + paper.getFile().getUrl();
+            this.link = "http://monkey-blogger.herokuapp.com#!/posts/" + paper.getFile().getUrl();
             this.guid = this.link;
             this.description = paper.getContent() + "<p> ... </p>";
 
