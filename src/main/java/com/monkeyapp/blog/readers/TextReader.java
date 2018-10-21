@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TextReader {
-    private static final int PARTIAL_FILE_LINES = 64;
+    private static final int PARTIAL_FILE_LINES = 32;
 
     public static Optional<String> partialRead(String path) {
         try (Stream<String> lines = Files.lines(Paths.get(path))) {
