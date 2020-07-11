@@ -26,11 +26,9 @@ package com.monkeyapp.blog.resources
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
-import com.monkeyapp.blog.models.Paper
-import com.monkeyapp.blog.models.PaperFile
-import com.monkeyapp.blog.models.PaperRepository
+import com.monkeyapp.blog.readers.AssetFile
+import com.monkeyapp.blog.readers.AssetRepository
 import org.glassfish.jersey.server.monitoring.MonitoringStatistics
-import java.util.stream.Collectors
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.ws.rs.GET
@@ -43,10 +41,10 @@ import javax.ws.rs.core.MediaType
 @Path("/status")
 class StatusResource {
     @Inject
-    private val monitoringStatisticsProvider: Provider<MonitoringStatistics>? = null
+    lateinit var monitoringStatisticsProvider: Provider<MonitoringStatistics>
 
     @Inject
-    private val paperRepository: PaperRepository? = null
+    lateinit var assetRepository: AssetRepository
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -67,13 +65,10 @@ class StatusResource {
             sb.append("\n\n")
         }
         sb.append("posts = ")
-        val postNames = paperRepository!!.getPostPaperChunk("", 0, Int.MAX_VALUE)
-                .papers
-                .stream()
-                .map<Any>(Paper::file)
-              //  .map<Any>(PaperFile::title)
-                .collect(Collectors.toList<Any>())
-        sb.append(mapper.writeValueAsString(postNames))
+        val posts = assetRepository.getPostList()
+                .map(AssetFile::metadata)
+                .map(AssetFile.Metadata::title)
+        sb.append(mapper.writeValueAsString(posts))
         return sb.toString()
     }
 }

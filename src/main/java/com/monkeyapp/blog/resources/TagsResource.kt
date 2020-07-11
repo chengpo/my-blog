@@ -24,9 +24,7 @@ SOFTWARE.
 package com.monkeyapp.blog.resources
 
 import com.monkeyapp.blog.dtos.TagCounterDto
-import com.monkeyapp.blog.dtos.TypeConverter
-import com.monkeyapp.blog.models.PaperRepository
-import com.monkeyapp.blog.models.TagCounter
+import com.monkeyapp.blog.readers.AssetRepository
 import javax.inject.Inject
 import javax.ws.rs.GET
 import javax.ws.rs.Path
@@ -36,16 +34,10 @@ import javax.ws.rs.core.MediaType
 @Path("/tags")
 class TagsResource {
     @Inject
-    private val paperRepository: PaperRepository? = null
-
-    @Inject
-    private val typeConverter: TypeConverter? = null
+    lateinit var assetRepository: AssetRepository
 
     @get:Produces(MediaType.APPLICATION_JSON)
     @get:GET
     val tags: List<TagCounterDto>
-        get() {
-            val tagCounters: List<TagCounter?> = paperRepository!!.postTags
-            return typeConverter!!.tagCounterDto(tagCounters)
-        }
+        get() = assetRepository.tags.map { TagCounterDto(tag = it.first, count = it.second) }
 }

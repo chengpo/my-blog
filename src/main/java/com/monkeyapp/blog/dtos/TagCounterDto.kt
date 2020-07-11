@@ -25,10 +25,7 @@ package com.monkeyapp.blog.dtos
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class TagCounterDto (
-    @JsonProperty("tag")
-    var tag: String = "",
-
-    @JsonProperty("count")
-    var count: Long = 0
+data class TagCounterDto(
+        @JsonProperty("tag") val tag: String,
+        @JsonProperty("count") val count: Int
 )
