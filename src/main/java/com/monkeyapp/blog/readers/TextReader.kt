@@ -23,34 +23,30 @@ SOFTWARE.
  */
 package com.monkeyapp.blog.readers
 
-import org.apache.log4j.Logger
-import java.io.IOException
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import org.commonmark.parser.Parser
+import org.commonmark.renderer.html.HtmlRenderer
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.*
 import java.util.stream.Collectors
 
-object TextReader {
-    private const val PARTIAL_FILE_LINES = 32
-    fun partialRead(path: String): Optional<String> {
-        try {
-            Files.lines(Paths.get(path)).use { lines ->
-                return Optional.of(lines.limit(PARTIAL_FILE_LINES.toLong())
-                        .collect(Collectors.joining(System.lineSeparator())))
-            }
-        } catch (e: IOException) {
-            return Optional.empty()
-        }
+fun File.readPartialContent(limitedLines: Long = 32): String {
+    return Files.lines(Paths.get(path)).use { lines ->
+        lines.limit(limitedLines)
+                .collect(Collectors.joining(System.lineSeparator()))
     }
+}
 
-    fun completeRead(path: String): Optional<String> {
-        return try {
-            Optional.of(String(Files.readAllBytes(Paths.get(path))))
-        } catch (e: IOException) {
-            val logger = Logger.getLogger(TextReader::class.java)
-            logger.fatal("failed to read file: $path")
-            logger.fatal("IO exception: " + e.message)
-            Optional.empty()
-        }
-    }
+fun File.readFullContent(): String = Files.readAllBytes(Paths.get(path)).toString()
+
+val File.assets: List<String>
+    get() = ObjectMapper().readValue(readFullContent(), object : TypeReference<List<String>>() {})
+
+fun File.readMarkdownContent(reader: File.() -> String): String {
+    val parser = Parser.builder().build()
+    val document = parser.parse(reader())
+    val renderer = HtmlRenderer.builder().build()
+    return renderer.render(document)
 }

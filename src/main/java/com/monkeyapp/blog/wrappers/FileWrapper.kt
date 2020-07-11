@@ -23,23 +23,27 @@ SOFTWARE.
  */
 package com.monkeyapp.blog.wrappers
 
-import com.monkeyapp.blog.readers.TextReader
 import java.util.*
 
 interface FileWrapper {
     val name: String
+
     val year: String
     val monthday: String
     val time: String
+
     val tag: String
+
     val title: String
     val isPaper: Boolean
+
     val realPath: String
+
     val priority: Long
         get() = if (isPaper) java.lang.Long.valueOf(year) * 10000L * 10000L + java.lang.Long.valueOf(monthday) * 10000L +
                 java.lang.Long.valueOf(time) else 0L
 
-    fun completeRead(): Optional<String?> {
+    fun completeRead(): String? {
         return TextReader.completeRead(realPath)
     }
 

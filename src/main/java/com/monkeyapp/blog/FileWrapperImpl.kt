@@ -21,22 +21,42 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog
 
-package com.monkeyapp.blog;
+import com.monkeyapp.blog.wrappers.FileWrapper
+import java.io.File
+import java.util.regex.Pattern
 
-import com.monkeyapp.blog.dtos.TypeConverter;
-import com.monkeyapp.blog.models.PaperRepository;
-import org.glassfish.jersey.internal.inject.AbstractBinder;
+class FileWrapperImpl(override val realPath: String) : FileWrapper {
+    override val name: String
+    override var year: String? = null
+    override var monthday: String? = null
+    override var time: String? = null
+    override var tag: String? = null
+    override var title: String? = null
+    override var isPaper = false
 
-import javax.inject.Singleton;
+    companion object {
+        private val NAME_PATTERN = Pattern.compile("^(\\d{4})-(\\d{4})-(\\d{4})-(\\w+)-(.+)\\.md$")
+    }
 
-public class AppBinder extends AbstractBinder {
-    @Override
-    protected void configure() {
-        bindFactory(() -> new PaperRepository(new StorageWrapperImpl()))
-                .to(PaperRepository.class).in(Singleton.class);
-
-        bindFactory(TypeConverter::new)
-                .to(TypeConverter.class).in(Singleton.class);
+    init {
+        name = File(realPath).name
+        val matcher = NAME_PATTERN.matcher(name)
+        if (matcher.matches()) {
+            year = matcher.group(1)
+            monthday = matcher.group(2)
+            time = matcher.group(3)
+            tag = matcher.group(4)
+            title = matcher.group(5)
+            isPaper = true
+        } else {
+            year = ""
+            monthday = ""
+            time = ""
+            tag = ""
+            title = ""
+            isPaper = false
+        }
     }
 }

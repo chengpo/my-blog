@@ -21,17 +21,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-package com.monkeyapp.blog.readers
+package com.monkeyapp.blog
 
-import org.commonmark.parser.Parser
-import org.commonmark.renderer.html.HtmlRenderer
+import com.monkeyapp.blog.dtos.TypeConverter
+import com.monkeyapp.blog.models.PaperRepository
+import org.glassfish.jersey.internal.inject.AbstractBinder
+import javax.inject.Singleton
 
-object MarkdownReader {
-    @JvmStatic
-    fun read(markdown: String): String {
-        val parser = Parser.builder().build()
-        val document = parser.parse(markdown)
-        val renderer = HtmlRenderer.builder().build()
-        return renderer.render(document)
+class AppBinder : AbstractBinder() {
+    override fun configure() {
+        bindFactory { PaperRepository(StorageWrapperImpl()) }
+                .to(PaperRepository::class.java).`in`(Singleton::class.java)
+        bindFactory { TypeConverter() }
+                .to(TypeConverter::class.java).`in`(Singleton::class.java)
     }
 }

@@ -21,20 +21,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-package com.monkeyapp.blog.readers
+package com.monkeyapp.blog
 
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.ObjectMapper
-import java.io.IOException
+import com.jcabi.manifests.Manifests
 
-object FileListReader {
-    @JvmStatic
-    fun read(json: String): List<String> {
-        return try {
-            ObjectMapper()
-                    .readValue(json, object : TypeReference<List<String?>?>() {})
-        } catch (e: IOException) {
-            throw RuntimeException("Failed to parse file list!", e)
+object StaticUrl {
+    var VERSION: String? = null
+    fun of(path: String?): String {
+        return String.format("static/%s/%s", VERSION, path)
+    }
+
+    init {
+        VERSION = try {
+            Manifests.read("WebApp-Version")
+        } catch (e: IllegalArgumentException) {
+            "1.0.0"
         }
     }
 }

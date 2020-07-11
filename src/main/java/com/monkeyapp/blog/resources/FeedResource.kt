@@ -35,16 +35,16 @@ import javax.ws.rs.Produces
 @Path("/feed")
 class FeedResource {
     @Inject
-    private val paperRepository: PaperRepository? = null
+    lateinit var paperRepository: PaperRepository
 
     @Inject
-    private val typeConverter: TypeConverter? = null
+    lateinit var typeConverter: TypeConverter
 
     @get:Produces("application/rss+xml")
     @get:GET
     val feed: SyncFeedDto
         get() {
-            val syncFeed = SyncFeedBuilder(paperRepository!!).build()
-            return typeConverter!!.toSyncFeedDto(syncFeed)
+            val syncFeed = SyncFeedBuilder(paperRepository).build()
+            return typeConverter.toSyncFeedDto(syncFeed)
         }
 }
