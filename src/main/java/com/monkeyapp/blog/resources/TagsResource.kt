@@ -21,27 +21,31 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog.resources
 
-package com.monkeyapp.blog.dtos;
+import com.monkeyapp.blog.dtos.TagCounterDto
+import com.monkeyapp.blog.dtos.TypeConverter
+import com.monkeyapp.blog.models.PaperRepository
+import com.monkeyapp.blog.models.TagCounter
+import javax.inject.Inject
+import javax.ws.rs.GET
+import javax.ws.rs.Path
+import javax.ws.rs.Produces
+import javax.ws.rs.core.MediaType
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
-import java.util.List;
+@Path("/tags")
+class TagsResource {
+    @Inject
+    private val paperRepository: PaperRepository? = null
 
-@Setter @Getter
-public class PaperChunkDto {
-    @JsonProperty("papers")
-    @NonNull
-    private List<PaperDto> papers;
+    @Inject
+    private val typeConverter: TypeConverter? = null
 
-    @JsonProperty("offset")
-    private int offset; // offset to the very first blog
-
-    @JsonProperty("capacity")
-    private int capacity;
-
-    @JsonProperty("eof")
-    private boolean eof; // eof = true when reach the last blog
+    @get:Produces(MediaType.APPLICATION_JSON)
+    @get:GET
+    val tags: List<TagCounterDto>
+        get() {
+            val tagCounters: List<TagCounter?> = paperRepository!!.postTags
+            return typeConverter!!.tagCounterDto(tagCounters)
+        }
 }

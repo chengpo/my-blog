@@ -21,33 +21,20 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog.dtos
 
-package com.monkeyapp.blog.resources;
+import com.fasterxml.jackson.annotation.JsonProperty
 
-import com.monkeyapp.blog.dtos.TagCounterDto;
-import com.monkeyapp.blog.dtos.TypeConverter;
-import com.monkeyapp.blog.models.PaperRepository;
-import com.monkeyapp.blog.models.TagCounter;
+data class PaperFileDto(
+        @JsonProperty("creationTime")
+        var creationTime: String = "",
 
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import java.util.List;
+        @JsonProperty("url")
+        var url: String = "",
 
-@Path("/tags")
-public class TagsResource {
-    @Inject
-    private PaperRepository paperRepository;
+        @JsonProperty("title")
+        var title: String = "",
 
-    @Inject
-    private TypeConverter typeConverter;
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<TagCounterDto> getTags() {
-        final List<TagCounter> tagCounters = paperRepository.getPostTags();
-        return typeConverter.tagCounterDto(tagCounters);
-    }
-}
+        @JsonProperty("tag")
+        var tag: String = ""
+)

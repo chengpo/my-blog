@@ -21,67 +21,49 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog.dtos
 
-package com.monkeyapp.blog.dtos;
-
-import lombok.NonNull;
-import lombok.Setter;
-
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.util.List;
+import javax.xml.bind.annotation.XmlAttribute
+import javax.xml.bind.annotation.XmlElement
+import javax.xml.bind.annotation.XmlRootElement
 
 @XmlRootElement(name = "rss")
-@Setter
-public class SyncFeedDto {
-    @XmlAttribute(name = "version")
-    @NonNull
-    private String version;
+data class SyncFeedDto(
+        @XmlAttribute(name = "version")
+        var version: String = "",
 
-    @XmlElement(name = "channel")
-    @NonNull
-    ChannelDto channel;
+        @JvmField
+        @XmlElement(name = "channel")
+        var channel: ChannelDto? = null
+)
 
-    @Setter
-    public static final class ChannelDto {
+data class ChannelDto(
         @XmlElement(name = "title")
-        @NonNull
-        private String title;
+        var title: String = "",
 
         @XmlElement(name = "link")
-        @NonNull
-        private String link;
+        var link: String = "",
 
         @XmlElement(name = "description")
-        @NonNull
-        private String description;
+        var description: String = "",
 
         @XmlElement(name = "item")
-        @NonNull
-        private List<ItemDto> items;
-    }
+        var items: List<ItemDto> = emptyList()
+)
 
-    @Setter
-    public static final class ItemDto {
+data class ItemDto(
         @XmlElement(name = "title")
-        @NonNull
-        private String title;
+        var title: String = "",
 
         @XmlElement(name = "link")
-        @NonNull
-        private String link;
+        var link: String = "",
 
         @XmlElement(name = "description")
-        @NonNull
-        private String description;
+        var description: String = "",
 
         @XmlElement(name = "pubDate")
-        @NonNull
-        private String pubDate;
+        var pubDate: String = "",
 
         @XmlElement(name = "guid")
-        @NonNull
-        private String guid;
-    }
-}
+        var guid: String = ""
+)

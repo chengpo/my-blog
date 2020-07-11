@@ -40,15 +40,15 @@ public class FileWrapperImplTest {
 
         FileWrapper file = new FileWrapperImpl("post/" + paperFilename);
 
-        assertThat(file.getName(), is("2017-0418-1053-tag-arbitrary-post-title.md"));
-        assertThat(file.getTag(), is("tag"));
-        assertThat(file.getYear(), is("2017"));
-        assertThat(file.getMonthday(), is("0418"));
-        assertThat(file.getTime(), is("1053"));
-        assertThat(file.getTitle(), is("arbitrary-post-title"));
+        assertThat(file.name, is("2017-0418-1053-tag-arbitrary-post-title.md"));
+        assertThat(file.tag, is("tag"));
+        assertThat(file.year, is("2017"));
+        assertThat(file.monthday, is("0418"));
+        assertThat(file.time, is("1053"));
+        assertThat(file.title, is("arbitrary-post-title"));
         assertThat(file.getPriority(), is(201704181053L));
         assertThat(file.isPaper(), is(true));
-        assertThat(file.getName(), is(paperFilename));
+        assertThat(file.name, is(paperFilename));
     }
 
     @Test

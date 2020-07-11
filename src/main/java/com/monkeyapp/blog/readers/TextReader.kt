@@ -21,38 +21,36 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog.readers
 
-package com.monkeyapp.blog.readers;
+import org.apache.log4j.Logger
+import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.util.*
+import java.util.stream.Collectors
 
-import org.apache.log4j.Logger;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-public class TextReader {
-    private static final int PARTIAL_FILE_LINES = 32;
-
-    public static Optional<String> partialRead(String path) {
-        try (Stream<String> lines = Files.lines(Paths.get(path))) {
-            return Optional.of(lines.limit(PARTIAL_FILE_LINES)
-                    .collect(Collectors.joining(System.lineSeparator())));
-        } catch (IOException e) {
-            return Optional.empty();
+object TextReader {
+    private const val PARTIAL_FILE_LINES = 32
+    fun partialRead(path: String): Optional<String> {
+        try {
+            Files.lines(Paths.get(path)).use { lines ->
+                return Optional.of(lines.limit(PARTIAL_FILE_LINES.toLong())
+                        .collect(Collectors.joining(System.lineSeparator())))
+            }
+        } catch (e: IOException) {
+            return Optional.empty()
         }
     }
 
-    public static Optional<String> completeRead(String path) {
-        try {
-            return Optional.of(new String(Files.readAllBytes(Paths.get(path))));
-        } catch (IOException e) {
-            final Logger logger = Logger.getLogger(TextReader.class);
-            logger.fatal("failed to read file: " + path);
-            logger.fatal("IO exception: " + e.getMessage());
-            return Optional.empty();
+    fun completeRead(path: String): Optional<String> {
+        return try {
+            Optional.of(String(Files.readAllBytes(Paths.get(path))))
+        } catch (e: IOException) {
+            val logger = Logger.getLogger(TextReader::class.java)
+            logger.fatal("failed to read file: $path")
+            logger.fatal("IO exception: " + e.message)
+            Optional.empty()
         }
     }
 }

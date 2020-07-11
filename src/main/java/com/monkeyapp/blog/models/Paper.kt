@@ -21,36 +21,34 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog.models
 
-package com.monkeyapp.blog.wrappers;
+import java.util.*
+import java.util.function.Function
 
-import com.monkeyapp.blog.readers.TextReader;
+class Paper(val file: PaperFile? = null,
+            val content: String? = null) {
 
-import java.util.Optional;
+    companion object {
+        @JvmStatic
+        fun completePaper(file: PaperFile): Optional<Paper> {
+            return toPaper(Function { obj: PaperFile -> obj.completeRead() })
+                    .apply(file)
+        }
 
-public interface FileWrapper {
-    String getName();
-    String getYear();
-    String getMonthday();
-    String getTime();
-    String getTag();
-    String getTitle();
-    boolean isPaper();
-    String getRealPath();
+        @JvmStatic
+        fun partialPaper(file: PaperFile): Optional<Paper> {
+            return toPaper(Function { obj: PaperFile -> obj.partialRead() })
+                    .apply(file)
+        }
 
-    default long getPriority() {
-        return isPaper() ?
-                Long.valueOf(getYear()) * 10000L * 10000L +
-                        Long.valueOf(getMonthday()) * 10000L +
-                        Long.valueOf(getTime())
-                : 0L;
-    }
-
-    default Optional<String> completeRead() {
-        return TextReader.completeRead(getRealPath());
-    }
-
-    default Optional<String> partialRead() {
-        return TextReader.partialRead(getRealPath());
+        private fun toPaper(reader: Function<PaperFile, Optional<String?>?>): Function<PaperFile, Optional<Paper>> {
+            return Function { file: PaperFile ->
+                reader
+                        .apply(file)
+                        .map(Function<String?, String> { obj: String? -> obj.read() })
+                        .map { content: String? -> Paper(file, content) }
+            }
+        }
     }
 }

@@ -21,28 +21,29 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog.wrappers
 
-package com.monkeyapp.blog.models;
+import com.monkeyapp.blog.readers.TextReader
+import java.util.*
 
-import java.util.List;
-import java.util.stream.Collectors;
+interface FileWrapper {
+    val name: String
+    val year: String
+    val monthday: String
+    val time: String
+    val tag: String
+    val title: String
+    val isPaper: Boolean
+    val realPath: String
+    val priority: Long
+        get() = if (isPaper) java.lang.Long.valueOf(year) * 10000L * 10000L + java.lang.Long.valueOf(monthday) * 10000L +
+                java.lang.Long.valueOf(time) else 0L
 
-public class SyncFeedBuilder {
-    private final PaperRepository paperRepository;
-
-    public SyncFeedBuilder(PaperRepository paperRepository) {
-        this.paperRepository = paperRepository;
+    fun completeRead(): Optional<String?> {
+        return TextReader.completeRead(realPath)
     }
 
-    public SyncFeed build() {
-        final List<SyncFeed.Item> items = paperRepository.getPostPaperChunk("", 0, Integer.MAX_VALUE)
-                                                        .getPapers()
-                                                        .parallelStream()
-                                                        .map(SyncFeed.Item::new)
-                                                        .collect(Collectors.toList());
-
-        final SyncFeed syncFeed = new SyncFeed();
-        syncFeed.getChannel().setItems(items);
-        return syncFeed;
+    fun partialRead(): Optional<String?> {
+        return TextReader.partialRead(realPath)
     }
 }

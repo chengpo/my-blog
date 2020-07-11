@@ -21,20 +21,30 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog.resources
 
-package com.monkeyapp.blog.dtos;
+import com.monkeyapp.blog.dtos.PaperDto
+import com.monkeyapp.blog.dtos.TypeConverter
+import com.monkeyapp.blog.models.Paper
+import com.monkeyapp.blog.models.PaperRepository
+import javax.inject.Inject
+import javax.ws.rs.*
+import javax.ws.rs.core.MediaType
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+@Path("/pages")
+class PagesResource {
+    @Inject
+    private val paperRepository: PaperRepository? = null
 
-@Setter @Getter
-public class TagCounterDto {
-    @JsonProperty("tag")
-    @NonNull
-    private String tag;
+    @Inject
+    private val typeConverter: TypeConverter? = null
 
-    @JsonProperty("count")
-    private long count;
+    @GET
+    @Path("/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    fun getPageContent(@PathParam("name") name: String?): PaperDto {
+        return paperRepository!!.getCompletePage(name)
+                .map { paper: Paper? -> typeConverter!!.toPaperDto(paper) }
+                .orElseThrow { WebApplicationException(404) }
+    }
 }

@@ -21,39 +21,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog.models
 
-package com.monkeyapp.blog.models;
-
-import com.monkeyapp.blog.readers.MarkdownReader;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-
-import java.util.Optional;
-import java.util.function.Function;
-
-@RequiredArgsConstructor @Getter
-public class Paper {
-    @NonNull
-    private final PaperFile file;
-
-    @NonNull
-    private final String content;
-
-    public static Optional<Paper> completePaper(PaperFile file) {
-        return toPaper(PaperFile::completeRead)
-                .apply(file);
-    }
-
-    public static Optional<Paper> partialPaper(PaperFile file) {
-        return toPaper(PaperFile::partialRead)
-                .apply(file);
-    }
-
-    private static Function<PaperFile, Optional<Paper>> toPaper(Function<PaperFile, Optional<String>> reader) {
-        return (file) -> reader
-                .apply(file)
-                .map(MarkdownReader::read)
-                .map((content) -> new Paper(file, content));
-    }
-}
+data class TagCounter(
+        val tag: String,
+        val count: Long
+)

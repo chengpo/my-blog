@@ -21,18 +21,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog.models
 
-package com.monkeyapp.blog.models;
-
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
-import java.util.List;
-
-@RequiredArgsConstructor @Getter
-public class PaperChunk {
-    private final List<Paper> papers;
-    private final int offset; // offset to the very first blog
-    private final int capacity;
-    private final boolean eof; // eof = true when reach the last blog
-}
+data class PaperChunk (
+    val papers: List<Paper> = emptyList(),
+    // offset to the very first blog
+    val offset: Int = 0,
+    val capacity: Int = 0,
+    // eof = true when reach the last blog
+    val eof: Boolean = false
+)

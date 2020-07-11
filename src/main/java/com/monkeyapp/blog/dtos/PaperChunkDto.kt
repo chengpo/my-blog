@@ -21,32 +21,20 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog.dtos
 
-package com.monkeyapp.blog.resources;
+import com.fasterxml.jackson.annotation.JsonProperty
 
-import com.monkeyapp.blog.dtos.SyncFeedDto;
-import com.monkeyapp.blog.dtos.TypeConverter;
-import com.monkeyapp.blog.models.PaperRepository;
-import com.monkeyapp.blog.models.SyncFeed;
-import com.monkeyapp.blog.models.SyncFeedBuilder;
+data class PaperChunkDto(
+        @JsonProperty("papers")
+        var papers: List<PaperDto> = emptyList(),
 
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+        @JsonProperty("offset")
+        var offset: Int = 0, // offset to the very first blog = 0
 
-@Path("/feed")
-public class FeedResource {
-    @Inject
-    private PaperRepository paperRepository;
+        @JsonProperty("capacity")
+        var capacity: Int = 0,
 
-    @Inject
-    private TypeConverter typeConverter;
-
-    @GET
-    @Produces("application/rss+xml")
-    public SyncFeedDto getFeed() {
-        final SyncFeed syncFeed = new SyncFeedBuilder(paperRepository).build();
-        return typeConverter.toSyncFeedDto(syncFeed);
-    }
-}
+        @JsonProperty("eof")
+        var eof: Boolean = false // eof = true when reach the last blog = false
+)

@@ -21,21 +21,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog.readers
 
-package com.monkeyapp.blog.dtos;
+import org.commonmark.parser.Parser
+import org.commonmark.renderer.html.HtmlRenderer
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
-
-@Setter @Getter
-public class PaperDto {
-    @JsonProperty("file")
-    @NonNull
-    private PaperFileDto file;
-
-    @JsonProperty("content")
-    @NonNull
-    private String content;
+object MarkdownReader {
+    @JvmStatic
+    fun read(markdown: String): String {
+        val parser = Parser.builder().build()
+        val document = parser.parse(markdown)
+        val renderer = HtmlRenderer.builder().build()
+        return renderer.render(document)
+    }
 }

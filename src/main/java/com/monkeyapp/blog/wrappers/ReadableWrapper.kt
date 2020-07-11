@@ -21,19 +21,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog.wrappers
 
-package com.monkeyapp.blog.wrappers;
+import java.util.*
 
-import java.util.Optional;
-
-public interface ReadableWrapper {
-    FileWrapper getFileWrapper();
-
-    default Optional<String> completeRead() {
-        return getFileWrapper().completeRead();
+interface ReadableWrapper {
+    val fileWrapper: FileWrapper
+    fun completeRead(): Optional<String?>? {
+        return fileWrapper.completeRead()
     }
 
-    default Optional<String> partialRead() {
-        return getFileWrapper().partialRead();
+    fun partialRead(): Optional<String?>? {
+        return fileWrapper.partialRead()
     }
 }

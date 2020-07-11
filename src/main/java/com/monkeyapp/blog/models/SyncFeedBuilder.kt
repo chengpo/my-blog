@@ -21,14 +21,20 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog.models
 
-package com.monkeyapp.blog.wrappers;
+import java.util.stream.Collectors
 
-import java.util.List;
+class SyncFeedBuilder(private val paperRepository: PaperRepository) {
+    fun build(): SyncFeed {
+        val items = paperRepository.getPostPaperChunk("", 0, Int.MAX_VALUE)
+                .papers
+                .parallelStream()
+                .map { paper: Paper? -> SyncFeed.Item(paper!!) }
+                .collect(Collectors.toList())
+        val syncFeed = SyncFeed()
+        syncFeed.getChannel().setItems(items)
+        return syncFeed
+    }
 
-public interface StorageWrapper {
-    List<String> listPostFiles();
-    List<String> listPageFiles();
-    FileWrapper openPostFile(String file);
-    FileWrapper openPageFile(String file);
 }

@@ -21,29 +21,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog.wrappers
 
-package com.monkeyapp.blog.dtos;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
-
-@Setter @Getter
-public class PaperFileDto {
-    @JsonProperty("creationTime")
-    @NonNull
-    private String creationTime;
-
-    @JsonProperty("url")
-    @NonNull
-    private String url;
-
-    @JsonProperty("title")
-    @NonNull
-    private String title;
-
-    @JsonProperty("tag")
-    @NonNull
-    private String tag;
+interface StorageWrapper {
+    fun listPostFiles(): List<String>
+    fun listPageFiles(): List<String>
+    fun openPostFile(file: String): FileWrapper
+    fun openPageFile(file: String): FileWrapper
 }

@@ -21,23 +21,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog.dtos
 
-package com.monkeyapp.blog.readers;
+import com.fasterxml.jackson.annotation.JsonProperty
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+data class PaperDto (
+    @JsonProperty("file")
+    var file: PaperFileDto? = null,
 
-import java.io.IOException;
-import java.util.List;
-
-public class FileListReader {
-    public static List<String> read(String json) {
-        try {
-            return new ObjectMapper()
-                    .readValue(json, new TypeReference<List<String>>() {
-                    });
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to parse file list!", e);
-        }
-    }
-}
+    @JsonProperty("content")
+    var content: String = ""
+)

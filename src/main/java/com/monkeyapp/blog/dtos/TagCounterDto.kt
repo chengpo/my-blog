@@ -21,17 +21,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog.dtos
 
-package com.monkeyapp.blog.models;
+import com.fasterxml.jackson.annotation.JsonProperty
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+data class TagCounterDto (
+    @JsonProperty("tag")
+    var tag: String = "",
 
-@RequiredArgsConstructor @Getter
-public class TagCounter {
-    @NonNull
-    private final String tag;
-
-    private final long count;
-}
+    @JsonProperty("count")
+    var count: Long = 0
+)

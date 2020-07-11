@@ -42,11 +42,11 @@ public class PaperFileTest {
 
     @Before
     public void setUp() {
-        doReturn("2017").when(fileWrapper).getYear();
-        doReturn("0418").when(fileWrapper).getMonthday();
-        doReturn("1053").when(fileWrapper).getTime();
-        doReturn("tag").when(fileWrapper).getTag();
-        doReturn("arbitrary-post-title").when(fileWrapper).getTitle();
+        doReturn("2017").when(fileWrapper).year;
+        doReturn("0418").when(fileWrapper).monthday;
+        doReturn("1053").when(fileWrapper).time;
+        doReturn("tag").when(fileWrapper).tag;
+        doReturn("arbitrary-post-title").when(fileWrapper).title;
     }
 
     @Test

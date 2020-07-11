@@ -21,18 +21,30 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog.resources
 
-package com.monkeyapp.blog.readers;
+import com.monkeyapp.blog.dtos.SyncFeedDto
+import com.monkeyapp.blog.dtos.TypeConverter
+import com.monkeyapp.blog.models.PaperRepository
+import com.monkeyapp.blog.models.SyncFeedBuilder
+import javax.inject.Inject
+import javax.ws.rs.GET
+import javax.ws.rs.Path
+import javax.ws.rs.Produces
 
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
+@Path("/feed")
+class FeedResource {
+    @Inject
+    private val paperRepository: PaperRepository? = null
 
-public class MarkdownReader {
-    public static String read(String markdown) {
-        final Parser parser = Parser.builder().build();
-        final Node document = parser.parse(markdown);
-        final HtmlRenderer renderer = HtmlRenderer.builder().build();
-        return renderer.render(document);
-    }
+    @Inject
+    private val typeConverter: TypeConverter? = null
+
+    @get:Produces("application/rss+xml")
+    @get:GET
+    val feed: SyncFeedDto
+        get() {
+            val syncFeed = SyncFeedBuilder(paperRepository!!).build()
+            return typeConverter!!.toSyncFeedDto(syncFeed)
+        }
 }

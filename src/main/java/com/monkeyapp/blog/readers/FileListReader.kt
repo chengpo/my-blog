@@ -21,30 +21,20 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package com.monkeyapp.blog.readers
 
-package com.monkeyapp.blog.resources;
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import java.io.IOException
 
-import com.monkeyapp.blog.dtos.PaperDto;
-import com.monkeyapp.blog.dtos.TypeConverter;
-import com.monkeyapp.blog.models.*;
-
-import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-
-@Path("/pages")
-public class PagesResource {
-    @Inject
-    private PaperRepository paperRepository;
-
-    @Inject
-    private TypeConverter typeConverter;
-
-    @GET @Path("/{name}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public PaperDto getPageContent(@PathParam("name") String name) {
-        return paperRepository.getCompletePage(name)
-                              .map(typeConverter::toPaperDto)
-                              .orElseThrow(() -> new WebApplicationException(404));
+object FileListReader {
+    @JvmStatic
+    fun read(json: String): List<String> {
+        return try {
+            ObjectMapper()
+                    .readValue(json, object : TypeReference<List<String?>?>() {})
+        } catch (e: IOException) {
+            throw RuntimeException("Failed to parse file list!", e)
+        }
     }
 }
