@@ -23,6 +23,7 @@ SOFTWARE.
  */
 package com.monkeyapp.blog
 
+/*
 import com.monkeyapp.blog.wrappers.FileWrapper
 import com.monkeyapp.blog.wrappers.StorageWrapper
 import org.apache.commons.lang3.concurrent.ConcurrentException
@@ -88,4 +89,4 @@ class StorageWrapperImpl : StorageWrapper {
                     .apply(path)
         }
     }
-}
+}*/

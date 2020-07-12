@@ -23,16 +23,17 @@ SOFTWARE.
  */
 package com.monkeyapp.blog
 
-import com.monkeyapp.blog.dtos.TypeConverter
-import com.monkeyapp.blog.deprecated.models.PaperRepository
 import org.glassfish.jersey.internal.inject.AbstractBinder
 import javax.inject.Singleton
 
 class AppBinder : AbstractBinder() {
     override fun configure() {
+        /*
         bindFactory { PaperRepository(StorageWrapperImpl()) }
                 .to(PaperRepository::class.java).`in`(Singleton::class.java)
         bindFactory { TypeConverter() }
                 .to(TypeConverter::class.java).`in`(Singleton::class.java)
+
+         */
     }
 }
