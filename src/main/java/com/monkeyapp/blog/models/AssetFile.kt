@@ -1,4 +1,4 @@
-package com.monkeyapp.blog.assets
+package com.monkeyapp.blog.models
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -48,16 +48,16 @@ open class AssetFile(val path: String) {
         val time: String
 
         val createdTime: String
-        get() {
-            return if (year.isNotEmpty() && monthday.isNotEmpty() && time.isNotEmpty()) {
-                val month = monthday.substring(0, 2)
-                val day = monthday.substring(2)
-                val hour = time.substring(0, 2)
-                val minute = time.substring(2)
+            get() {
+                return if (year.isNotEmpty() && monthday.isNotEmpty() && time.isNotEmpty()) {
+                    val month = monthday.substring(0, 2)
+                    val day = monthday.substring(2)
+                    val hour = time.substring(0, 2)
+                    val minute = time.substring(2)
 
-                "$year/$month/$day $hour:$minute"
-            } else "unknown"
-        }
+                    "$year/$month/$day $hour:$minute"
+                } else "unknown"
+            }
 
         init {
             val matcher = NAME_PATTERN.matcher(path)

@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.assets;
+package com.monkeyapp.blog.models;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

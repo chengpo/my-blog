@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-package com.monkeyapp.blog.assets
+package com.monkeyapp.blog.models
 
 class AssetRepository(private val postRegister: AssetFile,
                       private val pageRegister: AssetFile) {
@@ -33,7 +33,7 @@ class AssetRepository(private val postRegister: AssetFile,
         return postRegister.childAssets
                 .asSequence()
                 .filter(AssetFile::isMarkdown)
-                .filter { tag.isEmpty() ||  it.metadata.tag == tag }
+                .filter { tag.isEmpty() || it.metadata.tag == tag }
                 .sortedByDescending(AssetFile::priority)
                 .drop(offset)
                 .take(maxPosts)
@@ -71,6 +71,6 @@ class AssetRepository(private val postRegister: AssetFile,
             return postRegister.childAssets
                     .map(AssetFile::metadata)
                     .groupBy(AssetFile.Metadata::tag)
-                    .map{ it.key to it.value.size }
+                    .map { it.key to it.value.size }
         }
 }

@@ -24,7 +24,7 @@ SOFTWARE.
 package com.monkeyapp.blog.resources
 
 import com.monkeyapp.blog.dtos.PaperDto
-import com.monkeyapp.blog.assets.AssetRepository
+import com.monkeyapp.blog.models.AssetRepository
 import javax.inject.Inject
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType

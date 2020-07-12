@@ -26,8 +26,8 @@ package com.monkeyapp.blog.resources
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
-import com.monkeyapp.blog.assets.AssetFile
-import com.monkeyapp.blog.assets.AssetRepository
+import com.monkeyapp.blog.models.AssetFile
+import com.monkeyapp.blog.models.AssetRepository
 import org.glassfish.jersey.server.monitoring.MonitoringStatistics
 import javax.inject.Inject
 import javax.inject.Provider

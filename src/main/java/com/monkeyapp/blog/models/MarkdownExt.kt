@@ -1,4 +1,4 @@
-package com.monkeyapp.blog.assets
+package com.monkeyapp.blog.models
 
 import org.commonmark.parser.Parser
 import org.commonmark.renderer.html.HtmlRenderer
@@ -10,5 +10,5 @@ fun AssetFile.readMarkdownContent(reader: AssetFile.() -> String): String {
     return renderer.render(document)
 }
 
-val AssetFile.isMarkdown : Boolean
+val AssetFile.isMarkdown: Boolean
     get() = path.endsWith(".md")

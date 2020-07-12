@@ -25,7 +25,7 @@ package com.monkeyapp.blog.resources
 
 import com.monkeyapp.blog.dtos.PaperChunkDto
 import com.monkeyapp.blog.dtos.PaperDto
-import com.monkeyapp.blog.assets.AssetRepository
+import com.monkeyapp.blog.models.AssetRepository
 import javax.inject.Inject
 import javax.servlet.ServletContext
 import javax.ws.rs.*
