@@ -23,8 +23,9 @@ SOFTWARE.
  */
 package com.monkeyapp.blog.dtos
 
+/*
 
-import com.monkeyapp.blog.models.*
+import com.monkeyapp.blog.deprecated.models.*
 import org.apache.commons.beanutils.BeanUtils
 import org.apache.commons.beanutils.ConvertUtils
 import org.apache.commons.beanutils.Converter
@@ -104,4 +105,4 @@ class TypeConverter : Converter {
         ConvertUtils.register(this, ChannelDto::class.java)
         ConvertUtils.register(this, ItemDto::class.java)
     }
-}
+}*/

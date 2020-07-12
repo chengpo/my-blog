@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.monkeyapp.blog.models;
+package com.monkeyapp.blog.deprecated.models;
 
 import com.monkeyapp.blog.FileWrapperImpl;
 import com.monkeyapp.blog.wrappers.FileWrapper;

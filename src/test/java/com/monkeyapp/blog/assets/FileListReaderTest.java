@@ -21,11 +21,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-package com.monkeyapp.blog.wrappers
 
-interface StorageWrapper {
-    fun listPostFiles(): List<String>
-    fun listPageFiles(): List<String>
-    fun openPostFile(file: String): FileWrapper
-    fun openPageFile(file: String): FileWrapper
+package com.monkeyapp.blog.assets;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
+@RunWith(JUnit4.class)
+public class FileListReaderTest {
+    @Test
+    public void testReadFileList() {
+        final String json = "[\"file1\", \"file2\", \"file3\"]";
+        List<String> fileNames = FileListReader.read(json);
+        assertThat(fileNames, is(Arrays.asList("file1", "file2", "file3")));
+    }
 }

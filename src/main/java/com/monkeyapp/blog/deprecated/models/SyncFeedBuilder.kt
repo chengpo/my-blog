@@ -21,14 +21,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-package com.monkeyapp.blog.dtos
+package com.monkeyapp.blog.deprecated.models
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import java.util.stream.Collectors
+/*
+class SyncFeedBuilder(private val paperRepository: PaperRepository) {
+    fun build(): SyncFeed {
+        val items = paperRepository.getPostPaperChunk("", 0, Int.MAX_VALUE)
+                .papers
+                .parallelStream()
+                .map { paper: Paper? -> SyncFeed.Item(paper!!) }
+                .collect(Collectors.toList())
+        val syncFeed = SyncFeed()
+        syncFeed.getChannel().setItems(items)
+        return syncFeed
+    }
 
-data class PaperDto (
-    @JsonProperty("file")
-    var file: PaperFileDto? = null,
-
-    @JsonProperty("content")
-    var content: String = ""
-)
+}
+ */

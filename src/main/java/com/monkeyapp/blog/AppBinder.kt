@@ -24,7 +24,7 @@ SOFTWARE.
 package com.monkeyapp.blog
 
 import com.monkeyapp.blog.dtos.TypeConverter
-import com.monkeyapp.blog.models.PaperRepository
+import com.monkeyapp.blog.deprecated.models.PaperRepository
 import org.glassfish.jersey.internal.inject.AbstractBinder
 import javax.inject.Singleton
 

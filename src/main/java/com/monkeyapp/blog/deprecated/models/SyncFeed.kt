@@ -21,8 +21,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-package com.monkeyapp.blog.models
+package com.monkeyapp.blog.deprecated.models
 
+/*
 import java.text.ParseException
 import java.text.SimpleDateFormat
 
@@ -60,3 +61,5 @@ class Item internal constructor(paper: Paper) {
         }
     }
 }
+
+ */

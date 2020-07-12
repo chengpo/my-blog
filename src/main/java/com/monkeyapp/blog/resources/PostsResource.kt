@@ -25,9 +25,7 @@ package com.monkeyapp.blog.resources
 
 import com.monkeyapp.blog.dtos.PaperChunkDto
 import com.monkeyapp.blog.dtos.PaperDto
-import com.monkeyapp.blog.dtos.TypeConverter
-import com.monkeyapp.blog.models.Paper
-import com.monkeyapp.blog.models.PaperRepository
+import com.monkeyapp.blog.assets.AssetRepository
 import javax.inject.Inject
 import javax.servlet.ServletContext
 import javax.ws.rs.*
@@ -37,31 +35,32 @@ import javax.ws.rs.core.MediaType
 @Path("/posts")
 class PostsResource {
     @Context
-    private val servletContext: ServletContext? = null
+    lateinit var servletContext: ServletContext
 
     @Inject
-    private val paperRepository: PaperRepository? = null
+    lateinit var assetRepository: AssetRepository
 
-    @Inject
-    private val typeConverter: TypeConverter? = null
+    private val chunkCapacity: Int by lazy {
+        Integer.valueOf(servletContext.getInitParameter("post-per-chunk"))
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun getPostChunk(@DefaultValue("") @QueryParam("tag") tag: String?,
+    fun getPostChunk(@DefaultValue("") @QueryParam("tag") tag: String,
                      @DefaultValue("0") @QueryParam("offset") offset: Int): PaperChunkDto {
-        val chunkCapacity = Integer.valueOf(servletContext!!.getInitParameter("post-per-chunk"))
-        val paperChunk = paperRepository!!.getPostPaperChunk(tag!!, offset, chunkCapacity)
-        return typeConverter!!.toPaperChunkDto(paperChunk)
+
+        assetRepository.getPostList(tag, offset, chunkCapacity)
+        TODO("to paper chunk dto")
     }
 
     @GET
     @Path("/{year}/{monthday}/{title}")
     @Produces(MediaType.APPLICATION_JSON)
-    fun getPostContent(@PathParam("year") year: String?,
-                       @PathParam("monthday") monthDay: String?,
-                       @PathParam("title") title: String?): PaperDto {
-        return paperRepository!!.getCompletePost(year, monthDay, title)
-                .map { paper: Paper? -> typeConverter!!.toPaperDto(paper) }
-                .orElseThrow { WebApplicationException(404) }
+    fun getPostContent(@PathParam("year") year: String,
+                       @PathParam("monthday") monthDay: String,
+                       @PathParam("title") title: String): PaperDto {
+        return assetRepository.getPost(year, monthDay, title)?.let {
+            TODO("to")
+        } ?: throw WebApplicationException(404)
     }
 }

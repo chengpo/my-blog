@@ -24,7 +24,7 @@ SOFTWARE.
 package com.monkeyapp.blog.resources
 
 import com.monkeyapp.blog.dtos.TagCounterDto
-import com.monkeyapp.blog.readers.AssetRepository
+import com.monkeyapp.blog.assets.AssetRepository
 import javax.inject.Inject
 import javax.ws.rs.GET
 import javax.ws.rs.Path

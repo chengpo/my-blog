@@ -21,42 +21,37 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-package com.monkeyapp.blog
+package com.monkeyapp.blog.deprecated.models
 
+/*
 import com.monkeyapp.blog.wrappers.FileWrapper
-import java.io.File
-import java.util.regex.Pattern
+import com.monkeyapp.blog.wrappers.ReadableWrapper
+import org.apache.commons.lang3.StringUtils
+import org.apache.commons.lang3.text.WordUtils
+import java.util.stream.Collectors
 
-class FileWrapperImpl(override val realPath: String) : FileWrapper {
-    override val name: String
-    override var year: String? = null
-    override var monthday: String? = null
-    override var time: String? = null
-    override var tag: String? = null
-    override var title: String? = null
-    override var isPaper = false
-
-    companion object {
-        private val NAME_PATTERN = Pattern.compile("^(\\d{4})-(\\d{4})-(\\d{4})-(\\w+)-(.+)\\.md$")
-    }
+class PaperFile internal constructor(override val fileWrapper: FileWrapper) : ReadableWrapper {
+    val creationTime: String
+    val url: String
+    val title: String
+    val tag: String
 
     init {
-        name = File(realPath).name
-        val matcher = NAME_PATTERN.matcher(name)
-        if (matcher.matches()) {
-            year = matcher.group(1)
-            monthday = matcher.group(2)
-            time = matcher.group(3)
-            tag = matcher.group(4)
-            title = matcher.group(5)
-            isPaper = true
-        } else {
-            year = ""
-            monthday = ""
-            time = ""
-            tag = ""
-            title = ""
-            isPaper = false
-        }
+        val year = fileWrapper.year
+        val month = fileWrapper.monthday.substring(0, 2)
+        val day = fileWrapper.monthday.substring(2)
+        val hour = fileWrapper.time.substring(0, 2)
+        val minute = fileWrapper.time.substring(2)
+        creationTime = String.format("%s/%s/%s %s:%s", year, month, day, hour, minute)
+        url = java.lang.String.format("%s/%s/%s",
+                fileWrapper.year,
+                fileWrapper.monthday,
+                fileWrapper.title)
+
+        title = fileWrapper.title.split("-").stream()
+                .map({ str: String? -> StringUtils.capitalize(str) })
+                .collect(Collectors.joining(" "))
+        tag = WordUtils.capitalize(fileWrapper.tag)
     }
 }
+ */

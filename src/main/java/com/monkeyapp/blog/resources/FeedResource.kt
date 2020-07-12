@@ -24,9 +24,7 @@ SOFTWARE.
 package com.monkeyapp.blog.resources
 
 import com.monkeyapp.blog.dtos.SyncFeedDto
-import com.monkeyapp.blog.dtos.TypeConverter
-import com.monkeyapp.blog.models.PaperRepository
-import com.monkeyapp.blog.models.SyncFeedBuilder
+import com.monkeyapp.blog.assets.AssetRepository
 import javax.inject.Inject
 import javax.ws.rs.GET
 import javax.ws.rs.Path
@@ -35,16 +33,15 @@ import javax.ws.rs.Produces
 @Path("/feed")
 class FeedResource {
     @Inject
-    lateinit var paperRepository: PaperRepository
-
-    @Inject
-    lateinit var typeConverter: TypeConverter
+    lateinit var assetRepository: AssetRepository
 
     @get:Produces("application/rss+xml")
     @get:GET
     val feed: SyncFeedDto
         get() {
-            val syncFeed = SyncFeedBuilder(paperRepository).build()
-            return typeConverter.toSyncFeedDto(syncFeed)
+            assetRepository.getPostList()
+            TODO("return syncFeedDto")
+            // val syncFeed = SyncFeedBuilder(paperRepository).build()
+            // return typeConverter.toSyncFeedDto(syncFeed)
         }
 }

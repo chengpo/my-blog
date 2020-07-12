@@ -26,7 +26,7 @@ package com.monkeyapp.blog.resources;
 
 import com.monkeyapp.blog.FileWrapperImpl;
 import com.monkeyapp.blog.dtos.TypeConverter;
-import com.monkeyapp.blog.models.PaperRepository;
+import com.monkeyapp.blog.deprecated.models.PaperRepository;
 import com.monkeyapp.blog.wrappers.FileWrapper;
 import com.monkeyapp.blog.wrappers.StorageWrapper;
 import org.glassfish.jersey.internal.inject.AbstractBinder;

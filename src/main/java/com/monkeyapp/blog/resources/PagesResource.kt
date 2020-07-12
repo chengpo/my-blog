@@ -24,9 +24,7 @@ SOFTWARE.
 package com.monkeyapp.blog.resources
 
 import com.monkeyapp.blog.dtos.PaperDto
-import com.monkeyapp.blog.dtos.TypeConverter
-import com.monkeyapp.blog.models.Paper
-import com.monkeyapp.blog.models.PaperRepository
+import com.monkeyapp.blog.assets.AssetRepository
 import javax.inject.Inject
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
@@ -34,17 +32,14 @@ import javax.ws.rs.core.MediaType
 @Path("/pages")
 class PagesResource {
     @Inject
-    private val paperRepository: PaperRepository? = null
-
-    @Inject
-    private val typeConverter: TypeConverter? = null
+    lateinit var assetRepository: AssetRepository
 
     @GET
     @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    fun getPageContent(@PathParam("name") name: String?): PaperDto {
-        return paperRepository!!.getCompletePage(name)
-                .map { paper: Paper? -> typeConverter!!.toPaperDto(paper) }
-                .orElseThrow { WebApplicationException(404) }
+    fun getPageContent(@PathParam("name") name: String): PaperDto {
+        return assetRepository.getPage(name)?.let {
+            TODO( "convert to PaperDto" )
+        } ?: throw WebApplicationException(404)
     }
 }

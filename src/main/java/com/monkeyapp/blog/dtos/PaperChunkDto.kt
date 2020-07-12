@@ -38,3 +38,11 @@ data class PaperChunkDto(
         @JsonProperty("eof")
         var eof: Boolean = false // eof = true when reach the last blog = false
 )
+
+data class PaperDto (
+        @JsonProperty("file")
+        var file: PaperFileDto? = null,
+
+        @JsonProperty("content")
+        var content: String = ""
+)
