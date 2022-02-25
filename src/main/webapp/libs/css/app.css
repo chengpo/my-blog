@@ -1,6 +1,6 @@
 body {
     font-family:'Play', Helvetica, Arial, sans-serif !important;
-    font-size: 1.8rem !important;
+    font-size: 1.7rem !important;
 }
 
 /* override highlightjs style */
@@ -12,7 +12,7 @@ pre {
 }
 
 pre code {
-    font-size:1.8rem !important;  
+    font-size:1.7rem !important;  
 }
 
 /* desktop screen */
