@@ -1,7 +1,7 @@
 <!--
 MIT License
 
-Copyright (c) 2017 - 2018 Po Cheng
+Copyright (c) 2017 - 2022 Po Cheng
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,13 +26,13 @@ SOFTWARE.
     <div class="container-fluid">
         <div class="post-list-item" ng-repeat="post in $ctrl.posts">
             <div class="row post-title">
-                <div class="col-md-10 col-md-offset-1"><h1>{{post.file.title}}</h1></div>
+                <div class="col-md-10 col-md-offset-1"><h1>{{post.metadata.title}}</h1></div>
             </div>
 
             <div class="row post-attr">
-                <div class="col-md-3 col-md-offset-1 text-muted small">{{post.file.creationTime}}</div>
+                <div class="col-md-3 col-md-offset-1 text-muted small">{{post.metadata.crtime}}</div>
                 <div class="col-md-3 text-muted small">
-                    <a class="text-muted" href="/posts?tag={{post.file.tag}}">{{post.file.tag}}</a>
+                    <a class="text-muted" href="/posts?tag={{post.metadata.tag}}">{{post.metadata.tag}}</a>
                 </div>
             </div>
 
@@ -43,7 +43,7 @@ SOFTWARE.
             <!-- hide 'read more ...' for fully loaded post -->
             <div ng-hide="post.content.endsWith('<!--eof-->\n')" class="row">
                 <div class="col-md-4 col-md-offset-1">
-                    <a href="/posts/{{post.file.url}}">
+                    <a href="/{{post.metadata.url}}">
                       <p class="text-left">Read More ...</p></a>
                 </div>
             </div>
