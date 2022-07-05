@@ -18,7 +18,7 @@ class PostController(component: ParentComponent) {
             .sorted(Comparator.comparingLong(BlogMetadata::priority).reversed())
             .skip(offset)
             .filter { metadata ->
-                tag.isEmpty() || tag == metadata.tag
+                tag.isEmpty() || tag.compareTo(metadata.tag, ignoreCase = true) == 0
             }
             .limit(postPerChunk)
             .map { metadata ->
@@ -27,7 +27,7 @@ class PostController(component: ParentComponent) {
                         crtime = metadata.crtime,
                         url = metadata.postUrl,
                         title = metadata.capitalizedTitle,
-                        tag = metadata.tag
+                        tag = metadata.capitalizedTag
                     ),
                     content = partialContentOf(metadata.path))
             }.collect(Collectors.toList())

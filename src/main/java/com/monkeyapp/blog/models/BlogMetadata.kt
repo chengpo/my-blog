@@ -22,6 +22,11 @@ val BlogMetadata.capitalizedTitle: String
         return title.split("-").joinToString(" ") { w -> w.replaceFirstChar { it.uppercase() } }
     }
 
+val BlogMetadata.capitalizedTag: String
+    get() {
+        return tag.replaceFirstChar { it.uppercase() }
+    }
+
 val BlogMetadata.postUrl: String
     get() {
         return "posts/${year}/${monthday}/${title}"
