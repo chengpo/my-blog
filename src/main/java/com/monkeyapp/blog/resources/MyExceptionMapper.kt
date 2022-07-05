@@ -1,13 +1,17 @@
 package com.monkeyapp.blog.resources
 
-import org.apache.log4j.Logger
+
+
+import org.apache.logging.log4j.LogManager
 import javax.ws.rs.WebApplicationException
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 import javax.ws.rs.ext.ExceptionMapper
+import javax.ws.rs.ext.Provider
 
+@Provider
 class MyExceptionMapper : ExceptionMapper<Exception> {
-    var logger = Logger.getLogger(MyExceptionMapper::class.java)
+    var logger = LogManager.getLogger(MyExceptionMapper::class.java)
     override fun toResponse(exception: Exception): Response {
         logger.debug("Exception received: ", exception)
         return if (exception is WebApplicationException) {
