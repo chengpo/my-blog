@@ -13,7 +13,7 @@ The design is highly influenced by MVC ( Model-View-Controller ) pattern.
 - HK2 for dependency injection;
 - Jersey for Restful API;
 - Mockito for mocking test objects;
-- Java8 for backend service;
+- Kotlin for backend service;
 - Embedded Tomcat for hosting the website;
 - Docker for running in container environment.
 
