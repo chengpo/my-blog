@@ -1,5 +1,6 @@
 package com.monkeyapp.blog.di
 
+import com.monkeyapp.blog.controllers.FeedController
 import com.monkeyapp.blog.controllers.PageController
 import com.monkeyapp.blog.controllers.PostController
 import com.monkeyapp.blog.models.*
@@ -14,7 +15,8 @@ import javax.ws.rs.core.Context
 interface AppComponent:
     BlogStreamProvider.ParentComponent,
     PostController.ParentComponent,
-    PageController.ParentComponent
+    PageController.ParentComponent,
+    FeedController.ParentComponent
 
 @Service
 class AppComponentImpl: AppComponent {

@@ -23,22 +23,19 @@ SOFTWARE.
  */
 package com.monkeyapp.blog.resources
 
+import com.monkeyapp.blog.controllers.FeedController
+import com.monkeyapp.blog.di.AppComponent
 import com.monkeyapp.blog.dtos.SyncFeedDto
 import javax.inject.Inject
-import javax.ws.rs.GET
-import javax.ws.rs.Path
-import javax.ws.rs.Produces
+import javax.ws.rs.*
+
 
 @Path("/feed")
 class FeedResource {
+    @Inject
+    private lateinit var component: AppComponent
 
-    @get:Produces("application/rss+xml")
-    @get:GET
-    val feed: SyncFeedDto
-        get() {
-            //assetRepository.getPostList()
-            TODO("return syncFeedDto")
-            // val syncFeed = SyncFeedBuilder(paperRepository).build()
-            // return typeConverter.toSyncFeedDto(syncFeed)
-        }
+    @GET
+    @Produces("application/rss+xml")
+    fun feed(): SyncFeedDto = FeedController(component).feed()
 }

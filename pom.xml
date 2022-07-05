@@ -57,12 +57,14 @@
     </profiles>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <kotlin.version>1.7.0</kotlin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
         <tomcat.version>8.0.48</tomcat.version>
-        <jersey.version>2.26</jersey.version>
+        <jersey.version>2.36</jersey.version>
 
         <external.dir>${project.basedir}/src/main/webapp/external</external.dir>
         <posts.dir>${project.basedir}/src/main/webapp/md/posts</posts.dir>
@@ -435,16 +437,19 @@
         </dependency>
 
         <dependency>
-            <groupId>jakarta.xml.bind</groupId>
-            <artifactId>jakarta.xml.bind-api</artifactId>
-            <version>2.3.3</version>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.0</version>
         </dependency>
-        
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>2.3.0</version>
+        </dependency>
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
-            <version>4.0.0</version>
-            <scope>runtime</scope>
+            <version>2.3.0</version>
         </dependency>
 
         <!-- test scope begin -->

@@ -29,41 +29,51 @@ import javax.xml.bind.annotation.XmlRootElement
 
 @XmlRootElement(name = "rss")
 data class SyncFeedDto(
+    @JvmField
     @XmlAttribute(name = "version")
-    var version: String = "",
+    val version: String,
 
     @JvmField
     @XmlElement(name = "channel")
-    var channel: ChannelDto? = null
+    val channel: FeedChannelDto
 )
 
-data class ChannelDto(
+data class FeedChannelDto(
+    @JvmField
     @XmlElement(name = "title")
-    var title: String = "",
+    val title: String,
 
+    @JvmField
     @XmlElement(name = "link")
-    var link: String = "",
+    val link: String,
 
+    @JvmField
     @XmlElement(name = "description")
-    var description: String = "",
+    val description: String,
 
+    @JvmField
     @XmlElement(name = "item")
-    var items: List<ItemDto> = emptyList()
+    val items: List<FeedItemDto>
 )
 
-data class ItemDto(
+data class FeedItemDto(
+    @JvmField
     @XmlElement(name = "title")
-    var title: String = "",
+    val title: String,
 
+    @JvmField
     @XmlElement(name = "link")
-    var link: String = "",
+    val link: String,
 
+    @JvmField
     @XmlElement(name = "description")
-    var description: String = "",
+    val description: String,
 
+    @JvmField
     @XmlElement(name = "pubDate")
-    var pubDate: String = "",
+    val pubDate: String,
 
+    @JvmField
     @XmlElement(name = "guid")
-    var guid: String = ""
+    val guid: String
 )

@@ -25,7 +25,7 @@ class PostController(component: ParentComponent) {
                 PostDto(
                     metadata = PostMetadataDto(
                         crtime = metadata.crtime,
-                        url = "posts/${metadata.year}/${metadata.monthday}/${metadata.title}",
+                        url = metadata.postUrl,
                         title = metadata.capitalizedTitle,
                         tag = metadata.tag
                     ),
@@ -51,7 +51,7 @@ class PostController(component: ParentComponent) {
                 PostDto(
                     metadata = PostMetadataDto(
                         crtime = metadata.crtime,
-                        url = "posts/${metadata.year}/${metadata.monthday}/${metadata.title}",
+                        url = metadata.postUrl,
                         title = metadata.capitalizedTitle,
                         tag = metadata.tag
                     ),
