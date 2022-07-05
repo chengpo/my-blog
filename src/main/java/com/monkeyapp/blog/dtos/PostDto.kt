@@ -32,8 +32,8 @@ data class PostChunkDto(
     @JsonProperty("offset") 
     val offset: Long,
 
-    @JsonProperty("hasMore") 
-    val hasMore: Boolean 
+    @JsonProperty("capacity")
+    val capacity: Long
 )
 
 data class PostDto (

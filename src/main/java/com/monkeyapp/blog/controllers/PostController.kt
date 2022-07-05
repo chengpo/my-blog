@@ -17,10 +17,10 @@ class PostController(component: ParentComponent) {
         val postDtos = postStreamProvider.metaStream()
             .sorted(Comparator.comparingLong(BlogMetadata::priority).reversed())
             .skip(offset)
-            .limit(postPerChunk)
             .filter { metadata ->
                 tag.isEmpty() || tag == metadata.tag
             }
+            .limit(postPerChunk)
             .map { metadata ->
                 PostDto(
                     metadata = PostMetadataDto(
@@ -35,7 +35,7 @@ class PostController(component: ParentComponent) {
         return PostChunkDto(
             posts = postDtos,
             offset = offset,
-            hasMore = offset + postPerChunk < postStreamProvider.total()
+            capacity = postPerChunk
         )
     }
 

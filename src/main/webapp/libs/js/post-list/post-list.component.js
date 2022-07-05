@@ -55,10 +55,9 @@ define(['static-url',
                                              self.posts = postChunk.posts;
                                              self.offset = postChunk.offset;
                                              self.capacity = postChunk.capacity;
-                                             self.eof = postChunk.eof;
 
                                              self.disable_forward = self.offset <= 0;
-                                             self.disable_backward = self.hasMore;
+                                             self.disable_backward = (self.posts.length < self.capacity);
 
                                              // reload syntax highlighter
                                              setTimeout(function () {

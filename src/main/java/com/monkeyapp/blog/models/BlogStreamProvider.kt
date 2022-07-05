@@ -11,7 +11,6 @@ import java.util.stream.Stream
 import javax.servlet.ServletContext
 
 interface BlogStreamProvider {
-    fun total(): Long
     fun metaStream(): Stream<BlogMetadata>
 
     interface ParentComponent : InputStreamProvider {
@@ -28,12 +27,6 @@ class BlogStreamProviderImpl(root: String, component: BlogStreamProvider.ParentC
         this.root = root
         this.context = component.context()
         this.inputStreamOf = component.inputStreamOf()
-    }
-
-    override fun total(): Long {
-        return BufferedReader(InputStreamReader(inputStreamOf(pathOf(root, FILE_LIST_JSON)))).use {
-            it.lines().count()
-        }
     }
 
     override fun metaStream(): Stream<BlogMetadata> {
