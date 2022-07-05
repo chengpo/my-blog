@@ -53,7 +53,7 @@ class PostController(component: ParentComponent) {
                         crtime = metadata.crtime,
                         url = metadata.postUrl,
                         title = metadata.capitalizedTitle,
-                        tag = metadata.tag
+                        tag = metadata.capitalizedTag
                     ),
                     content = completeContentOf(metadata.path))
             }
