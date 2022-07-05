@@ -26,9 +26,9 @@ package com.monkeyapp.blog.resources
 import com.monkeyapp.blog.controllers.PageController
 import com.monkeyapp.blog.dtos.PageDto
 import com.monkeyapp.blog.di.AppComponent
-import javax.inject.Inject
-import javax.ws.rs.*
-import javax.ws.rs.core.MediaType
+import jakarta.inject.Inject
+import jakarta.ws.rs.*
+import jakarta.ws.rs.core.MediaType
 
 @Path("/pages")
 class PagesResource {

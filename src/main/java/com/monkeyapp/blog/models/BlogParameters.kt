@@ -1,6 +1,6 @@
 package com.monkeyapp.blog.models
 
-import javax.servlet.ServletContext
+import jakarta.servlet.ServletContext
 
 interface BlogParameters {
     fun postPerChunk(): Long

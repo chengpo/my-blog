@@ -61,7 +61,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
         <tomcat.version>8.0.48</tomcat.version>
-        <jersey.version>2.36</jersey.version>
+        <jersey.version>3.0.5</jersey.version>
 
         <external.dir>${project.basedir}/src/main/webapp/external</external.dir>
         <posts.dir>${project.basedir}/src/main/webapp/md/posts</posts.dir>
@@ -383,11 +383,11 @@
             <version>0.17.0</version>
         </dependency>
 
-        <dependency>
+        <!-- <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.12.0</version>
-        </dependency>
+        </dependency> -->
 
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -419,35 +419,18 @@
             <version>${kotlin.version}</version>
         </dependency>
 
-        <!-- Runtime, com.sun.xml.bind module -->
         <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-            <version>4.0.0</version>
-        </dependency>
-
-        <dependency>  
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>3.0-alpha-1</version>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>5.0.0</version>
         </dependency>
 
         <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>2.3.3</version>
         </dependency>
 
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-core</artifactId>
-            <version>2.3.0</version>
-        </dependency>
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>

@@ -26,8 +26,8 @@ package com.monkeyapp.blog.resources
 import com.monkeyapp.blog.controllers.FeedController
 import com.monkeyapp.blog.di.AppComponent
 import com.monkeyapp.blog.dtos.SyncFeedDto
-import javax.inject.Inject
-import javax.ws.rs.*
+import jakarta.inject.Inject
+import jakarta.ws.rs.*
 
 
 @Path("/feed")

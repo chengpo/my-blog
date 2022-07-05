@@ -25,7 +25,8 @@ package com.monkeyapp.blog
 
 import com.monkeyapp.blog.di.*
 import org.glassfish.jersey.internal.inject.AbstractBinder
-import javax.ws.rs.ext.Provider
+import jakarta.ws.rs.ext.Provider
+
 
 @Provider
 class AppBinder : AbstractBinder() {

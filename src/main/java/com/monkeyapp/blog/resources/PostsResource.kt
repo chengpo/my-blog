@@ -28,9 +28,9 @@ import com.monkeyapp.blog.dtos.PostChunkDto
 import com.monkeyapp.blog.dtos.PostDto
 import com.monkeyapp.blog.di.AppComponent
 
-import javax.inject.Inject
-import javax.ws.rs.*
-import javax.ws.rs.core.MediaType
+import jakarta.inject.Inject
+import jakarta.ws.rs.*
+import jakarta.ws.rs.core.MediaType
 
 @Path("/posts")
 class PostsResource {

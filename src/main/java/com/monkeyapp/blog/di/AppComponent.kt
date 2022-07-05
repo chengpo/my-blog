@@ -7,9 +7,9 @@ import com.monkeyapp.blog.models.*
 import org.jvnet.hk2.annotations.Contract
 import org.jvnet.hk2.annotations.Service
 import java.io.InputStream
-import javax.inject.Inject
-import javax.servlet.ServletContext
-import javax.ws.rs.core.Context
+import jakarta.inject.Inject
+import jakarta.servlet.ServletContext
+import jakarta.ws.rs.core.Context
 
 @Contract
 interface AppComponent:

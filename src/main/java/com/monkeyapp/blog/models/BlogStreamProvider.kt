@@ -8,7 +8,7 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.util.stream.Collectors
 import java.util.stream.Stream
-import javax.servlet.ServletContext
+import jakarta.servlet.ServletContext
 
 interface BlogStreamProvider {
     fun metaStream(): Stream<BlogMetadata>
