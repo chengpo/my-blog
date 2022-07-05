@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 - 2018 Po Cheng
+Copyright (c) 2017 - 2022 Po Cheng
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -52,13 +52,12 @@ define(['static-url',
                                          }
 
                                          posts.all({tag:self.tag, offset:self.offset}, function(postChunk) {
-                                             self.posts = postChunk.papers;
+                                             self.posts = postChunk.posts;
                                              self.offset = postChunk.offset;
                                              self.capacity = postChunk.capacity;
-                                             self.eof = postChunk.eof;
 
                                              self.disable_forward = self.offset <= 0;
-                                             self.disable_backward = self.eof;
+                                             self.disable_backward = (self.posts.length < self.capacity);
 
                                              // reload syntax highlighter
                                              setTimeout(function () {

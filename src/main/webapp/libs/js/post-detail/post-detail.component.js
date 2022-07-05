@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 - 2018 Po Cheng
+Copyright (c) 2017 - 2022 Po Cheng
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -41,9 +41,9 @@ define(['static-url',
                                                            title:$routeParams.title
                                                            },
 
-                                                           function(paper) {
-                                                              self.file = paper.file;
-                                                              self.content = paper.content;
+                                                           function(post) {
+                                                              self.metadata = post.metadata;
+                                                              self.content = post.content;
 
                                                               // reload syntax highlighter
                                                               setTimeout(function () {

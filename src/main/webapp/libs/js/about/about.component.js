@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 - 2018 Po Cheng
+Copyright (c) 2017 - 2022 Po Cheng
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,9 +33,9 @@ SOFTWARE.
                                     function AboutController(pages) {
                                         var self = this;
                                         pages.about(
-                                            function(paper) {
-                                                self.file = paper.file;
-                                                self.content = paper.content;
+                                            function(page) {
+                                                self.metadata = page.metadata;
+                                                self.content = page.content;
                                             });
                                     }]
                    });

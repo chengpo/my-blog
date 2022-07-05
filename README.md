@@ -49,13 +49,15 @@ To make the Java EE APIs available at runtime, specify the following command-lin
 --add-modules java.xml.bind --add-modules java.activation
 ```
 
-## Edit in Intellij IDE
-Install [Intellij Lombok plugin](https://plugins.jetbrains.com/plugin/6317-lombok) to support Lombok annotations
+## Update dependencies
+```
+mvn versions:display-dependency-updates
+```
 
 ## License
     MIT License
 
-	Copyright (c) 2017 - 2018 Po Cheng
+	Copyright (c) 2017 - 2022 Po Cheng
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
