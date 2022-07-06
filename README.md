@@ -1,3 +1,4 @@
+![maven workflow](https://github.com/chengpo/my-blog/actions/workflows/maven.yml/badge.svg)
 # My Blog
 
 Source for my blog - <a href="http://monkey-blogger.herokuapp.com" target="_blank">monkey-blogger.herokuapp.com</a>
