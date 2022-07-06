@@ -285,7 +285,6 @@
 
 
         <resources>
-            <!--
             <resource>
                 <directory>src/main/resources</directory>
                 <targetPath>${project.build.directory}/classes</targetPath>
@@ -294,7 +293,7 @@
                 </includes>
             </resource>
 
-
+            <!--
             <resource>
                 <directory>bower_components</directory>
                 <targetPath>${external.dir}</targetPath>
