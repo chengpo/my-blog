@@ -31,11 +31,11 @@ import javax.xml.bind.annotation.XmlRootElement
 data class SyncFeedDto(
     @JvmField
     @XmlAttribute(name = "version")
-    val version: String,
+    var version: String = "2.0",
 
     @JvmField
     @XmlElement(name = "channel")
-    val channel: FeedChannelDto
+    var channel: FeedChannelDto? = null
 )
 
 data class FeedChannelDto(
