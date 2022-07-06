@@ -30,50 +30,50 @@ import javax.xml.bind.annotation.XmlRootElement
 @XmlRootElement(name = "rss")
 data class SyncFeedDto(
     @JvmField
-    @XmlAttribute(name = "version")
+    @field:XmlAttribute(name = "version")
     var version: String = "2.0",
 
     @JvmField
-    @XmlElement(name = "channel")
+    @field:XmlElement(name = "channel")
     var channel: FeedChannelDto? = null
 )
 
 data class FeedChannelDto(
     @JvmField
-    @XmlElement(name = "title")
+    @field:XmlElement(name = "title")
     val title: String,
 
     @JvmField
-    @XmlElement(name = "link")
+    @field:XmlElement(name = "link")
     val link: String,
 
     @JvmField
-    @XmlElement(name = "description")
+    @field:XmlElement(name = "description")
     val description: String,
 
     @JvmField
-    @XmlElement(name = "item")
+    @field:XmlElement(name = "item")
     val items: List<FeedItemDto>
 )
 
 data class FeedItemDto(
     @JvmField
-    @XmlElement(name = "title")
+    @field:XmlElement(name = "title")
     val title: String,
 
     @JvmField
-    @XmlElement(name = "link")
+    @field:XmlElement(name = "link")
     val link: String,
 
     @JvmField
-    @XmlElement(name = "description")
+    @field:XmlElement(name = "description")
     val description: String,
 
     @JvmField
-    @XmlElement(name = "pubDate")
+    @field:XmlElement(name = "pubDate")
     val pubDate: String,
 
     @JvmField
-    @XmlElement(name = "guid")
+    @field:XmlElement(name = "guid")
     val guid: String
 )
