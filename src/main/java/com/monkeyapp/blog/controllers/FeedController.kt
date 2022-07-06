@@ -26,7 +26,7 @@ class FeedController(componet: ParentComponent) {
         val feedChannel = FeedChannelDto(
             title = "Monkey Blogger",
             link = "http://monkey-blogger.herokuapp.com",
-            description = "A simple tech blog",
+            description = "Some random thought",
             items = feedItems
         )
 
