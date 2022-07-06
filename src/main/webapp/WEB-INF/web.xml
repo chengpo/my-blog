@@ -21,11 +21,11 @@
         </init-param>
         <init-param>
             <param-name>jersey.config.server.provider.scanning.recursive</param-name>
-            <param-value>false</param-value>
+            <param-value>true</param-value>
         </init-param>
         <init-param>
             <param-name>jersey.config.server.monitoring.statistics.mbeans.enabled</param-name>
-            <param-value>true</param-value>
+            <param-value>false</param-value>
         </init-param>
         <load-on-startup>0</load-on-startup>
     </servlet>
@@ -41,7 +41,7 @@
         <url-pattern>/external/*</url-pattern>
     </servlet-mapping>
 
-    <!-- filters -->
+    <!--
     <filter>
         <filter-name>UrlRewriteFilter</filter-name>
         <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
@@ -57,13 +57,14 @@
             <param-name>statusEnabled</param-name>
             <param-value>true</param-value>
         </init-param>
-    </filter>
+    </filter> -->
     
     <filter>
         <filter-name>ResponseFilter</filter-name>
         <filter-class>com.monkeyapp.blog.ResponseFilter</filter-class>
     </filter>
 
+    <!--
     <filter-mapping>
         <filter-name>UrlRewriteFilter</filter-name>
         <url-pattern>/static/*</url-pattern>
@@ -71,7 +72,7 @@
         <url-pattern>/about/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
-    </filter-mapping>
+    </filter-mapping> -->
 
     <filter-mapping>
         <filter-name>ResponseFilter</filter-name>
@@ -79,12 +80,6 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
-
-    <!-- context listener-->
-    <!-- <listener>
-        <listener-class>com.monkeyapp.blog.AppContext</listener-class>
-    </listener>-->
-
     <!-- context params -->
     <context-param>
         <param-name>post-per-chunk</param-name>

@@ -60,7 +60,7 @@
         <kotlin.version>1.7.0</kotlin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
-        <tomcat.version>8.0.48</tomcat.version>
+        <tomcat.version>10.0.22</tomcat.version>
         <jersey.version>3.0.5</jersey.version>
 
         <external.dir>${project.basedir}/src/main/webapp/external</external.dir>
@@ -309,11 +309,11 @@
             <artifactId>tomcat-embed-core</artifactId>
             <version>${tomcat.version}</version>
         </dependency>
-        <dependency>
+       <!-- <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-logging-juli</artifactId>
             <version>${tomcat.version}</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
@@ -377,17 +377,18 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.atlassian.commonmark</groupId>
-            <artifactId>commonmark</artifactId>
-            <version>0.17.0</version>
-        </dependency>
+       <dependency>
+           <groupId>org.commonmark</groupId>
+           <artifactId>commonmark</artifactId>
+           <version>0.17.0</version>
+       </dependency>
 
-        <!-- <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.12.0</version>
-        </dependency> -->
+        <!--
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-lang3</artifactId>
+          <version>3.12.0</version>
+      </dependency> -->
 
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -428,13 +429,19 @@
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
-            <version>2.3.3</version>
+            <version>4.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
-            <version>2.3.0</version>
+            <version>4.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-web-api</artifactId>
+            <version>9.0.0</version>
         </dependency>
 
         <!-- test scope begin -->

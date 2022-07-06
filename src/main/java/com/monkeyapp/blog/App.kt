@@ -31,7 +31,7 @@ import org.apache.tomcat.JarScanType
 import org.apache.tomcat.util.scan.StandardJarScanner
 import java.io.File
 import java.net.MalformedURLException
-import javax.servlet.ServletException
+import jakarta.servlet.ServletException
 
 object App {
     private const val DEFAULT_PORT = 8080
