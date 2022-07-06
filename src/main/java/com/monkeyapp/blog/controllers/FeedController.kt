@@ -18,7 +18,7 @@ class FeedController(componet: ParentComponent) {
                     link = "http://monkey-blogger.herokuapp.com/${metadata.postUrl}",
                     guid = "http://monkey-blogger.herokuapp.com/${metadata.postUrl}",
                     description = "${partialContentOf(metadata.path)} <p> ... </p>",
-                    pubDate = ""//metadata.pubDate
+                    pubDate = metadata.pubDate
                 )
             }
             .collect(Collectors.toList())
