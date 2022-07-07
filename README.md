@@ -1,12 +1,11 @@
 ![maven workflow](https://github.com/chengpo/my-blog/actions/workflows/maven.yml/badge.svg)
 # My Blog
 
-Source for my blog - <a href="http://monkey-blogger.herokuapp.com" target="_blank">monkey-blogger.herokuapp.com</a>
+Source of <a href="http://monkey-blogger.herokuapp.com" target="_blank">monkey-blogger.herokuapp.com</a>
 
 The design is heavily influenced by MVC ( Model-View-Controller ) pattern.
 
-## Technology Behind
-
+## Technologies Behind
 
 - Bootstrap for frontend page layout;
 - RequireJS for loading Javascript modules;
