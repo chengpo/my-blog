@@ -6,9 +6,10 @@ import com.monkeyapp.blog.dtos.SyncFeedDto
 import com.monkeyapp.blog.models.*
 import java.util.stream.Collectors
 
-class FeedController(componet: ParentComponent) {
-    private val postStreamProvider = componet.postStreamProvider()
-    private val partialContentOf = componet.partialContentOf()
+class FeedController(component: ParentComponent) {
+    private val postStreamProvider = component.postStreamProvider()
+    private val partialContentOf = component.partialContentOf()
+
     fun feed(): SyncFeedDto {
         val feedItems = postStreamProvider.metaStream()
             .sorted(Comparator.comparingLong(BlogMetadata::priority).reversed())
