@@ -1,5 +1,6 @@
 .DS_Store
 .idea/
+.vscode/
 tomcat.*/
 target/
 node_modules/
