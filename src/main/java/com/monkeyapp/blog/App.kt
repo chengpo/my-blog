@@ -27,27 +27,24 @@ import org.apache.catalina.LifecycleException
 import org.apache.catalina.core.StandardContext
 import org.apache.catalina.startup.Tomcat
 import org.apache.tomcat.JarScanFilter
-import org.apache.tomcat.JarScanType
 import org.apache.tomcat.util.scan.StandardJarScanner
 import java.io.File
 import java.net.MalformedURLException
 import javax.servlet.ServletException
 
 object App {
-    private const val DEFAULT_PORT = 8080
-    private const val WEB_CONTENT = "src/main/webapp"
-    private val WEB_XML = "${WEB_CONTENT}/WEB-INF/web.xml".replace("/", File.separator)
-
-    init {
-        // Turn off apache bean utils log
-        System.setProperty("org.apache.commons.logging.Log",
-                "org.apache.commons.logging.impl.NoOpLog")
+    private fun Tomcat.updatePort(args: Array<String>, defaultPort: Int = 8080) {
+        val port = if (args.size >= 2 && args[0] == "--port") args[1].toInt() else defaultPort
+        setPort(port)
     }
 
-    fun Tomcat.updateContext() {
-        (addWebapp("/", File(WEB_CONTENT).absolutePath) as StandardContext).apply {
+    private fun Tomcat.updateContext() {
+        val webContent = "src/main/webapp"
+        val webXml = "${webContent}/WEB-INF/web.xml".replace("/", File.separator)
+
+        (addWebapp("/", File(webContent).absolutePath) as StandardContext).apply {
             // Define and bind web.xml file location.
-            configFile = File(WEB_XML).toURI().toURL()
+            configFile = File(webXml).toURI().toURL()
             // Disable jar scanner
             jarScanner = object : StandardJarScanner() {
                 init {
@@ -57,30 +54,22 @@ object App {
         }
     }
 
-    fun Tomcat.updateConnectorProperty(properties: List<Pair<String, String>>) {
-        properties.forEach { (k, v) ->
-            connector.setProperty(k, v);
-        }
+    private fun Tomcat.updateConnectorProperty() {
+        // Enable compression response
+        listOf(
+            "compression" to "on",
+            "compressionMinSize"  to "256",
+            "compressableMimeType" to  "text/html, text/xml, text/css, application/json, application/javascript"
+        ).forEach { (k, v) -> connector.setProperty(k, v) }
     }
 
     @JvmStatic
     @Throws(ServletException::class, LifecycleException::class, MalformedURLException::class)
     fun main(args: Array<String>) {
-        val port = if (args.size >= 2 && args[0] == "--port") {
-            args[1].toInt()
-        } else {
-            DEFAULT_PORT
-        }
-
         Tomcat().apply {
-            setPort(port);
-            updateContext();
-            // Enable compression response
-            updateConnectorProperty(listOf(
-                "compression" to "on",
-                "compressionMinSize"  to "256",
-                "compressableMimeType" to  "text/html, text/xml, text/css, application/json, application/javascript"
-            ))
+            updatePort(args)
+            updateContext()
+            updateConnectorProperty()
             start()
             server.await()
         }

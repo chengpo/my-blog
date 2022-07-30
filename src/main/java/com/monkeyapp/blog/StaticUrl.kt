@@ -27,7 +27,7 @@ import com.jcabi.manifests.Manifests
 
 object StaticUrl {
     @JvmField
-    val VERSION = try { Manifests.read("WebApp-Version") } 
+    val VERSION: String = try { Manifests.read("WebApp-Version") }
                   catch (e: IllegalArgumentException) { "1.0.0" }
 
     @JvmStatic
