@@ -12,19 +12,22 @@ import javax.servlet.ServletContext
 import javax.ws.rs.core.Context
 
 @Contract
-interface AppComponent:
+interface RootComponent:
     BlogStreamProvider.ParentComponent,
     PostController.ParentComponent,
     PageController.ParentComponent,
     FeedController.ParentComponent
 
 @Service
-class AppComponentImpl: AppComponent {
+class RootComponentImpl : RootComponent {
     @Context
     private lateinit var context: ServletContext
 
     @Inject
     private lateinit var inputStreamProvider: InputStreamProvider
+
+    @Inject
+    private lateinit var blogParameters: BlogParameters
 
     override fun postStreamProvider(): BlogStreamProvider {
         return BlogStreamProviderImpl(POST_ROOT, this)
@@ -40,7 +43,7 @@ class AppComponentImpl: AppComponent {
 
     override fun context(): ServletContext = context
 
-    override fun blogParameters(): BlogParameters = BlogParametersImpl(context)
+    override fun blogParameters(): BlogParameters = blogParameters
 
     override fun inputStreamOf(): (String) -> InputStream = inputStreamProvider.inputStreamOf()
 

@@ -24,7 +24,7 @@ SOFTWARE.
 package com.monkeyapp.blog.resources
 
 import com.monkeyapp.blog.controllers.FeedController
-import com.monkeyapp.blog.di.AppComponent
+import com.monkeyapp.blog.di.RootComponent
 import com.monkeyapp.blog.dtos.SyncFeedDto
 import javax.inject.Inject
 import javax.ws.rs.*
@@ -33,7 +33,7 @@ import javax.ws.rs.*
 @Path("/feed")
 class FeedResource {
     @Inject
-    private lateinit var component: AppComponent
+    private lateinit var component: RootComponent
 
     @GET
     @Produces("application/rss+xml")

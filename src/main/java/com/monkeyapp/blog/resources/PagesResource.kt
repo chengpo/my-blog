@@ -25,7 +25,7 @@ package com.monkeyapp.blog.resources
 
 import com.monkeyapp.blog.controllers.PageController
 import com.monkeyapp.blog.dtos.PageDto
-import com.monkeyapp.blog.di.AppComponent
+import com.monkeyapp.blog.di.RootComponent
 import javax.inject.Inject
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
@@ -33,7 +33,7 @@ import javax.ws.rs.core.MediaType
 @Path("/pages")
 class PagesResource {
     @Inject
-    private lateinit var component: AppComponent
+    private lateinit var component: RootComponent
 
     @GET
     @Path("/{title}")

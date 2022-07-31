@@ -1,5 +1,6 @@
 package com.monkeyapp.blog.controllers
 
+import com.monkeyapp.blog.di.BlogParameters
 import com.monkeyapp.blog.dtos.PostChunkDto
 import com.monkeyapp.blog.dtos.PostDto
 import com.monkeyapp.blog.dtos.PostMetadataDto

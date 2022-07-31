@@ -26,7 +26,7 @@ package com.monkeyapp.blog.resources
 import com.monkeyapp.blog.controllers.PostController
 import com.monkeyapp.blog.dtos.PostChunkDto
 import com.monkeyapp.blog.dtos.PostDto
-import com.monkeyapp.blog.di.AppComponent
+import com.monkeyapp.blog.di.RootComponent
 
 import javax.inject.Inject
 import javax.ws.rs.*
@@ -35,7 +35,7 @@ import javax.ws.rs.core.MediaType
 @Path("/posts")
 class PostsResource {
     @Inject
-    lateinit var component: AppComponent
+    lateinit var component: RootComponent
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

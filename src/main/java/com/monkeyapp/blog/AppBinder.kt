@@ -31,6 +31,7 @@ import javax.ws.rs.ext.Provider
 class AppBinder : AbstractBinder() {
     override fun configure() {
         bind(InputStreamProviderImpl::class.java).to(InputStreamProvider::class.java)
-        bind(AppComponentImpl::class.java).to(AppComponent::class.java)
+        bind(BlogParametersImpl::class.java).to(BlogParameters::class.java)
+        bind(RootComponentImpl::class.java).to(RootComponent::class.java)
     }
 }
