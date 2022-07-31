@@ -8,7 +8,7 @@ import java.util.stream.Collectors
 
 class FeedController(component: ParentComponent) {
     private val postStreamProvider = component.postStreamProvider()
-    private val partialContentOf = component.partialContentOf()
+    private val partialContentProvider = component.partialContentProvider()
 
     fun feed(): SyncFeedDto {
         val feedItems = postStreamProvider.metaStream()
@@ -18,7 +18,7 @@ class FeedController(component: ParentComponent) {
                     title = metadata.capitalizedTitle,
                     link = "http://monkey-blogger.herokuapp.com/${metadata.postUrl}",
                     guid = "http://monkey-blogger.herokuapp.com/${metadata.postUrl}",
-                    description = "${partialContentOf(metadata.path)} <p> ... </p>",
+                    description = "${partialContentProvider.contentOf(metadata.path)} <p> ... </p>",
                     pubDate = metadata.pubDate
                 )
             }
@@ -34,7 +34,8 @@ class FeedController(component: ParentComponent) {
         return SyncFeedDto(version = "2.0", channel = feedChannel)
     }
 
-    interface ParentComponent : PartialContentProvider {
+    interface ParentComponent {
         fun postStreamProvider(): BlogStreamProvider
+        fun partialContentProvider(): PartialContentProvider
     }
 }

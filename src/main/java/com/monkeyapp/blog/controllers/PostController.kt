@@ -10,8 +10,8 @@ import java.util.stream.Collectors
 
 class PostController(component: ParentComponent) {
     private val postStreamProvider = component.postStreamProvider()
-    private val partialContentOf = component.partialContentOf()
-    private val completeContentOf = component.completeContentOf()
+    private val partialContentProvider = component.partialContentProvider()
+    private val completeContentProvider = component.completeContentProvider()
     private val postPerChunk  = component.blogParameters().postPerChunk()
 
     fun postChunk(tag: String, offset: Long): PostChunkDto {
@@ -30,7 +30,7 @@ class PostController(component: ParentComponent) {
                         title = metadata.capitalizedTitle,
                         tag = metadata.capitalizedTag
                     ),
-                    content = partialContentOf(metadata.path))
+                    content = partialContentProvider.contentOf(metadata.path))
             }.collect(Collectors.toList())
 
         return PostChunkDto(
@@ -56,13 +56,15 @@ class PostController(component: ParentComponent) {
                         title = metadata.capitalizedTitle,
                         tag = metadata.capitalizedTag
                     ),
-                    content = completeContentOf(metadata.path))
+                    content = completeContentProvider.contentOf(metadata.path))
             }
     }
 
-    interface ParentComponent : CompleteContentProvider, PartialContentProvider {
+    interface ParentComponent {
         fun blogParameters(): BlogParameters
         fun postStreamProvider(): BlogStreamProvider
+        fun completeContentProvider(): CompleteContentProvider
+        fun partialContentProvider(): PartialContentProvider
     }
 }
 

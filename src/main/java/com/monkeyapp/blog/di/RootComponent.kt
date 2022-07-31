@@ -6,51 +6,34 @@ import com.monkeyapp.blog.controllers.PostController
 import com.monkeyapp.blog.models.*
 import org.jvnet.hk2.annotations.Contract
 import org.jvnet.hk2.annotations.Service
-import java.io.InputStream
 import javax.inject.Inject
-import javax.servlet.ServletContext
-import javax.ws.rs.core.Context
 
 @Contract
 interface RootComponent:
-    BlogStreamProvider.ParentComponent,
     PostController.ParentComponent,
     PageController.ParentComponent,
     FeedController.ParentComponent
 
 @Service
 class RootComponentImpl : RootComponent {
-    @Context
-    private lateinit var context: ServletContext
-
-    @Inject
-    private lateinit var inputStreamProvider: InputStreamProvider
-
     @Inject
     private lateinit var blogParameters: BlogParameters
 
-    override fun postStreamProvider(): BlogStreamProvider {
-        return BlogStreamProviderImpl(POST_ROOT, this)
-    }
-
-    override fun pageStreamProvider(): BlogStreamProvider {
-        return BlogStreamProviderImpl(PAGE_ROOT, this)
-    }
-
-    override fun completeContentOf(): (String) -> String = CompleteContentProviderImpl(this).completeContentOf()
-
-    override fun partialContentOf(): (String) -> String = PartialContentProviderImpl(this).partialContentOf()
-
-    override fun context(): ServletContext = context
+    @Inject
+    private lateinit var contentComponent: ContentComponent
 
     override fun blogParameters(): BlogParameters = blogParameters
 
-    override fun inputStreamOf(): (String) -> InputStream = inputStreamProvider.inputStreamOf()
+    override fun postStreamProvider(): BlogStreamProvider = contentComponent.blogStreamProvider(POST_ROOT)
+
+    override fun pageStreamProvider(): BlogStreamProvider = contentComponent.blogStreamProvider(PAGE_ROOT)
+
+    override fun completeContentProvider(): CompleteContentProvider = contentComponent.completeContentProvider()
+
+    override fun partialContentProvider(): PartialContentProvider = contentComponent.partialContentProvider()
 
     companion object {
         const val POST_ROOT = "/md/posts"
         const val PAGE_ROOT = "/md/pages"
     }
 }
-
-

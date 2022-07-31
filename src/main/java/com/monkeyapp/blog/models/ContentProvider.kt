@@ -7,52 +7,39 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.util.stream.Collectors
 
-interface CompleteContentProvider {
-    fun completeContentOf(): (String) -> String
-}
+class CompleteContentProvider(inputStreamProvider: InputStreamProvider) {
+    private val inputStreamOf by lazy { inputStreamProvider.inputStreamOf() }
+    private val htmlFormatter by lazy { HtmlFormatter() }
 
-class CompleteContentProviderImpl(inputStreamProvider: InputStreamProvider) : CompleteContentProvider {
-    private val inputStreamOf = inputStreamProvider.inputStreamOf()
-
-    override fun completeContentOf(): (String) -> String {
-        return { path ->
-            HtmlFormatter().toHtml {
-                BufferedReader(InputStreamReader(inputStreamOf(path))).use {
-                    it.lines().collect(Collectors.joining(System.lineSeparator()))
-                }
-            }
+    fun contentOf(path: String):  String {
+        val markDownContent = BufferedReader(InputStreamReader(inputStreamOf(path))).use {
+            it.lines().collect(Collectors.joining(System.lineSeparator()))
         }
+
+        return htmlFormatter.toHtml(markDownContent)
     }
 }
 
-interface PartialContentProvider {
-    fun partialContentOf(): (String) -> String
-}
 
-class PartialContentProviderImpl(inputStreamProvider: InputStreamProvider) : PartialContentProvider {
-    private val inputStreamOf = inputStreamProvider.inputStreamOf()
+class PartialContentProvider(inputStreamProvider: InputStreamProvider, private val partialFileLines: Long = 32L) {
+    private val inputStreamOf by lazy { inputStreamProvider.inputStreamOf() }
+    private val htmlFormatter by lazy { HtmlFormatter() }
 
-    override fun partialContentOf(): (String) -> String {
-        return { path ->
-            HtmlFormatter().toHtml {
-                BufferedReader(InputStreamReader(inputStreamOf(path))).use {
-                    it.lines().limit(MAX_PARTIAL_FILE_LINES).collect(Collectors.joining(System.lineSeparator()))
-                }
-            }
+    fun contentOf(path: String):  String {
+        val markDownContent = BufferedReader(InputStreamReader(inputStreamOf(path))).use {
+            it.lines().limit(partialFileLines).collect(Collectors.joining(System.lineSeparator()))
         }
-    }
 
-    companion object {
-        private const val MAX_PARTIAL_FILE_LINES = 32L
+        return htmlFormatter.toHtml(markDownContent)
     }
 }
 
 class HtmlFormatter {
     private val renderer = HtmlRenderer.builder().build()
 
-    fun toHtml(markDownContent: () -> String): String {
+    fun toHtml(markDownContent: String): String {
         val parser = Parser.builder().build()
-        val document = parser.parse(markDownContent())
+        val document = parser.parse(markDownContent)
         return renderer.render(document)
     }
 }

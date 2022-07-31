@@ -9,7 +9,7 @@ import java.util.*
 
 class PageController(component: ParentComponent) {
     private val pageStreamProvider = component.pageStreamProvider()
-    private val completeContentOf = component.completeContentOf()
+    private val completeContentProvider = component.completeContentProvider()
 
     fun pageContent(title: String): Optional<PageDto> {
         return pageStreamProvider.metaStream()
@@ -22,11 +22,12 @@ class PageController(component: ParentComponent) {
                         url = "pages/${metadata.title}",
                         title = metadata.capitalizedTitle
                     ),
-                    content =completeContentOf(metadata.path))
+                    content = completeContentProvider.contentOf(metadata.path))
             }
     }
 
-    interface ParentComponent : CompleteContentProvider {
+    interface ParentComponent {
         fun pageStreamProvider(): BlogStreamProvider
+        fun completeContentProvider(): CompleteContentProvider
     }
 }
