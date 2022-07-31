@@ -33,36 +33,6 @@ import java.net.MalformedURLException
 import javax.servlet.ServletException
 
 object App {
-    private fun Tomcat.updatePort(args: Array<String>, defaultPort: Int = 8080) {
-        val port = if (args.size >= 2 && args[0] == "--port") args[1].toInt() else defaultPort
-        setPort(port)
-    }
-
-    private fun Tomcat.updateContext() {
-        val webContent = "src/main/webapp"
-        val webXml = "${webContent}/WEB-INF/web.xml".replace("/", File.separator)
-
-        (addWebapp("/", File(webContent).absolutePath) as StandardContext).apply {
-            // Define and bind web.xml file location.
-            configFile = File(webXml).toURI().toURL()
-            // Disable jar scanner
-            jarScanner = object : StandardJarScanner() {
-                init {
-                    jarScanFilter = JarScanFilter { _, _ -> false }
-                }
-            }
-        }
-    }
-
-    private fun Tomcat.updateConnectorProperty() {
-        // Enable compression response
-        listOf(
-            "compression" to "on",
-            "compressionMinSize"  to "256",
-            "compressableMimeType" to  "text/html, text/xml, text/css, application/json, application/javascript"
-        ).forEach { (k, v) -> connector.setProperty(k, v) }
-    }
-
     @JvmStatic
     @Throws(ServletException::class, LifecycleException::class, MalformedURLException::class)
     fun main(args: Array<String>) {
@@ -74,4 +44,34 @@ object App {
             server.await()
         }
     }
+}
+
+private fun Tomcat.updatePort(args: Array<String>, defaultPort: Int = 8080) {
+    val port = if (args.size >= 2 && args[0] == "--port") args[1].toInt() else defaultPort
+    setPort(port)
+}
+
+private fun Tomcat.updateContext() {
+    val webContent = "src/main/webapp"
+    val webXml = "${webContent}/WEB-INF/web.xml".replace("/", File.separator)
+
+    (addWebapp("/", File(webContent).absolutePath) as StandardContext).apply {
+        // Define and bind web.xml file location.
+        configFile = File(webXml).toURI().toURL()
+        // Disable jar scanner
+        jarScanner = object : StandardJarScanner() {
+            init {
+                jarScanFilter = JarScanFilter { _, _ -> false }
+            }
+        }
+    }
+}
+
+private fun Tomcat.updateConnectorProperty() {
+    // Enable compression response
+    listOf(
+        "compression" to "on",
+        "compressionMinSize"  to "256",
+        "compressableMimeType" to  "text/html, text/xml, text/css, application/json, application/javascript"
+    ).forEach { (k, v) -> connector.setProperty(k, v) }
 }
