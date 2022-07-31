@@ -1,5 +1,6 @@
 package com.monkeyapp.blog.models
 
+import com.monkeyapp.blog.di.BlogParameters
 import com.monkeyapp.blog.di.InputStreamProvider
 import org.commonmark.parser.Parser
 import org.commonmark.renderer.html.HtmlRenderer
@@ -20,13 +21,13 @@ class CompleteContentProvider(private val inputStreamProvider: InputStreamProvid
 }
 
 class PartialContentProvider(private val inputStreamProvider: InputStreamProvider,
-                             private val partialFileLines: Long = 32L) {
+                             private val blogParameters: BlogParameters) {
     private val htmlFormatter by lazy { HtmlFormatter() }
 
     fun contentOf(path: String):  String {
         val inputStream = inputStreamProvider.streamOf(path)
         val markDownContent = BufferedReader(InputStreamReader(inputStream)).use {
-            it.lines().limit(partialFileLines).collect(Collectors.joining(System.lineSeparator()))
+            it.lines().limit(blogParameters.partialFileLines()).collect(Collectors.joining(System.lineSeparator()))
         }
         return htmlFormatter.toHtml(markDownContent)
     }

@@ -22,6 +22,9 @@ class ContentComponentImpl : ContentComponent {
     private lateinit var context: ServletContext
 
     @Inject
+    private lateinit var blogParameters: BlogParameters
+
+    @Inject
     private lateinit var inputStreamProvider: InputStreamProvider
 
     override fun blogStreamProvider(root: String): BlogStreamProvider {
@@ -33,6 +36,6 @@ class ContentComponentImpl : ContentComponent {
     }
 
     override fun partialContentProvider(): PartialContentProvider {
-        return PartialContentProvider(inputStreamProvider)
+        return PartialContentProvider(inputStreamProvider, blogParameters)
     }
 }
