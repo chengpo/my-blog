@@ -11,7 +11,7 @@ class FeedController(component: ParentComponent) {
     private val partialContentProvider = component.partialContentProvider()
 
     fun feed(): SyncFeedDto {
-        val feedItems = postStreamProvider.metaStream()
+        return postStreamProvider.metaStream()
             .sorted(Comparator.comparingLong(BlogMetadata::priority).reversed())
             .map { metadata ->
                 FeedItemDto(
@@ -23,15 +23,17 @@ class FeedController(component: ParentComponent) {
                 )
             }
             .collect(Collectors.toList())
-
-        val feedChannel = FeedChannelDto(
-            title = "Monkey Blogger",
-            link = "http://monkey-blogger.herokuapp.com",
-            description = "Some random thought",
-            items = feedItems
-        )
-
-        return SyncFeedDto(version = "2.0", channel = feedChannel)
+            .run {
+                FeedChannelDto(
+                    title = "Monkey Blogger",
+                    link = "http://monkey-blogger.herokuapp.com",
+                    description = "Some random thought",
+                    items = this
+                )
+            }
+            .run {
+                SyncFeedDto(version = "2.0", channel = this)
+            }
     }
 
     interface ParentComponent {

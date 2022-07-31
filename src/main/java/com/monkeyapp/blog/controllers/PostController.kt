@@ -16,7 +16,7 @@ class PostController(component: ParentComponent) {
     private val blogParameters = component.blogParameters()
 
     fun postChunk(tag: String, offset: Long): PostChunkDto {
-        val postDtos = postStreamProvider.metaStream()
+        return postStreamProvider.metaStream()
             .sorted(Comparator.comparingLong(BlogMetadata::priority).reversed())
             .skip(offset)
             .filter { metadata ->
@@ -32,13 +32,15 @@ class PostController(component: ParentComponent) {
                         tag = metadata.capitalizedTag
                     ),
                     content = partialContentProvider.contentOf(metadata.path))
-            }.collect(Collectors.toList())
-
-        return PostChunkDto(
-            posts = postDtos,
-            offset = offset,
-            capacity = blogParameters.postPerChunk()
-        )
+            }
+            .collect(Collectors.toList())
+            .run {
+                PostChunkDto(
+                    posts = this,
+                    offset = offset,
+                    capacity = blogParameters.postPerChunk()
+                )
+            }
     }
 
     fun postContent(year: String, monthday: String, title: String): Optional<PostDto> {

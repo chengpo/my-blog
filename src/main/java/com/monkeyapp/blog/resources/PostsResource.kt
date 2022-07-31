@@ -50,7 +50,6 @@ class PostsResource {
     fun getPostContent(@PathParam("year") year: String,
                        @PathParam("monthday") monthday: String,
                        @PathParam("title") title: String): PostDto {
-        
         return PostController(component)
             .postContent(year, monthday, title)
             .orElseThrow { WebApplicationException(404) }
