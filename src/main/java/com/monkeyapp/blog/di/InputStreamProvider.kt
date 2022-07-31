@@ -7,10 +7,10 @@ import java.io.InputStream
 
 @Contract
 interface InputStreamProvider {
-    fun inputStreamOf(): (String) -> InputStream
+    fun streamOf(path: String):  InputStream
 }
 
 @Service
 class InputStreamProviderImpl : InputStreamProvider {
-    override fun inputStreamOf() = { path: String -> File(path).inputStream() }
+    override fun streamOf(path: String) = File(path).inputStream()
 }

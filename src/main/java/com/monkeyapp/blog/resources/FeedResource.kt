@@ -29,7 +29,6 @@ import com.monkeyapp.blog.dtos.SyncFeedDto
 import javax.inject.Inject
 import javax.ws.rs.*
 
-
 @Path("/feed")
 class FeedResource {
     @Inject

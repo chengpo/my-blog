@@ -11,15 +11,14 @@ import javax.servlet.ServletContext
 
 class BlogStreamProvider(private val root: String,
                          private val context: ServletContext,
-                         inputStreamProvider: InputStreamProvider,
+                         private val inputStreamProvider: InputStreamProvider,
                          private val fileListJson: String = "file-list.json") {
-
-    private val inputStreamOf by lazy { inputStreamProvider.inputStreamOf() }
 
     fun metaStream(): Stream<BlogMetadata> {
         val blogMetadataFactory = BlogMetadataFactory()
-
-        val jsonString = BufferedReader(InputStreamReader(inputStreamOf(pathOf(root, fileListJson)))).use {
+        val fileListJsonPath = pathOf(root, fileListJson)
+        val inputStream = inputStreamProvider.streamOf(fileListJsonPath)
+        val jsonString = BufferedReader(InputStreamReader(inputStream)).use {
             it.lines().collect(Collectors.joining(System.lineSeparator()))
         }
 
@@ -27,8 +26,11 @@ class BlogStreamProvider(private val root: String,
             .readValue(
                 jsonString,
                 object : TypeReference<List<String>>() {})
-            .mapNotNull { name ->
-                blogMetadataFactory.create(path = pathOf(root, name), name = name)
+            .map { name ->
+                pathOf(root, name) to name
+            }
+            .mapNotNull { (path, name) ->
+                blogMetadataFactory.create(path, name)
             }.stream()
     }
 
