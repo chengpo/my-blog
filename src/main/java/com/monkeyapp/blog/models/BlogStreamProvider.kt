@@ -15,13 +15,9 @@ class BlogStreamProvider(private val root: String,
                          private val fileListJson: String = "file-list.json") {
   
     private val blogMetadataFactory = BlogMetadataFactory()
-    private val fileListRealPath: String
-        get() {
-            return context.getRealPath("$root/$fileListJson")
-        }
-
+  
     fun metaStream(): Stream<BlogMetadata> {
-        return fileListRealPath
+        return pathOf(fileListJson)
                    .run(inputStreamProvider::streamOf)
                    .run(::InputStreamReader)
                    .run(::BufferedReader)
@@ -32,13 +28,17 @@ class BlogStreamProvider(private val root: String,
                                 this,
                                 object : TypeReference<List<String>>() {})
                             .map { name ->
-                                pathOf(root, name) to name
+                                pathOf(name) to name
                             }
                             .mapNotNull { (path, name) ->
                                 blogMetadataFactory.create(path, name)
                             }
                             .stream()
                    }
+    }
+    
+    private fun pathOf(fileName: String): String {
+        return context.getRealPath("$root/$fileName")
     }
 }
 
