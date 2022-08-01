@@ -21,22 +21,25 @@ class BlogStreamProvider(private val root: String,
                    .run(inputStreamProvider::streamOf)
                    .run(::InputStreamReader)
                    .run(::BufferedReader)
-                   .use { it.lines().collect(Collectors.joining(System.lineSeparator())) }
-                   .run {
-                        ObjectMapper()
-                            .readValue(
-                                this,
-                                object : TypeReference<List<String>>() {})
-                            .map { name ->
-                                pathOf(name) to name
-                            }
-                            .mapNotNull { (path, name) ->
-                                blogMetadataFactory.create(path, name)
-                            }
-                            .stream()
+                   .use { 
+                       it.lines().collect(Collectors.joining(System.lineSeparator())) 
                    }
+                   .run(BlogStreamProvider::toMetaStream)
     }
-    
+     
+    private fun toMetaStream(jsonList: String): Stream<BlogMetadata> {
+        return ObjectMapper()
+                  .readValue(
+                      jsonList,
+                      object : TypeReference<List<String>>() {})
+                  .map { name ->
+                      pathOf(name) to name
+                  }
+                  .mapNotNull { (path, name) ->
+                      blogMetadataFactory.create(path, name)
+                  }
+                  .stream()
+    }
     private fun pathOf(fileName: String): String {
         return context.getRealPath("$root/$fileName")
     }
