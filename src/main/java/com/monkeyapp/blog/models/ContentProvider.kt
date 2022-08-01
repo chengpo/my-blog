@@ -16,7 +16,7 @@ class CompleteContentProvider(private val inputStreamProvider: InputStreamProvid
         val markDownContent = BufferedReader(InputStreamReader(inputStream)).use {
             it.lines().collect(Collectors.joining(System.lineSeparator()))
         }
-        return htmlFormatter.toHtml(markDownContent)
+        return htmlFormatter.format(markDownContent)
     }
 }
 
@@ -29,16 +29,15 @@ class PartialContentProvider(private val inputStreamProvider: InputStreamProvide
         val markDownContent = BufferedReader(InputStreamReader(inputStream)).use {
             it.lines().limit(blogParameters.partialFileLines()).collect(Collectors.joining(System.lineSeparator()))
         }
-        return htmlFormatter.toHtml(markDownContent)
+        return htmlFormatter.format(markDownContent)
     }
 }
 
 class HtmlFormatter {
+    private val parser = Parser.builder().build()
     private val renderer = HtmlRenderer.builder().build()
-
-    fun toHtml(markDownContent: String): String {
-        val parser = Parser.builder().build()
-        val document = parser.parse(markDownContent)
-        return renderer.render(document)
+    
+    fun format(markDownContent: String): String {
+        return parser.parse(markDownContent).apply(renderer::render)
     }
 }
