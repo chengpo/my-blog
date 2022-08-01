@@ -25,13 +25,8 @@ class PostController(component: ParentComponent) {
             .limit(blogParameters.postPerChunk())
             .map { metadata ->
                 PostDto(
-                    metadata = PostMetadataDto(
-                        crtime = metadata.crtime,
-                        url = metadata.postUrl,
-                        title = metadata.capitalizedTitle,
-                        tag = metadata.capitalizedTag
-                    ),
-                    content = partialContentProvider.contentOf(metadata.path))
+                    metadata = metadata.toPostMetadataDto(),
+                    content = metadata.partialContent())
             }
             .collect(Collectors.toList())
             .run {
@@ -53,14 +48,26 @@ class PostController(component: ParentComponent) {
             .findFirst()
             .map { metadata ->
                 PostDto(
-                    metadata = PostMetadataDto(
-                        crtime = metadata.crtime,
-                        url = metadata.postUrl,
-                        title = metadata.capitalizedTitle,
-                        tag = metadata.capitalizedTag
-                    ),
-                    content = completeContentProvider.contentOf(metadata.path))
+                    metadata = metadata.toPostMetadataDto(),
+                    content = metadata.fullContent())
             }
+    }
+    
+    private fun BlogMetadata.toPostMetadataDto(): PostMetadataDto {
+        return PostMetadataDto(
+                    crtime = this.crtime,
+                    url = this.postUrl,
+                    title = this.capitalizedTitle,
+                    tag = this.capitalizedTag
+               )
+    }
+    
+    private fun BlogMetadata.partialContent(): String {
+        return partialContentProvider.contentOf(path)
+    }
+    
+    private fun BlogMetadata.fullContent(): String {
+        return completeContentProvider.contentOf(path))
     }
 
     interface ParentComponent {
