@@ -21,10 +21,12 @@ class BlogStreamProvider(private val root: String,
                    .run(inputStreamProvider::streamOf)
                    .run(::InputStreamReader)
                    .run(::BufferedReader)
-                   .use { 
-                       it.lines().collect(Collectors.joining(System.lineSeparator())) 
-                   }
+                   .use(this::toJsonList)
                    .run(this@BlogStreamProvider::toMetaStream)
+    }
+    
+    private fun toJsonList(reader: BufferedReader): String {
+        return reader.lines().collect(Collectors.joining(System.lineSeparator()))
     }
      
     private fun toMetaStream(jsonList: String): Stream<BlogMetadata> {
