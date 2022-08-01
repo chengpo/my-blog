@@ -38,6 +38,6 @@ class HtmlFormatter {
     private val renderer = HtmlRenderer.builder().build()
     
     fun format(markDownContent: String): String {
-        return parser.parse(markDownContent).apply(renderer::render)
+        parser.parse(markDownContent).run(renderer::render)
     }
 }
