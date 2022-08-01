@@ -21,7 +21,9 @@ class CompleteContentProvider(private val inputStreamProvider: InputStreamProvid
     }
     
     private fun markdownContent(reader: BufferedReader): String {
-        return reader.lines().collect(Collectors.joining(System.lineSeparator()))
+        return reader
+            .lines()
+            .collect(Collectors.joining(System.lineSeparator()))
     }
 }
 
@@ -39,7 +41,10 @@ class PartialContentProvider(private val inputStreamProvider: InputStreamProvide
     }
     
     private fun markdownContent(reader: BufferedReader): String {
-        return reader.lines().limit(blogParameters.partialFileLines()).collect(Collectors.joining(System.lineSeparator()))
+        return reader
+            .lines()
+            .limit(blogParameters.partialFileLines())
+            .collect(Collectors.joining(System.lineSeparator()))
     }
 }
 
