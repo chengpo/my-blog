@@ -49,7 +49,7 @@ class PostController(component: ParentComponent) {
             .map { metadata ->
                 PostDto(
                     metadata = metadata.toPostMetadataDto(),
-                    content = metadata.fullContent())
+                    content = metadata.completeContent())
             }
     }
     
@@ -66,7 +66,7 @@ class PostController(component: ParentComponent) {
         return partialContentProvider.contentOf(path)
     }
     
-    private fun BlogMetadata.fullContent(): String {
+    private fun BlogMetadata.completeContent(): String {
         return completeContentProvider.contentOf(path)
     }
 
