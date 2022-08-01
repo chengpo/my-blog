@@ -12,11 +12,14 @@ class CompleteContentProvider(private val inputStreamProvider: InputStreamProvid
     private val htmlFormatter by lazy { HtmlFormatter() }
 
     fun contentOf(path: String):  String {
-        val inputStream = inputStreamProvider.streamOf(path)
-        val markDownContent = BufferedReader(InputStreamReader(inputStream)).use {
-            it.lines().collect(Collectors.joining(System.lineSeparator()))
-        }
-        return htmlFormatter.format(markDownContent)
+        return inputStreamProvider
+            .streamOf(path)
+            .run(::InputStreamReader)
+            .run(::BufferedReader)
+            .use {
+                it.lines().collect(Collectors.joining(System.lineSeparator()))
+            }
+            .run(htmlFormatter::format)
     }
 }
 
@@ -25,11 +28,14 @@ class PartialContentProvider(private val inputStreamProvider: InputStreamProvide
     private val htmlFormatter by lazy { HtmlFormatter() }
 
     fun contentOf(path: String):  String {
-        val inputStream = inputStreamProvider.streamOf(path)
-        val markDownContent = BufferedReader(InputStreamReader(inputStream)).use {
-            it.lines().limit(blogParameters.partialFileLines()).collect(Collectors.joining(System.lineSeparator()))
-        }
-        return htmlFormatter.format(markDownContent)
+        return inputStreamProvider
+            .streamOf(path)
+            .run(::InputStreamReader)
+            .run(::BufferedReader)
+            .use {
+                it.lines().limit(blogParameters.partialFileLines()).collect(Collectors.joining(System.lineSeparator()))
+            }
+            .run(htmlFormatter::format)
     }
 }
 
