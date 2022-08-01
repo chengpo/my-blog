@@ -67,7 +67,7 @@ class PostController(component: ParentComponent) {
     }
     
     private fun BlogMetadata.fullContent(): String {
-        return completeContentProvider.contentOf(path))
+        return completeContentProvider.contentOf(path)
     }
 
     interface ParentComponent {
