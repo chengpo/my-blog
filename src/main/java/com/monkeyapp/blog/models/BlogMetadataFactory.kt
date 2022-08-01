@@ -2,7 +2,7 @@ package com.monkeyapp.blog.models
 
 import java.util.regex.Pattern
 
-class BlogMetadataFactory() {
+class BlogMetadataFactory {
     fun create(path: String, name: String): BlogMetadata? {
         val matcher = NAME_PATTERN.matcher(name)
         return if (matcher.matches()) {
