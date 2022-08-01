@@ -24,7 +24,7 @@ class BlogStreamProvider(private val root: String,
                    .use { 
                        it.lines().collect(Collectors.joining(System.lineSeparator())) 
                    }
-                   .run(BlogStreamProvider::toMetaStream)
+                   .run(this@BlogStreamProvider::toMetaStream)
     }
      
     private fun toMetaStream(jsonList: String): Stream<BlogMetadata> {
