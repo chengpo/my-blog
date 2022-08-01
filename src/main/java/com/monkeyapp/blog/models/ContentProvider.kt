@@ -16,10 +16,12 @@ class CompleteContentProvider(private val inputStreamProvider: InputStreamProvid
             .streamOf(path)
             .run(::InputStreamReader)
             .run(::BufferedReader)
-            .use {
-                it.lines().collect(Collectors.joining(System.lineSeparator()))
-            }
+            .use(this::markdownContent)
             .run(htmlFormatter::format)
+    }
+    
+    private fun markdownContent(reader: BufferedReader): String {
+        return reader.lines().collect(Collectors.joining(System.lineSeparator()))
     }
 }
 
@@ -32,10 +34,12 @@ class PartialContentProvider(private val inputStreamProvider: InputStreamProvide
             .streamOf(path)
             .run(::InputStreamReader)
             .run(::BufferedReader)
-            .use {
-                it.lines().limit(blogParameters.partialFileLines()).collect(Collectors.joining(System.lineSeparator()))
-            }
+            .use(this::markdownContent)
             .run(htmlFormatter::format)
+    }
+    
+    private fun markdownContent(reader: BufferedReader): String {
+        return reader.lines().limit(blogParameters.partialFileLines()).collect(Collectors.joining(System.lineSeparator()))
     }
 }
 
@@ -43,7 +47,7 @@ class HtmlFormatter {
     private val parser = Parser.builder().build()
     private val renderer = HtmlRenderer.builder().build()
     
-    fun format(markDownContent: String): String {
-        return parser.parse(markDownContent).run(renderer::render)
+    fun format(markdownContent: String): String {
+        return parser.parse(markdownContent).run(renderer::render)
     }
 }
