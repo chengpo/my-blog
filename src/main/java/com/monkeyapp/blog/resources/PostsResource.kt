@@ -37,7 +37,7 @@ class PostsResource {
     @Inject
     lateinit var component: RootComponent
     
-    private val postController: PostConctoller by lazy { PostController(component) }
+    private val postController: PostController by lazy { PostController(component) }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
