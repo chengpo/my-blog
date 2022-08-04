@@ -37,7 +37,7 @@ object App {
     @Throws(ServletException::class, LifecycleException::class, MalformedURLException::class)
     fun main(args: Array<String>) {
         Tomcat().apply {
-            updatePort(args)
+            setPort(args.port())
             updateContext()
             updateConnectorProperty()
             start()
@@ -46,9 +46,8 @@ object App {
     }
 }
 
-private fun Tomcat.updatePort(args: Array<String>, defaultPort: Int = 8080) {
-    val port = if (args.size >= 2 && args[0] == "--port") args[1].toInt() else defaultPort
-    setPort(port)
+private fun Array<String>.port(defaultPort: Int = 8080): Int {
+    return if (size >= 2 && get(0) == "--port") get(1).toInt() else defaultPort
 }
 
 private fun Tomcat.updateContext() {
