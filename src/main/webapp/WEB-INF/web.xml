@@ -80,11 +80,6 @@
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
 
-    <!-- context listener-->
-    <!-- <listener>
-        <listener-class>com.monkeyapp.blog.AppContext</listener-class>
-    </listener>-->
-
     <!-- context params -->
     <context-param>
         <param-name>post-per-chunk</param-name>
