@@ -21,12 +21,12 @@ val BlogMetadata.capitalizedTitle: String
     get() {
         return title
             .split("-")
-            .joinToString(" ") { w -> w.replaceFirstChar { it.uppercase() } }
+            .joinToString(" ") { w -> w.replaceFirstChar(Char::uppercase) }
     }
 
 val BlogMetadata.capitalizedTag: String
     get() {
-        return tag.replaceFirstChar { it.uppercase() }
+        return tag.replaceFirstChar(Char::uppercase)
     }
 
 val BlogMetadata.postUrl: String
