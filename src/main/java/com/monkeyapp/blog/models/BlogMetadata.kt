@@ -12,14 +12,16 @@ data class BlogMetadata(
     val path: String)
 
 fun BlogMetadata.priority(): Long {
-        return year.toLong() * 10000L * 10000L +
-            monthday.toLong() * 10000L +
-            time.toLong()
+    return year.toLong() * 10000L * 10000L +
+        monthday.toLong() * 10000L +
+        time.toLong()
 }
 
 val BlogMetadata.capitalizedTitle: String
     get() {
-        return title.split("-").joinToString(" ") { w -> w.replaceFirstChar { it.uppercase() } }
+        return title
+            .split("-")
+            .joinToString(" ") { w -> w.replaceFirstChar { it.uppercase() } }
     }
 
 val BlogMetadata.capitalizedTag: String
