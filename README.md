@@ -3,8 +3,6 @@
 
 Source of <a href="http://monkey-blogger.herokuapp.com" target="_blank">monkey-blogger.herokuapp.com</a>
 
-The design is heavily influenced by MVC ( Model-View-Controller ) pattern.
-
 ## Technologies Behind
 
 - Bootstrap for frontend page layout;
