@@ -1,39 +1,39 @@
 package com.monkeyapp.blog.di
 
-import com.monkeyapp.blog.controllers.FeedController
-import com.monkeyapp.blog.controllers.PageController
-import com.monkeyapp.blog.controllers.PostController
-import com.monkeyapp.blog.models.*
 import org.jvnet.hk2.annotations.Contract
 import org.jvnet.hk2.annotations.Service
 import javax.inject.Inject
+import javax.servlet.ServletContext
+import javax.ws.rs.core.Context
 
 @Contract
-interface RootComponent:
-    PostController.ParentComponent,
-    PageController.ParentComponent,
-    FeedController.ParentComponent
+interface RootComponent {
+    fun controllerComponent(): ControllerComponent
+}
 
 @Service
-class RootComponentImpl : RootComponent {
+class RootComponentImpl :
+    RootComponent,
+    ControllerComponent.ParentComponent {
+
+    @Context
+    private lateinit var context: ServletContext
+
     @Inject
     private lateinit var blogParameters: BlogParameters
 
     @Inject
-    private lateinit var contentComponent: ContentComponent
+    private lateinit var inputStreamProvider: InputStreamProvider
+
+    private val controllerComponent: ControllerComponent by lazy {
+        ControllerComponentImpl(this)
+    }
+
+    override fun context(): ServletContext = context
 
     override fun blogParameters(): BlogParameters = blogParameters
 
-    override fun postStreamProvider(): BlogStreamProvider = contentComponent.blogStreamProvider(POST_ROOT)
+    override fun inputStreamProvider(): InputStreamProvider = inputStreamProvider
 
-    override fun pageStreamProvider(): BlogStreamProvider = contentComponent.blogStreamProvider(PAGE_ROOT)
-
-    override fun completeContentProvider(): CompleteContentProvider = contentComponent.completeContentProvider()
-
-    override fun partialContentProvider(): PartialContentProvider = contentComponent.partialContentProvider()
-
-    companion object {
-        const val POST_ROOT = "/md/posts"
-        const val PAGE_ROOT = "/md/pages"
-    }
+    override fun controllerComponent(): ControllerComponent = controllerComponent
 }

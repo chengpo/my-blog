@@ -23,9 +23,8 @@ SOFTWARE.
  */
 package com.monkeyapp.blog.resources
 
-import com.monkeyapp.blog.controllers.PageController
-import com.monkeyapp.blog.dtos.PageDto
 import com.monkeyapp.blog.di.RootComponent
+import com.monkeyapp.blog.dtos.PageDto
 import javax.inject.Inject
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
@@ -39,7 +38,9 @@ class PagesResource {
     @Path("/{title}")
     @Produces(MediaType.APPLICATION_JSON)
     fun getPageContent(@PathParam("title") title: String): PageDto {
-        return PageController(component)
+        return component
+            .controllerComponent()
+            .pageController()
             .pageContent(title)
             .orElseThrow { WebApplicationException(404) }
     }

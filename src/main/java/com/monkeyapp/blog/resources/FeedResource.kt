@@ -23,7 +23,6 @@ SOFTWARE.
  */
 package com.monkeyapp.blog.resources
 
-import com.monkeyapp.blog.controllers.FeedController
 import com.monkeyapp.blog.di.RootComponent
 import com.monkeyapp.blog.dtos.SyncFeedDto
 import javax.inject.Inject
@@ -36,5 +35,5 @@ class FeedResource {
 
     @GET
     @Produces("application/rss+xml")
-    fun feed(): SyncFeedDto = FeedController(component).feed()
+    fun feed(): SyncFeedDto = component.controllerComponent().feedController().feed()
 }
