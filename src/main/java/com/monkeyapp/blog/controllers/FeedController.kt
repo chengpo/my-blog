@@ -13,27 +13,33 @@ class FeedController(component: ParentComponent) {
     fun feed(): SyncFeedDto {
         return postStreamProvider.metaStream()
             .sorted(Comparator.comparingLong(BlogMetadata::priority).reversed())
-            .map { metadata ->
-                FeedItemDto(
-                    title = metadata.capitalizedTitle,
-                    link = "http://monkey-blogger.herokuapp.com/${metadata.postUrl}",
-                    guid = "http://monkey-blogger.herokuapp.com/${metadata.postUrl}",
-                    description = "${partialContentProvider.contentOf(metadata.path)} <p> ... </p>",
-                    pubDate = metadata.pubDate
-                )
-            }
+            .map(this::toFeedItemDto)
             .collect(Collectors.toList())
-            .run {
-                FeedChannelDto(
-                    title = "Monkey Blogger",
-                    link = "http://monkey-blogger.herokuapp.com",
-                    description = "Some random thought",
-                    items = this
-                )
-            }
-            .run {
-                SyncFeedDto(version = "2.0", channel = this)
-            }
+            .run(this::toFeedChannelDto)
+            .run(this::toSyncFeedDto)
+    }
+
+    private fun toFeedItemDto(metadata: BlogMetadata): FeedItemDto {
+        return FeedItemDto(
+            title = metadata.capitalizedTitle,
+            link = "http://monkey-blogger.herokuapp.com/${metadata.postUrl}",
+            guid = "http://monkey-blogger.herokuapp.com/${metadata.postUrl}",
+            description = "${partialContentProvider.contentOf(metadata.path)} <p> ... </p>",
+            pubDate = metadata.pubDate
+        )
+    }
+
+    private fun toFeedChannelDto(feedItems: List<FeedItemDto>): FeedChannelDto {
+        return FeedChannelDto(
+            title = "Monkey Blogger",
+            link = "http://monkey-blogger.herokuapp.com",
+            description = "Some random thought",
+            items = feedItems
+        )
+    }
+
+    private fun toSyncFeedDto(feedChannelDto: FeedChannelDto): SyncFeedDto {
+        return SyncFeedDto(version = "2.0", channel = feedChannelDto)
     }
 
     interface ParentComponent {

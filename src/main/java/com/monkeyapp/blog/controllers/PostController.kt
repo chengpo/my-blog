@@ -23,11 +23,7 @@ class PostController(component: ParentComponent) {
                 tag.isEmpty() || tag.compareTo(metadata.tag, ignoreCase = true) == 0
             }
             .limit(blogParameters.postPerChunk())
-            .map { metadata ->
-                PostDto(
-                    metadata = metadata.toPostMetadataDto(),
-                    content = metadata.partialContent())
-            }
+            .map(this::toPartialPostDto)
             .collect(Collectors.toList())
             .run {
                 PostChunkDto(
@@ -41,33 +37,28 @@ class PostController(component: ParentComponent) {
     fun postContent(year: String, monthday: String, title: String): Optional<PostDto> {
         return postStreamProvider.metaStream()
             .filter { metadata ->
-                    metadata.year == year &&
-                    metadata.monthday == monthday &&
-                    metadata.title == title
+                metadata.year == year &&
+                metadata.monthday == monthday &&
+                metadata.title == title
             }
             .findFirst()
-            .map { metadata ->
-                PostDto(
-                    metadata = metadata.toPostMetadataDto(),
-                    content = metadata.completeContent())
-            }
+            .map(this::toCompletePostDto)
     }
-    
-    private fun BlogMetadata.toPostMetadataDto(): PostMetadataDto {
-        return PostMetadataDto(
-                    crtime = this.crtime,
-                    url = this.postUrl,
-                    title = this.capitalizedTitle,
-                    tag = this.capitalizedTag
-               )
-    }
-    
-    private fun BlogMetadata.partialContent(): String {
-        return partialContentProvider.contentOf(path)
-    }
-    
-    private fun BlogMetadata.completeContent(): String {
-        return completeContentProvider.contentOf(path)
+
+    private fun toPartialPostDto(metadata: BlogMetadata) = toPostDto(metadata, partialContentProvider::contentOf)
+
+    private fun toCompletePostDto(metadata: BlogMetadata) = toPostDto(metadata, completeContentProvider::contentOf)
+
+    private fun toPostDto(metadata: BlogMetadata, contentProvider: (String) -> String): PostDto {
+        return PostDto(
+            metadata = PostMetadataDto(
+                crtime = metadata.crtime,
+                url = metadata.postUrl,
+                title = metadata.capitalizedTitle,
+                tag = metadata.capitalizedTag
+                ),
+            content = contentProvider(metadata.path)
+        )
     }
 
     interface ParentComponent {
@@ -77,4 +68,3 @@ class PostController(component: ParentComponent) {
         fun partialContentProvider(): PartialContentProvider
     }
 }
-
