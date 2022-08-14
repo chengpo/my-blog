@@ -23,6 +23,7 @@ SOFTWARE.
  */
 package com.monkeyapp.blog.resources
 
+import com.monkeyapp.blog.controllers.PageController
 import com.monkeyapp.blog.di.RootComponent
 import com.monkeyapp.blog.dtos.PageDto
 import javax.inject.Inject
@@ -34,13 +35,13 @@ class PagesResource {
     @Inject
     private lateinit var component: RootComponent
 
+    private val controller: PageController by lazy { component.sessionComponent().pageController() }
+
     @GET
     @Path("/{title}")
     @Produces(MediaType.APPLICATION_JSON)
     fun getPageContent(@PathParam("title") title: String): PageDto {
-        return component
-            .controllerComponent()
-            .pageController()
+        return controller
             .pageContent(title)
             .orElseThrow { WebApplicationException(404) }
     }

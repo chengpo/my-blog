@@ -8,7 +8,7 @@ import com.monkeyapp.blog.models.CompleteContentProvider
 import com.monkeyapp.blog.models.PartialContentProvider
 import javax.servlet.ServletContext
 
-interface ControllerComponent {
+interface SessionComponent {
     fun feedController(): FeedController
     fun pageController(): PageController
     fun postController(): PostController
@@ -20,8 +20,8 @@ interface ControllerComponent {
     }
 }
 
-class ControllerComponentImpl(private val parentComponent: ControllerComponent.ParentComponent) :
-    ControllerComponent,
+class SessionComponentImpl(private val parentComponent: SessionComponent.ParentComponent) :
+    SessionComponent,
     PostController.ParentComponent,
     PageController.ParentComponent,
     FeedController.ParentComponent {

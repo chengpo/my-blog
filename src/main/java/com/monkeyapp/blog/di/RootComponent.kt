@@ -8,13 +8,13 @@ import javax.ws.rs.core.Context
 
 @Contract
 interface RootComponent {
-    fun controllerComponent(): ControllerComponent
+    fun sessionComponent(): SessionComponent
 }
 
 @Service
 class RootComponentImpl :
     RootComponent,
-    ControllerComponent.ParentComponent {
+    SessionComponent.ParentComponent {
 
     @Context
     private lateinit var context: ServletContext
@@ -31,5 +31,5 @@ class RootComponentImpl :
 
     override fun inputStreamProvider(): InputStreamProvider = inputStreamProvider
 
-    override fun controllerComponent(): ControllerComponent = ControllerComponentImpl(this)
+    override fun sessionComponent(): SessionComponent = SessionComponentImpl(this)
 }
