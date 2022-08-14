@@ -8,11 +8,20 @@ import com.monkeyapp.blog.models.BlogMetadata
 import com.monkeyapp.blog.models.capitalizedTitle
 import java.util.*
 
-class PageController(component: ParentComponent) {
+interface PageController {
+    fun pageContent(title: String): Optional<PageDto>
+
+    interface ParentComponent {
+        fun pageStreamProvider(): BlogStreamProvider
+        fun completeContentProvider(): CompleteContentProvider
+    }
+}
+
+class PageControllerImpl(component: PageController.ParentComponent) : PageController {
     private val pageStreamProvider = component.pageStreamProvider()
     private val completeContentProvider = component.completeContentProvider()
 
-    fun pageContent(title: String): Optional<PageDto> {
+    override fun pageContent(title: String): Optional<PageDto> {
         return pageStreamProvider.metaStream()
             .filter { metadata -> metadata.title == title }
             .findFirst()
@@ -28,10 +37,5 @@ class PageController(component: ParentComponent) {
             ),
             content = completeContentProvider.contentOf(metadata.path)
         )
-    }
-
-    interface ParentComponent {
-        fun pageStreamProvider(): BlogStreamProvider
-        fun completeContentProvider(): CompleteContentProvider
     }
 }

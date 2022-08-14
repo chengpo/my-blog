@@ -1,8 +1,6 @@
 package com.monkeyapp.blog.di
 
-import com.monkeyapp.blog.controllers.FeedController
-import com.monkeyapp.blog.controllers.PageController
-import com.monkeyapp.blog.controllers.PostController
+import com.monkeyapp.blog.controllers.*
 import com.monkeyapp.blog.models.BlogStreamProvider
 import com.monkeyapp.blog.models.CompleteContentProvider
 import com.monkeyapp.blog.models.PartialContentProvider
@@ -57,11 +55,11 @@ class SessionComponentImpl(private val parentComponent: SessionComponent.ParentC
         )
     }
 
-    override fun feedController(): FeedController = FeedController(this)
+    override fun feedController(): FeedController = FeedControllerImpl(this)
 
-    override fun pageController(): PageController = PageController(this)
+    override fun pageController(): PageController = PageControllerImpl(this)
 
-    override fun postController(): PostController = PostController(this)
+    override fun postController(): PostController = PostControllerImpl(this)
 
     companion object {
         const val POST_ROOT = "/md/posts"

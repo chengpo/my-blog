@@ -9,13 +9,25 @@ import java.util.*
 import java.util.stream.Collectors
 import kotlin.Comparator
 
-class PostController(component: ParentComponent) {
+interface PostController {
+    fun postChunk(tag: String, offset: Long): PostChunkDto
+    fun postContent(year: String, monthday: String, title: String): Optional<PostDto>
+
+    interface ParentComponent {
+        fun blogParameters(): BlogParameters
+        fun postStreamProvider(): BlogStreamProvider
+        fun completeContentProvider(): CompleteContentProvider
+        fun partialContentProvider(): PartialContentProvider
+    }
+}
+
+class PostControllerImpl(component: PostController.ParentComponent) : PostController {
     private val postStreamProvider = component.postStreamProvider()
     private val partialContentProvider = component.partialContentProvider()
     private val completeContentProvider = component.completeContentProvider()
     private val blogParameters = component.blogParameters()
 
-    fun postChunk(tag: String, offset: Long): PostChunkDto {
+    override fun postChunk(tag: String, offset: Long): PostChunkDto {
         return postStreamProvider.metaStream()
             .sorted(Comparator.comparingLong(BlogMetadata::priority).reversed())
             .skip(offset)
@@ -34,7 +46,7 @@ class PostController(component: ParentComponent) {
             }
     }
 
-    fun postContent(year: String, monthday: String, title: String): Optional<PostDto> {
+    override fun postContent(year: String, monthday: String, title: String): Optional<PostDto> {
         return postStreamProvider.metaStream()
             .filter { metadata ->
                 metadata.year == year &&
@@ -59,12 +71,5 @@ class PostController(component: ParentComponent) {
                 ),
             content = contentOf(metadata.path)
         )
-    }
-
-    interface ParentComponent {
-        fun blogParameters(): BlogParameters
-        fun postStreamProvider(): BlogStreamProvider
-        fun completeContentProvider(): CompleteContentProvider
-        fun partialContentProvider(): PartialContentProvider
     }
 }

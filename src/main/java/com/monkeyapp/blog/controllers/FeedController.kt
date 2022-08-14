@@ -6,11 +6,20 @@ import com.monkeyapp.blog.dtos.SyncFeedDto
 import com.monkeyapp.blog.models.*
 import java.util.stream.Collectors
 
-class FeedController(component: ParentComponent) {
+interface FeedController {
+    fun feed(): SyncFeedDto
+
+    interface ParentComponent {
+        fun postStreamProvider(): BlogStreamProvider
+        fun partialContentProvider(): PartialContentProvider
+    }
+}
+
+class FeedControllerImpl(component: FeedController.ParentComponent) : FeedController {
     private val postStreamProvider = component.postStreamProvider()
     private val partialContentProvider = component.partialContentProvider()
 
-    fun feed(): SyncFeedDto {
+    override fun feed(): SyncFeedDto {
         return postStreamProvider.metaStream()
             .sorted(Comparator.comparingLong(BlogMetadata::priority).reversed())
             .map(this::toFeedItemDto)
@@ -40,10 +49,5 @@ class FeedController(component: ParentComponent) {
 
     private fun toSyncFeedDto(feedChannelDto: FeedChannelDto): SyncFeedDto {
         return SyncFeedDto(version = "2.0", channel = feedChannelDto)
-    }
-
-    interface ParentComponent {
-        fun postStreamProvider(): BlogStreamProvider
-        fun partialContentProvider(): PartialContentProvider
     }
 }
