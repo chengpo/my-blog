@@ -25,9 +25,9 @@ class PostController(component: ParentComponent) {
             .limit(blogParameters.postPerChunk())
             .map(this::toPartialPostDto)
             .collect(Collectors.toList())
-            .run {
+            .let { posts ->
                 PostChunkDto(
-                    posts = this,
+                    posts = posts,
                     offset = offset,
                     capacity = blogParameters.postPerChunk()
                 )
