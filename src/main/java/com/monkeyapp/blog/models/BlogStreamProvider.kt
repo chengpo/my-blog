@@ -18,11 +18,11 @@ class BlogStreamProvider(private val root: String,
   
     fun metaStream(): Stream<BlogMetadata> {
         return pathOf(fileListJson)
-                   .run(inputStreamProvider::streamOf)
-                   .run(::InputStreamReader)
-                   .run(::BufferedReader)
+                   .let(inputStreamProvider::streamOf)
+                   .let(::InputStreamReader)
+                   .let(::BufferedReader)
                    .use(this::toJsonList)
-                   .run(this::toMetaStream)
+                   .let(this::toMetaStream)
     }
     
     private fun toJsonList(reader: BufferedReader): String {
