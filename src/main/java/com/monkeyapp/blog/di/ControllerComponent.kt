@@ -26,18 +26,6 @@ class ControllerComponentImpl(private val parentComponent: ControllerComponent.P
     PageController.ParentComponent,
     FeedController.ParentComponent {
 
-    private val feedController: FeedController by lazy {
-        FeedController(this)
-    }
-
-    private val pageController: PageController by lazy {
-        PageController(this)
-    }
-
-    private val postController: PostController by lazy {
-        PostController(this)
-    }
-
     override fun blogParameters(): BlogParameters {
         return parentComponent.blogParameters()
     }
@@ -69,11 +57,11 @@ class ControllerComponentImpl(private val parentComponent: ControllerComponent.P
         )
     }
 
-    override fun feedController(): FeedController = feedController
+    override fun feedController(): FeedController = FeedController(this)
 
-    override fun pageController(): PageController = pageController
+    override fun pageController(): PageController = PageController(this)
 
-    override fun postController(): PostController = postController
+    override fun postController(): PostController = PostController(this)
 
     companion object {
         const val POST_ROOT = "/md/posts"
