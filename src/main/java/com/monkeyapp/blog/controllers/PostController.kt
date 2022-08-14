@@ -49,7 +49,7 @@ class PostController(component: ParentComponent) {
 
     private fun toCompletePostDto(metadata: BlogMetadata) = toPostDto(metadata, completeContentProvider::contentOf)
 
-    private fun toPostDto(metadata: BlogMetadata, contentProvider: (String) -> String): PostDto {
+    private fun toPostDto(metadata: BlogMetadata, contentOf: (String) -> String): PostDto {
         return PostDto(
             metadata = PostMetadataDto(
                 crtime = metadata.crtime,
@@ -57,7 +57,7 @@ class PostController(component: ParentComponent) {
                 title = metadata.capitalizedTitle,
                 tag = metadata.capitalizedTag
                 ),
-            content = contentProvider(metadata.path)
+            content = contentOf(metadata.path)
         )
     }
 
