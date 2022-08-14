@@ -22,7 +22,7 @@ class BlogStreamProvider(private val root: String,
                    .run(::InputStreamReader)
                    .run(::BufferedReader)
                    .use(this::toJsonList)
-                   .run(this@BlogStreamProvider::toMetaStream)
+                   .run(this::toMetaStream)
     }
     
     private fun toJsonList(reader: BufferedReader): String {
