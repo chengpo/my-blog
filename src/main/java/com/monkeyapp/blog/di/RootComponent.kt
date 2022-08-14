@@ -24,16 +24,12 @@ class RootComponentImpl :
 
     @Inject
     private lateinit var inputStreamProvider: InputStreamProvider
-
-    private val controllerComponent: ControllerComponent by lazy {
-        ControllerComponentImpl(this)
-    }
-
+ 
     override fun context(): ServletContext = context
 
     override fun blogParameters(): BlogParameters = blogParameters
 
     override fun inputStreamProvider(): InputStreamProvider = inputStreamProvider
 
-    override fun controllerComponent(): ControllerComponent = controllerComponent
+    override fun controllerComponent(): ControllerComponent = ControllerComponentImpl(this)
 }
