@@ -9,25 +9,13 @@ import java.util.*
 import java.util.stream.Collectors
 import kotlin.Comparator
 
-interface PostController {
-    fun postChunk(tag: String, offset: Long): PostChunkDto
-    fun postContent(year: String, monthday: String, title: String): Optional<PostDto>
-
-    interface ParentComponent {
-        fun blogParameters(): BlogParameters
-        fun postStreamProvider(): BlogStreamProvider
-        fun completeContentProvider(): CompleteContentProvider
-        fun partialContentProvider(): PartialContentProvider
-    }
-}
-
-class PostControllerImpl(component: PostController.ParentComponent) : PostController {
+class PostController(component: ParentComponent)  {
     private val postStreamProvider = component.postStreamProvider()
     private val partialContentProvider = component.partialContentProvider()
     private val completeContentProvider = component.completeContentProvider()
     private val blogParameters = component.blogParameters()
 
-    override fun postChunk(tag: String, offset: Long): PostChunkDto {
+    fun postChunk(tag: String, offset: Long): PostChunkDto {
         return postStreamProvider.metaStream()
             .sorted(Comparator.comparingLong(BlogMetadata::priority).reversed())
             .skip(offset)
@@ -46,7 +34,7 @@ class PostControllerImpl(component: PostController.ParentComponent) : PostContro
             }
     }
 
-    override fun postContent(year: String, monthday: String, title: String): Optional<PostDto> {
+    fun postContent(year: String, monthday: String, title: String): Optional<PostDto> {
         return postStreamProvider.metaStream()
             .filter { metadata ->
                 metadata.year == year &&
@@ -71,5 +59,12 @@ class PostControllerImpl(component: PostController.ParentComponent) : PostContro
                 ),
             content = contentOf(metadata.path)
         )
+    }
+
+    interface ParentComponent {
+        fun blogParameters(): BlogParameters
+        fun postStreamProvider(): BlogStreamProvider
+        fun completeContentProvider(): CompleteContentProvider
+        fun partialContentProvider(): PartialContentProvider
     }
 }

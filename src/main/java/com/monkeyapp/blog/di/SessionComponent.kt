@@ -55,11 +55,11 @@ class SessionComponentImpl(private val parentComponent: SessionComponent.ParentC
         )
     }
 
-    override fun feedController(): FeedController = FeedControllerImpl(this)
+    override fun feedController(): FeedController = FeedController(this)
 
-    override fun pageController(): PageController = PageControllerImpl(this)
+    override fun pageController(): PageController = PageController(this)
 
-    override fun postController(): PostController = PostControllerImpl(this)
+    override fun postController(): PostController = PostController(this)
 
     companion object {
         const val POST_ROOT = "/md/posts"
