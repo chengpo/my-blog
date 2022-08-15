@@ -24,8 +24,8 @@ class FeedControllerImpl(component: FeedController.ParentComponent) : FeedContro
             .sorted(Comparator.comparingLong(BlogMetadata::priority).reversed())
             .map(this::toFeedItemDto)
             .collect(Collectors.toList())
-            .run(this::toFeedChannelDto)
-            .run(this::toSyncFeedDto)
+            .let(this::toFeedChannelDto)
+            .let(this::toSyncFeedDto)
     }
 
     private fun toFeedItemDto(metadata: BlogMetadata): FeedItemDto {

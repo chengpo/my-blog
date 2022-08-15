@@ -14,10 +14,10 @@ class CompleteContentProvider(private val inputStreamProvider: InputStreamProvid
     fun contentOf(path: String):  String {
         return inputStreamProvider
             .streamOf(path)
-            .run(::InputStreamReader)
-            .run(::BufferedReader)
+            .let(::InputStreamReader)
+            .let(::BufferedReader)
             .use(this::markdownContent)
-            .run(htmlFormatter::format)
+            .let(htmlFormatter::format)
     }
     
     private fun markdownContent(reader: BufferedReader): String {
@@ -34,10 +34,10 @@ class PartialContentProvider(private val inputStreamProvider: InputStreamProvide
     fun contentOf(path: String):  String {
         return inputStreamProvider
             .streamOf(path)
-            .run(::InputStreamReader)
-            .run(::BufferedReader)
+            .let(::InputStreamReader)
+            .let(::BufferedReader)
             .use(this::markdownContent)
-            .run(htmlFormatter::format)
+            .let(htmlFormatter::format)
     }
     
     private fun markdownContent(reader: BufferedReader): String {
