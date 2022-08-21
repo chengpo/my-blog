@@ -36,13 +36,15 @@ object App {
     @JvmStatic
     @Throws(ServletException::class, LifecycleException::class, MalformedURLException::class)
     fun main(args: Array<String>) {
-        Tomcat().apply {
+        val tomcat = Tomcat().apply {
             setPort(args.port())
             updateContext()
             updateConnectorProperty()
-        }.also { tomcat ->
-            tomcat.start()
-            tomcat.server.await()
+        }
+        
+        with(tomcat) { 
+            start()
+            server.await()
         }
     }
 }
