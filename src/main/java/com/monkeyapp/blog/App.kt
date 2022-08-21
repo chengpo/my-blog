@@ -40,9 +40,9 @@ object App {
             setPort(args.port())
             updateContext()
             updateConnectorProperty()
-        }.also {
-            start()
-            server.await()
+        }.also { tomcat ->
+            tomcat.start()
+            tomcat.server.await()
         }
     }
 }
