@@ -21,28 +21,22 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-package com.monkeyapp.blog.resources
+package com.monkeyapp.blog.rests
 
-import com.monkeyapp.blog.controllers.PageController
+import com.monkeyapp.blog.controllers.FeedController
 import com.monkeyapp.blog.di.RootComponent
-import com.monkeyapp.blog.dtos.PageDto
+import com.monkeyapp.blog.dtos.SyncFeedDto
 import javax.inject.Inject
 import javax.ws.rs.*
-import javax.ws.rs.core.MediaType
 
-@Path("/pages")
-class PagesResource {
+@Path("/feed")
+class FeedResource {
     @Inject
     private lateinit var component: RootComponent
 
-    private val controller: PageController by lazy { component.sessionComponent().pageController() }
+    private val controller: FeedController by lazy { component.sessionComponent().feedController() }
 
     @GET
-    @Path("/{title}")
-    @Produces(MediaType.APPLICATION_JSON)
-    fun getPageContent(@PathParam("title") title: String): PageDto {
-        return controller
-            .pageContent(title)
-            .orElseThrow { WebApplicationException(404) }
-    }
+    @Produces("application/rss+xml")
+    fun feed(): SyncFeedDto = controller.feed()
 }

@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-package com.monkeyapp.blog.resources
+package com.monkeyapp.blog.rests
 
 import com.monkeyapp.blog.controllers.PostController
 import com.monkeyapp.blog.di.RootComponent

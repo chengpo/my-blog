@@ -44,6 +44,6 @@ class FeedController(component: ParentComponent)  {
 
     interface ParentComponent {
         fun postStreamProvider(): BlogStreamProvider
-        fun partialContentProvider(): PartialContentProvider
+        fun partialContentProvider(): ContentProvider
     }
 }

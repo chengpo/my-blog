@@ -1,7 +1,7 @@
 package com.monkeyapp.blog.controllers
 
 import com.monkeyapp.blog.models.BlogStreamProvider
-import com.monkeyapp.blog.models.CompleteContentProvider
+import com.monkeyapp.blog.models.ContentProvider
 import com.monkeyapp.blog.dtos.PageDto
 import com.monkeyapp.blog.dtos.PageMetadataDto
 import com.monkeyapp.blog.models.BlogMetadata
@@ -32,6 +32,6 @@ class PageController(component: ParentComponent)  {
 
     interface ParentComponent {
         fun pageStreamProvider(): BlogStreamProvider
-        fun completeContentProvider(): CompleteContentProvider
+        fun completeContentProvider(): ContentProvider
     }
 }

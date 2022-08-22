@@ -1,4 +1,4 @@
-package com.monkeyapp.blog.resources
+package com.monkeyapp.blog.rests
 
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger

@@ -8,7 +8,8 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.util.stream.Collectors
 
-class CompleteContentProvider(private val inputStreamProvider: InputStreamProvider) {
+class ContentProvider(private val inputStreamProvider: InputStreamProvider,
+                      private val contentReader: ContentReader) {
     private val htmlFormatter by lazy { HtmlFormatter() }
 
     fun contentOf(path: String):  String {
@@ -16,37 +17,32 @@ class CompleteContentProvider(private val inputStreamProvider: InputStreamProvid
             .streamOf(path)
             .let(::InputStreamReader)
             .let(::BufferedReader)
-            .use(this::markdownContent)
+            .use(contentReader::read)
             .let(htmlFormatter::format)
     }
-    
-    private fun markdownContent(reader: BufferedReader): String {
+}
+
+abstract class ContentReader {
+    abstract fun read (reader: BufferedReader): String
+}
+
+class CompleteContentReader : ContentReader() {
+    override fun read(reader: BufferedReader): String {
         return reader
             .lines()
             .collect(Collectors.joining(System.lineSeparator()))
     }
 }
 
-class PartialContentProvider(private val inputStreamProvider: InputStreamProvider,
-                             private val blogParameters: BlogParameters) {
-    private val htmlFormatter by lazy { HtmlFormatter() }
-
-    fun contentOf(path: String):  String {
-        return inputStreamProvider
-            .streamOf(path)
-            .let(::InputStreamReader)
-            .let(::BufferedReader)
-            .use(this::markdownContent)
-            .let(htmlFormatter::format)
-    }
-    
-    private fun markdownContent(reader: BufferedReader): String {
+class PartialContentReader(private val blogParameters: BlogParameters): ContentReader() {
+    override fun read(reader: BufferedReader): String {
         return reader
             .lines()
             .limit(blogParameters.partialFileLines())
             .collect(Collectors.joining(System.lineSeparator()))
     }
 }
+
 
 class HtmlFormatter {
     private val parser = Parser.builder().build()

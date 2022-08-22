@@ -12,10 +12,7 @@ interface RootComponent {
 }
 
 @Service
-class RootComponentImpl :
-    RootComponent,
-    SessionComponent.ParentComponent {
-
+class RootComponentImpl : RootComponent {
     @Context
     private lateinit var context: ServletContext
 
@@ -24,12 +21,16 @@ class RootComponentImpl :
 
     @Inject
     private lateinit var inputStreamProvider: InputStreamProvider
- 
-    override fun context(): ServletContext = context
 
-    override fun blogParameters(): BlogParameters = blogParameters
+    private val objects = Objects()
 
-    override fun inputStreamProvider(): InputStreamProvider = inputStreamProvider
+    override fun sessionComponent(): SessionComponent = SessionComponentImpl(objects)
 
-    override fun sessionComponent(): SessionComponent = SessionComponentImpl(this)
+    private inner class Objects : SessionComponent.ParentComponent {
+        override fun context(): ServletContext = context
+
+        override fun blogParameters(): BlogParameters = blogParameters
+
+        override fun inputStreamProvider(): InputStreamProvider = inputStreamProvider
+    }
 }

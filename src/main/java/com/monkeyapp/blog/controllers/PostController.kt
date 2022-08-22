@@ -64,7 +64,7 @@ class PostController(component: ParentComponent)  {
     interface ParentComponent {
         fun blogParameters(): BlogParameters
         fun postStreamProvider(): BlogStreamProvider
-        fun completeContentProvider(): CompleteContentProvider
-        fun partialContentProvider(): PartialContentProvider
+        fun completeContentProvider(): ContentProvider
+        fun partialContentProvider(): ContentProvider
     }
 }
