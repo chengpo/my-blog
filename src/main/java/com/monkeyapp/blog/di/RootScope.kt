@@ -7,12 +7,12 @@ import javax.servlet.ServletContext
 import javax.ws.rs.core.Context
 
 @Contract
-interface RootComponent {
-    fun sessionComponent(): SessionComponent
+interface RootScope {
+    fun readerScope(): ReaderScope
 }
 
 @Service
-class RootComponentImpl : RootComponent {
+class RootScopeImpl : RootScope {
     @Context
     private lateinit var context: ServletContext
 
@@ -24,9 +24,9 @@ class RootComponentImpl : RootComponent {
 
     private val objects = Objects()
 
-    override fun sessionComponent(): SessionComponent = SessionComponentImpl(objects)
+    override fun readerScope(): ReaderScope =  ReaderScopeImpl(objects)
 
-    private inner class Objects : SessionComponent.ParentComponent {
+    private inner class Objects : ReaderScope.ParentComponent {
         override fun context(): ServletContext = context
 
         override fun blogParameters(): BlogParameters = blogParameters

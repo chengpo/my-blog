@@ -47,3 +47,25 @@ class BlogStreamProvider(private val root: String,
     }
 }
 
+class BlogStreamProviderFactory(private val context: ServletContext,
+                                private val inputStreamProvider: InputStreamProvider) {
+    fun pageStreamProvider(): BlogStreamProvider {
+        return blogStreamProvider(PAGE_ROOT)
+    }
+
+    fun postStreamProvider(): BlogStreamProvider {
+        return blogStreamProvider(POST_ROOT)
+    }
+
+    private fun blogStreamProvider(root: String): BlogStreamProvider {
+        return BlogStreamProvider(
+            root,
+            context,
+            inputStreamProvider)
+    }
+
+    companion object {
+        const val POST_ROOT = "/md/posts"
+        const val PAGE_ROOT = "/md/pages"
+    }
+}

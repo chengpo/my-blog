@@ -23,8 +23,7 @@ SOFTWARE.
  */
 package com.monkeyapp.blog.rests
 
-import com.monkeyapp.blog.controllers.FeedController
-import com.monkeyapp.blog.di.RootComponent
+import com.monkeyapp.blog.di.RootScope
 import com.monkeyapp.blog.dtos.SyncFeedDto
 import javax.inject.Inject
 import javax.ws.rs.*
@@ -32,11 +31,9 @@ import javax.ws.rs.*
 @Path("/feed")
 class FeedResource {
     @Inject
-    private lateinit var component: RootComponent
-
-    private val controller: FeedController by lazy { component.sessionComponent().feedController() }
+    private lateinit var rootScope: RootScope
 
     @GET
     @Produces("application/rss+xml")
-    fun feed(): SyncFeedDto = controller.feed()
+    fun feed(): SyncFeedDto = rootScope.readerScope().feedController().feed()
 }

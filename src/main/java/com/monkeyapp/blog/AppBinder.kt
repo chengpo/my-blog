@@ -32,6 +32,6 @@ class AppBinder : AbstractBinder() {
     override fun configure() {
         bind(InputStreamProviderImpl::class.java).to(InputStreamProvider::class.java)
         bind(BlogParametersImpl::class.java).to(BlogParameters::class.java)
-        bind(RootComponentImpl::class.java).to(RootComponent::class.java)
+        bind(RootScopeImpl::class.java).to(RootScope::class.java)
     }
 }

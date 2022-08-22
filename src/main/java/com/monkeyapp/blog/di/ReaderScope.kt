@@ -4,7 +4,7 @@ import com.monkeyapp.blog.controllers.*
 import com.monkeyapp.blog.models.*
 import javax.servlet.ServletContext
 
-interface SessionComponent {
+interface ReaderScope {
     fun feedController(): FeedController
     fun pageController(): PageController
     fun postController(): PostController
@@ -16,8 +16,8 @@ interface SessionComponent {
     }
 }
 
-class SessionComponentImpl(private val parentComponent: SessionComponent.ParentComponent) : SessionComponent {
-    private val objects = Objects()
+class ReaderScopeImpl(parentComponent: ReaderScope.ParentComponent) : ReaderScope {
+    private val objects = Objects(parentComponent)
 
     override fun feedController(): FeedController = FeedController(objects)
 
@@ -25,54 +25,36 @@ class SessionComponentImpl(private val parentComponent: SessionComponent.ParentC
 
     override fun postController(): PostController = PostController(objects)
 
-    private inner class Objects :
+    private class Objects(private val parentComponent: ReaderScope.ParentComponent) :
         PostController.ParentComponent,
         PageController.ParentComponent,
         FeedController.ParentComponent {
+        private val blogStreamProviderFactory = BlogStreamProviderFactory(
+            parentComponent.context(),
+            parentComponent.inputStreamProvider())
+
+        private val contentProviderFactory = ContentProviderFactory(
+            parentComponent.inputStreamProvider(),
+            parentComponent.blogParameters())
 
         override fun blogParameters(): BlogParameters {
             return parentComponent.blogParameters()
         }
 
         override fun pageStreamProvider(): BlogStreamProvider {
-            return blogStreamProvider(PAGE_ROOT)
+            return blogStreamProviderFactory.pageStreamProvider()
         }
 
         override fun postStreamProvider(): BlogStreamProvider {
-            return blogStreamProvider(POST_ROOT)
+            return blogStreamProviderFactory.postStreamProvider()
         }
 
         override fun completeContentProvider(): ContentProvider {
-            return ContentProvider(
-                parentComponent.inputStreamProvider(),
-                completeContentReader())
+            return contentProviderFactory.completeContentProvider()
         }
 
         override fun partialContentProvider(): ContentProvider {
-            return ContentProvider(
-                parentComponent.inputStreamProvider(),
-                partialContentReader())
+            return contentProviderFactory.partialContentProvider()
         }
-
-        private fun completeContentReader(): ContentReader {
-            return CompleteContentReader()
-        }
-
-        private fun partialContentReader(): ContentReader {
-            return PartialContentReader(parentComponent.blogParameters())
-        }
-
-        private fun blogStreamProvider(root: String): BlogStreamProvider {
-            return BlogStreamProvider(
-                root,
-                parentComponent.context(),
-                parentComponent.inputStreamProvider()
-            )
-        }
-    }
-
-    companion object {
-        const val POST_ROOT = "/md/posts"
-        const val PAGE_ROOT = "/md/pages"
     }
 }

@@ -23,8 +23,7 @@ SOFTWARE.
  */
 package com.monkeyapp.blog.rests
 
-import com.monkeyapp.blog.controllers.PostController
-import com.monkeyapp.blog.di.RootComponent
+import com.monkeyapp.blog.di.RootScope
 import com.monkeyapp.blog.dtos.PostChunkDto
 import com.monkeyapp.blog.dtos.PostDto
 
@@ -35,15 +34,16 @@ import javax.ws.rs.core.MediaType
 @Path("/posts")
 class PostsResource {
     @Inject
-    private lateinit var component: RootComponent
-
-    private val controller: PostController by lazy { component.sessionComponent().postController() }
+    private lateinit var rootScope: RootScope
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     fun getPostChunk(@DefaultValue("") @QueryParam("tag") tag: String,
                      @DefaultValue("0") @QueryParam("offset") offset: Long): PostChunkDto {
-        return controller.postChunk(tag, offset)
+        return rootScope
+            .readerScope()
+            .postController()
+            .postChunk(tag, offset)
     }
 
     @GET
@@ -52,7 +52,9 @@ class PostsResource {
     fun getPostContent(@PathParam("year") year: String,
                        @PathParam("monthday") monthday: String,
                        @PathParam("title") title: String): PostDto {
-        return controller
+        return rootScope
+            .readerScope()
+            .postController()
             .postContent(year, monthday, title)
             .orElseThrow { WebApplicationException(404) }
     }

@@ -10,7 +10,7 @@ import java.util.stream.Collectors
 
 class ContentProvider(private val inputStreamProvider: InputStreamProvider,
                       private val contentReader: ContentReader) {
-    private val htmlFormatter by lazy { HtmlFormatter() }
+    private val htmlFormatter = HtmlFormatter()
 
     fun contentOf(path: String):  String {
         return inputStreamProvider
@@ -22,11 +22,11 @@ class ContentProvider(private val inputStreamProvider: InputStreamProvider,
     }
 }
 
-abstract class ContentReader {
-    abstract fun read (reader: BufferedReader): String
+interface ContentReader {
+    fun read(reader: BufferedReader): String
 }
 
-class CompleteContentReader : ContentReader() {
+class CompleteContentReader : ContentReader {
     override fun read(reader: BufferedReader): String {
         return reader
             .lines()
@@ -34,7 +34,7 @@ class CompleteContentReader : ContentReader() {
     }
 }
 
-class PartialContentReader(private val blogParameters: BlogParameters): ContentReader() {
+class PartialContentReader(private val blogParameters: BlogParameters): ContentReader {
     override fun read(reader: BufferedReader): String {
         return reader
             .lines()
@@ -43,11 +43,25 @@ class PartialContentReader(private val blogParameters: BlogParameters): ContentR
     }
 }
 
+class ContentProviderFactory(private val inputStreamProvider: InputStreamProvider,
+                             private val blogParameters: BlogParameters) {
+    fun completeContentProvider(): ContentProvider {
+        return ContentProvider(
+            inputStreamProvider,
+            CompleteContentReader())
+    }
+
+    fun partialContentProvider(): ContentProvider {
+        return ContentProvider(
+            inputStreamProvider,
+            PartialContentReader(blogParameters))
+    }
+}
 
 class HtmlFormatter {
-    private val parser = Parser.builder().build()
+    private val parser: Parser = Parser.builder().build()
     private val renderer = HtmlRenderer.builder().build()
-    
+
     fun format(markdownContent: String): String {
         return parser.parse(markdownContent).run(renderer::render)
     }
