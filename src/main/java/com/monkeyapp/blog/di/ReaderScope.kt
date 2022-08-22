@@ -16,8 +16,8 @@ interface ReaderScope {
     }
 }
 
-class ReaderScopeImpl(parentComponent: ReaderScope.ParentComponent) : ReaderScope {
-    private val objects = Objects(parentComponent)
+class ReaderScopeImpl(private val parentComponent: ReaderScope.ParentComponent) : ReaderScope {
+    private val objects = Objects()
 
     override fun feedController(): FeedController = FeedController(objects)
 
@@ -25,7 +25,7 @@ class ReaderScopeImpl(parentComponent: ReaderScope.ParentComponent) : ReaderScop
 
     override fun postController(): PostController = PostController(objects)
 
-    private class Objects(private val parentComponent: ReaderScope.ParentComponent) :
+    private inner class Objects :
         PostController.ParentComponent,
         PageController.ParentComponent,
         FeedController.ParentComponent {
