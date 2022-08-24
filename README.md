@@ -5,15 +5,15 @@ Source of <a href="http://monkey-blogger.herokuapp.com" target="_blank">monkey-b
 
 ## Technologies Behind
 
-- Bootstrap for frontend page layout;
-- RequireJS for loading Javascript modules;
-- AngularJS for frontend web App;
-- HK2 for dependency injection;
-- Jersey for Restful API;
-- Mockito for mocking test objects;
-- Kotlin for backend service;
-- Embedded Tomcat for hosting the website;
-- Docker for running in container environment.
+- Bootstrap for frontend page layout
+- RequireJS for loading Javascript modules
+- AngularJS for frontend web App
+- HK2 for dependency injection
+- Jersey for Restful API
+- Mockito for mocking test objects
+- Kotlin for backend service
+- Embedded Tomcat for hosting the website
+- Docker for running in container environment
 
 ## Run with Command Line
 
