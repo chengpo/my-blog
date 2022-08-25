@@ -1,5 +1,6 @@
 package com.monkeyapp.blog.controllers
 
+import com.monkeyapp.blog.di.BlogParameters
 import com.monkeyapp.blog.dtos.FeedChannelDto
 import com.monkeyapp.blog.dtos.FeedItemDto
 import com.monkeyapp.blog.dtos.SyncFeedDto
@@ -9,6 +10,7 @@ import java.util.stream.Collectors
 class FeedController(component: ParentComponent)  {
     private val postStreamProvider = component.postStreamProvider()
     private val partialContentProvider = component.partialContentProvider()
+    private val blogParameters = component.blogParameters()
 
     fun feed(): SyncFeedDto {
         return postStreamProvider.metaStream()
@@ -33,7 +35,7 @@ class FeedController(component: ParentComponent)  {
         return FeedChannelDto(
             title = "Monkey Blogger",
             link = "http://monkey-blogger.herokuapp.com",
-            description = "Some random thought",
+            description = blogParameters.siteTitle(),
             items = feedItems
         )
     }
@@ -45,5 +47,6 @@ class FeedController(component: ParentComponent)  {
     interface ParentComponent {
         fun postStreamProvider(): BlogStreamProvider
         fun partialContentProvider(): ContentProvider
+        fun blogParameters(): BlogParameters
     }
 }

@@ -91,6 +91,11 @@
         <param-value>32</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>site-title</param-name>
+        <param-value>Monkey Blogger - Some Random Thought</param-value>
+    </context-param>
+
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>

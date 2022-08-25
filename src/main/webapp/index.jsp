@@ -33,7 +33,7 @@ SOFTWARE.
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="google-site-verification" content="aBgNRVBo5y1-FwLrwGCbmBXADuB8i5FLxUIKG-ReX1w" />
 
-    <title>Monkey Blogger - Some Random Thought</title>
+    <title><%= application.getInitParameter("site-title")%></title>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-21565343-4"></script>

@@ -9,6 +9,7 @@ import javax.ws.rs.core.Context
 interface BlogParameters {
     fun postPerChunk(): Long
     fun partialFileLines(): Long
+    fun siteTitle(): String
 }
 
 @Service
@@ -24,8 +25,13 @@ class BlogParametersImpl : BlogParameters {
         return context.getInitParameter(PARTIAL_FILE_LINES_PARAM).toLong()
     }
 
+    override fun siteTitle(): String {
+        return context.getInitParameter(SITE_TITLE_PARAM)
+    }
+
     companion object {
         private const val POST_PER_CHUNK_PARAM = "post-per-chunk"
         private const val PARTIAL_FILE_LINES_PARAM = "partial-file-lines"
+        private const val SITE_TITLE_PARAM = "site-title"
     }
 }
