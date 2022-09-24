@@ -8,7 +8,7 @@ import javax.ws.rs.core.Context
 
 @Contract
 interface RootScope {
-    fun readerScope(): ReaderScope
+    fun visitorScope(): VisitorScope
 }
 
 @Service
@@ -22,11 +22,11 @@ class RootScopeImpl : RootScope {
     @Inject
     private lateinit var inputStreamProvider: InputStreamProvider
 
-    private val objects = Objects()
+    private val rootComponent = Component()
 
-    override fun readerScope(): ReaderScope =  ReaderScopeImpl(objects)
+    override fun visitorScope(): VisitorScope =  VisitorScopeImpl(rootComponent)
 
-    private inner class Objects : ReaderScope.ParentComponent {
+    private inner class Component : VisitorScope.ParentComponent {
         override fun context(): ServletContext = context
 
         override fun blogParameters(): BlogParameters = blogParameters

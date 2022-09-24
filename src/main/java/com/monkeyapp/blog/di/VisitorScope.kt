@@ -4,7 +4,7 @@ import com.monkeyapp.blog.controllers.*
 import com.monkeyapp.blog.models.*
 import javax.servlet.ServletContext
 
-interface ReaderScope {
+interface VisitorScope {
     fun feedController(): FeedController
     fun pageController(): PageController
     fun postController(): PostController
@@ -16,16 +16,16 @@ interface ReaderScope {
     }
 }
 
-class ReaderScopeImpl(private val parentComponent: ReaderScope.ParentComponent) : ReaderScope {
-    private val objects = Objects()
+class VisitorScopeImpl(private val parentComponent: VisitorScope.ParentComponent) : VisitorScope {
+    private val visitorComponent = Component()
 
-    override fun feedController(): FeedController = FeedController(objects)
+    override fun feedController(): FeedController = FeedController(visitorComponent)
 
-    override fun pageController(): PageController = PageController(objects)
+    override fun pageController(): PageController = PageController(visitorComponent)
 
-    override fun postController(): PostController = PostController(objects)
+    override fun postController(): PostController = PostController(visitorComponent)
 
-    private inner class Objects :
+    private inner class Component :
         PostController.ParentComponent,
         PageController.ParentComponent,
         FeedController.ParentComponent {

@@ -41,7 +41,7 @@ class PostsResource {
     fun getPostChunk(@DefaultValue("") @QueryParam("tag") tag: String,
                      @DefaultValue("0") @QueryParam("offset") offset: Long): PostChunkDto {
         return rootScope
-            .readerScope()
+            .visitorScope()
             .postController()
             .postChunk(tag, offset)
     }
@@ -53,7 +53,7 @@ class PostsResource {
                        @PathParam("monthday") monthday: String,
                        @PathParam("title") title: String): PostDto {
         return rootScope
-            .readerScope()
+            .visitorScope()
             .postController()
             .postContent(year, monthday, title)
             .orElseThrow { WebApplicationException(404) }

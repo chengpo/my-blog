@@ -39,7 +39,7 @@ class PagesResource {
     @Produces(MediaType.APPLICATION_JSON)
     fun getPageContent(@PathParam("title") title: String): PageDto {
         return rootScope
-            .readerScope()
+            .visitorScope()
             .pageController()
             .pageContent(title)
             .orElseThrow { WebApplicationException(404) }

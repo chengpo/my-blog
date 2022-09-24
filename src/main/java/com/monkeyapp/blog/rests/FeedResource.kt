@@ -35,5 +35,5 @@ class FeedResource {
 
     @GET
     @Produces("application/rss+xml")
-    fun feed(): SyncFeedDto = rootScope.readerScope().feedController().feed()
+    fun feed(): SyncFeedDto = rootScope.visitorScope().feedController().feed()
 }
