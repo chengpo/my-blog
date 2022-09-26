@@ -9,9 +9,11 @@ interface VisitorScope {
     fun pageController(): PageController
     fun postController(): PostController
 
-    interface ParentComponent : 
-        BlogStreamProviderFactory.Dependencies,
-        ContentProviderFactory.Dependencies
+    interface ParentComponent {
+        fun context(): ServletContext
+        fun inputStreamProvider(): InputStreamProvider
+        fun blogParameters(): BlogParameters
+    }
 }
 
 class VisitorScopeImpl(private val parentComponent: VisitorScope.ParentComponent) : VisitorScope {
@@ -24,13 +26,23 @@ class VisitorScopeImpl(private val parentComponent: VisitorScope.ParentComponent
     override fun postController(): PostController = PostController(visitorComponent)
 
     private inner class Component :
+        BlogStreamProviderFactory.Dependencies,
+        ContentProviderFactory.Dependencies,
         PostController.Dependencies,
         PageController.Dependencies,
         FeedController.Dependencies {
         
-        private val blogStreamProviderFactory = BlogStreamProviderFactory(parentComponent)
+        private val blogStreamProviderFactory = BlogStreamProviderFactory(this)
 
-        private val contentProviderFactory = ContentProviderFactory(parentComponent)
+        private val contentProviderFactory = ContentProviderFactory(this)
+
+        override fun context(): ServletContext {
+            return parentComponent.context()
+        }
+
+        override fun inputStreamProvider(): InputStreamProvider {
+            return parentComponent.inputStreamProvider()
+        }
 
         override fun blogParameters(): BlogParameters {
             return parentComponent.blogParameters()
