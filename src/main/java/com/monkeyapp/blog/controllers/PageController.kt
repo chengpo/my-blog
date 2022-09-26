@@ -8,9 +8,9 @@ import com.monkeyapp.blog.models.BlogMetadata
 import com.monkeyapp.blog.models.capitalizedTitle
 import java.util.*
 
-class PageController(component: ParentComponent)  {
-    private val pageStreamProvider = component.pageStreamProvider()
-    private val completeContentProvider = component.completeContentProvider()
+class PageController(dependencies: Dependencies)  {
+    private val pageStreamProvider = dependencies.pageStreamProvider()
+    private val completeContentProvider = dependencies.completeContentProvider()
 
     fun pageContent(title: String): Optional<PageDto> {
         return pageStreamProvider.metaStream()
@@ -30,7 +30,7 @@ class PageController(component: ParentComponent)  {
         )
     }
 
-    interface ParentComponent {
+    interface Dependencies {
         fun pageStreamProvider(): BlogStreamProvider
         fun completeContentProvider(): ContentProvider
     }

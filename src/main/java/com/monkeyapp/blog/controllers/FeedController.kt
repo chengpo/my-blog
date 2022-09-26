@@ -7,10 +7,10 @@ import com.monkeyapp.blog.dtos.SyncFeedDto
 import com.monkeyapp.blog.models.*
 import java.util.stream.Collectors
 
-class FeedController(component: ParentComponent)  {
-    private val postStreamProvider = component.postStreamProvider()
-    private val partialContentProvider = component.partialContentProvider()
-    private val blogParameters = component.blogParameters()
+class FeedController(dependencies: Dependencies)  {
+    private val postStreamProvider = dependencies.postStreamProvider()
+    private val partialContentProvider = dependencies.partialContentProvider()
+    private val blogParameters = dependencies.blogParameters()
 
     fun feed(): SyncFeedDto {
         return postStreamProvider.metaStream()
@@ -44,7 +44,7 @@ class FeedController(component: ParentComponent)  {
         return SyncFeedDto(version = "2.0", channel = feedChannelDto)
     }
 
-    interface ParentComponent {
+    interface Dependencies {
         fun postStreamProvider(): BlogStreamProvider
         fun partialContentProvider(): ContentProvider
         fun blogParameters(): BlogParameters

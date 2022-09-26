@@ -47,8 +47,10 @@ class BlogStreamProvider(private val root: String,
     }
 }
 
-class BlogStreamProviderFactory(private val context: ServletContext,
-                                private val inputStreamProvider: InputStreamProvider) {
+class BlogStreamProviderFactory(dependencies: Dependencies) {
+    private val context = dependencies.context()
+    private val inputStreamProvider = dependencies.inputStreamProvider()
+
     fun pageStreamProvider(): BlogStreamProvider {
         return blogStreamProvider(PAGE_ROOT)
     }
@@ -62,6 +64,11 @@ class BlogStreamProviderFactory(private val context: ServletContext,
             root,
             context,
             inputStreamProvider)
+    }
+
+    interface Dependencies {
+        fun context(): ServletContext
+        fun inputStreamProvider(): InputStreamProvider
     }
 
     companion object {

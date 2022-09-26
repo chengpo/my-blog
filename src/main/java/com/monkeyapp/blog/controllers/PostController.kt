@@ -9,11 +9,11 @@ import java.util.*
 import java.util.stream.Collectors
 import kotlin.Comparator
 
-class PostController(component: ParentComponent)  {
-    private val postStreamProvider = component.postStreamProvider()
-    private val partialContentProvider = component.partialContentProvider()
-    private val completeContentProvider = component.completeContentProvider()
-    private val blogParameters = component.blogParameters()
+class PostController(dependencies: Dependencies)  {
+    private val postStreamProvider = dependencies.postStreamProvider()
+    private val partialContentProvider = dependencies.partialContentProvider()
+    private val completeContentProvider = dependencies.completeContentProvider()
+    private val blogParameters = dependencies.blogParameters()
 
     fun postChunk(tag: String, offset: Long): PostChunkDto {
         return postStreamProvider.metaStream()
@@ -61,7 +61,7 @@ class PostController(component: ParentComponent)  {
         )
     }
 
-    interface ParentComponent {
+    interface Dependencies {
         fun blogParameters(): BlogParameters
         fun postStreamProvider(): BlogStreamProvider
         fun completeContentProvider(): ContentProvider

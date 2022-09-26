@@ -43,8 +43,10 @@ class PartialContentReader(private val blogParameters: BlogParameters): ContentR
     }
 }
 
-class ContentProviderFactory(private val inputStreamProvider: InputStreamProvider,
-                             private val blogParameters: BlogParameters) {
+class ContentProviderFactory(dependencies: Dependencies) {
+    private val inputStreamProvider = dependencies.inputStreamProvider()
+    private val blogParameters = dependencies.blogParameters()
+
     fun completeContentProvider(): ContentProvider {
         return ContentProvider(
             inputStreamProvider,
@@ -55,6 +57,11 @@ class ContentProviderFactory(private val inputStreamProvider: InputStreamProvide
         return ContentProvider(
             inputStreamProvider,
             PartialContentReader(blogParameters))
+    }
+
+    interface Dependencies {
+        fun inputStreamProvider(): InputStreamProvider
+        fun blogParameters(): BlogParameters
     }
 }
 
