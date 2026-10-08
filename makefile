@@ -12,7 +12,10 @@ docker-run:
 clean:
 	mvn clean
 
-run:
-	mvn exec:exec
+webapp:
+	mvn exec:exec@webapp
+
+static:
+	mvn exec:exec@static
 
 default: build
