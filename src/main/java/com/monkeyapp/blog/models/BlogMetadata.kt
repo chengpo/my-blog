@@ -9,7 +9,8 @@ data class BlogMetadata(
     val monthday: String,
     val time: String,
     val crtime: String,
-    val path: String)
+    val path: String,
+    val name: String)
 
 fun BlogMetadata.priority(): Long {
     return year.toLong() * 10000L * 10000L +

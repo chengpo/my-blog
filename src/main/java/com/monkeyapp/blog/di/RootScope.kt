@@ -32,3 +32,21 @@ class RootScopeImpl : RootScope {
         override fun inputStreamProvider(): InputStreamProvider = inputStreamProvider
     }
 }
+
+class StaticRootScopeImpl : RootScope {
+    private val context = StaticAppContextImpl()
+    private val inputStreamProvider = InputStreamProviderImpl()
+    private val blogParameter = StaticBlogParametersImpl()
+
+    private val rootComponent = Component()
+
+    override fun visitorScope(): VisitorScope = VisitorScopeImpl(rootComponent)
+
+    private inner class Component : VisitorScope.ParentComponent {
+        override fun context(): AppContext = context
+
+        override fun blogParameters(): BlogParameters = blogParameter
+
+        override fun inputStreamProvider(): InputStreamProvider = inputStreamProvider
+    }
+}

@@ -29,6 +29,7 @@ class StaticAppContextImpl : AppContext {
     }
 
     override fun getRealPath(path: String): String {
-        throw UnsupportedOperationException("StaticAppContextImpl does not support getRealPath")
+        val baseDir = System.getProperty("user.dir")
+        return "$baseDir/src/main/webapp/$path"
     }
 }

@@ -15,7 +15,7 @@ class PostController(dependencies: Dependencies)  {
     private val completeContentProvider = dependencies.completeContentProvider()
     private val blogParameters = dependencies.blogParameters()
 
-    fun postChunk(tag: String, offset: Long): PostChunkDto {
+    fun postChunk(tag: String = "", offset: Long = 0L): PostChunkDto {
         return postStreamProvider.metaStream()
             .sorted(Comparator.comparingLong(BlogMetadata::priority).reversed())
             .skip(offset)
@@ -55,7 +55,8 @@ class PostController(dependencies: Dependencies)  {
                 crtime = metadata.crtime,
                 url = metadata.postUrl,
                 title = metadata.capitalizedTitle,
-                tag = metadata.capitalizedTag
+                tag = metadata.capitalizedTag,
+                name = metadata.name
                 ),
             content = contentOf(metadata.path)
         )

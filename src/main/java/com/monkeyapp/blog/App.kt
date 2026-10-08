@@ -23,6 +23,7 @@ SOFTWARE.
  */
 package com.monkeyapp.blog
 
+import com.monkeyapp.blog.static.WebsiteBuilder
 import org.apache.catalina.LifecycleException
 import org.apache.catalina.core.StandardContext
 import org.apache.catalina.startup.Tomcat
@@ -31,12 +32,8 @@ import org.apache.tomcat.util.scan.StandardJarScanner
 import java.io.File
 import java.net.MalformedURLException
 import javax.servlet.ServletException
-import org.slf4j.LoggerFactory
-import org.slf4j.Logger
 
 object App {
-    private val logger: Logger = LoggerFactory.getLogger(App::class.java)   
-
     @JvmStatic
     @Throws(ServletException::class, LifecycleException::class, MalformedURLException::class)
     fun main(args: Array<String>) {
@@ -50,9 +47,9 @@ object App {
     fun buildStaticWebsite(args: Array<String>) {
         val baseDir = System.getProperty("user.dir")
         val appVersion = StaticUrl.VERSION
-
-        logger.info("Generating static website in $baseDir with app version $appVersion ...")
-        // TODO : Generate static website
+        
+        val websiteBuilder = WebsiteBuilder(baseDir, appVersion)
+        websiteBuilder.build()
     }
      
     fun startWebApp(args: Array<String>) {

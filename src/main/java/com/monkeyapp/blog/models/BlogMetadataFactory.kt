@@ -23,7 +23,8 @@ class BlogMetadataFactory {
                 monthday= monthday,
                 time = time,
                 crtime = "$year/$month/$day $hour:$minute",
-                path = path
+                path = path,
+                name = name
             )
         } else { null }
     }

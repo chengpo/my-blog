@@ -55,5 +55,8 @@ data class PostMetadataDto(
     val title: String,
 
     @JsonProperty("tag")
-    val tag: String
+    val tag: String,
+    
+    @JsonProperty("name")
+    val name: String 
 )
