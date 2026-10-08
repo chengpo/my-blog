@@ -23,7 +23,7 @@ SOFTWARE.
  */
 package com.monkeyapp.blog
 
-import com.monkeyapp.blog.static.WebsiteBuilder
+import com.monkeyapp.blog.static.WebsiteGenerator
 import org.apache.catalina.LifecycleException
 import org.apache.catalina.core.StandardContext
 import org.apache.catalina.startup.Tomcat
@@ -38,17 +38,17 @@ object App {
     @Throws(ServletException::class, LifecycleException::class, MalformedURLException::class)
     fun main(args: Array<String>) {
         if (args.isNotEmpty() && args[0] == "static") {
-            buildStaticWebsite(args)
+            generateStaticWebsite(args)
         } else {
             startWebApp(args)
         }
     }
   
-    fun buildStaticWebsite(args: Array<String>) {
-        val baseDir = System.getProperty("user.dir")
+    fun generateStaticWebsite(args: Array<String>) {
+        val baseDir = System.getProperty("user.dir") 
         val appVersion = StaticUrl.VERSION
         
-        val websiteBuilder = WebsiteBuilder(baseDir, appVersion)
+        val websiteBuilder = WebsiteGenerator(baseDir, appVersion)
         websiteBuilder.build()
     }
      

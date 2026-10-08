@@ -24,7 +24,8 @@ class PageController(dependencies: Dependencies)  {
             metadata = PageMetadataDto(
                 crtime = metadata.crtime,
                 url = "pages/${metadata.title}",
-                title = metadata.capitalizedTitle
+                title = metadata.capitalizedTitle,
+                name = metadata.name
             ),
             content = completeContentProvider.contentOf(metadata.path)
         )
