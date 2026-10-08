@@ -30,6 +30,7 @@ import javax.ws.rs.ext.Provider
 @Provider
 class AppBinder : AbstractBinder() {
     override fun configure() {
+        bind(ServletAppContextImpl::class.java).to(AppContext::class.java)
         bind(InputStreamProviderImpl::class.java).to(InputStreamProvider::class.java)
         bind(BlogParametersImpl::class.java).to(BlogParameters::class.java)
         bind(RootScopeImpl::class.java).to(RootScope::class.java)

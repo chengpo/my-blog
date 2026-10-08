@@ -2,7 +2,7 @@ package com.monkeyapp.blog.di
 
 import org.jvnet.hk2.annotations.Contract
 import org.jvnet.hk2.annotations.Service
-import javax.servlet.ServletContext
+import javax.inject.Inject
 import javax.ws.rs.core.Context
 
 @Contract
@@ -14,8 +14,8 @@ interface BlogParameters {
 
 @Service
 class BlogParametersImpl : BlogParameters {
-    @Context
-    private lateinit var context: ServletContext
+    @Inject
+    private lateinit var context: AppContext
 
     override fun postPerChunk(): Long {
         return context.getInitParameter(POST_PER_CHUNK_PARAM).toLong()

@@ -3,14 +3,14 @@ package com.monkeyapp.blog.models
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.monkeyapp.blog.di.InputStreamProvider
+import com.monkeyapp.blog.di.AppContext
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.util.stream.Collectors
 import java.util.stream.Stream
-import javax.servlet.ServletContext
 
 class BlogStreamProvider(private val root: String,
-                         private val context: ServletContext,
+                         private val context: AppContext,
                          private val inputStreamProvider: InputStreamProvider,
                          private val fileListJson: String = "file-list.json") {
   
@@ -67,7 +67,7 @@ class BlogStreamProviderFactory(dependencies: Dependencies) {
     }
 
     interface Dependencies {
-        fun context(): ServletContext
+        fun context(): AppContext
         fun inputStreamProvider(): InputStreamProvider
     }
 

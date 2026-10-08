@@ -13,9 +13,9 @@ clean:
 	mvn clean
 
 webapp:
-	mvn exec:exec@webapp
+	mvn package exec:exec@webapp
 
 static:
-	mvn exec:exec@static
+	mvn package exec:exec@static
 
 default: build

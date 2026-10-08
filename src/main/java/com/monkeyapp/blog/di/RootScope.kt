@@ -3,8 +3,6 @@ package com.monkeyapp.blog.di
 import org.jvnet.hk2.annotations.Contract
 import org.jvnet.hk2.annotations.Service
 import javax.inject.Inject
-import javax.servlet.ServletContext
-import javax.ws.rs.core.Context
 
 @Contract
 interface RootScope {
@@ -13,8 +11,8 @@ interface RootScope {
 
 @Service
 class RootScopeImpl : RootScope {
-    @Context
-    private lateinit var context: ServletContext
+    @Inject
+    private lateinit var context: AppContext
 
     @Inject
     private lateinit var blogParameters: BlogParameters
@@ -27,7 +25,7 @@ class RootScopeImpl : RootScope {
     override fun visitorScope(): VisitorScope =  VisitorScopeImpl(rootComponent)
 
     private inner class Component : VisitorScope.ParentComponent {
-        override fun context(): ServletContext = context
+        override fun context(): AppContext = context
 
         override fun blogParameters(): BlogParameters = blogParameters
 

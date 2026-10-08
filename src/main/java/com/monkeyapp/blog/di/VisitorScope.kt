@@ -2,7 +2,6 @@ package com.monkeyapp.blog.di
 
 import com.monkeyapp.blog.controllers.*
 import com.monkeyapp.blog.models.*
-import javax.servlet.ServletContext
 
 interface VisitorScope {
     fun feedController(): FeedController
@@ -10,7 +9,7 @@ interface VisitorScope {
     fun postController(): PostController
 
     interface ParentComponent {
-        fun context(): ServletContext
+        fun context(): AppContext
         fun inputStreamProvider(): InputStreamProvider
         fun blogParameters(): BlogParameters
     }
@@ -36,7 +35,7 @@ class VisitorScopeImpl(private val parentComponent: VisitorScope.ParentComponent
 
         private val contentProviderFactory = ContentProviderFactory(this)
 
-        override fun context(): ServletContext {
+        override fun context(): AppContext {
             return parentComponent.context()
         }
 
