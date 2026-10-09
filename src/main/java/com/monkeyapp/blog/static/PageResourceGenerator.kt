@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.monkeyapp.blog.controllers.PageController
 import com.monkeyapp.blog.dtos.PageDto
 import org.slf4j.LoggerFactory
+import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.util.concurrent.CompletableFuture
@@ -23,9 +24,9 @@ class PageResourceGenerator(dependencies: Dependencies): StaticResourceGenerator
             val allPageFutures = listOf(ABOUT_MYSELF)
                 .map { pageTitle ->
                     CompletableFuture.supplyAsync({pageController.pageContent(pageTitle) }, executor)
-                    .thenAccept { pageDto ->
+                    .thenAcceptAsync({ pageDto ->
                         if(pageDto.isPresent) generatePage(pageDto.get(), pagesDirPath)
-                    }
+                    }, executor)
             }
             
             CompletableFuture.allOf(*allPageFutures.toTypedArray())    
@@ -45,7 +46,7 @@ class PageResourceGenerator(dependencies: Dependencies): StaticResourceGenerator
         try {
             Files.writeString(pageFilePath, jacksonObjectMapper().writeValueAsString(pageDto))
             logger.info("Static page content generated: ${pageFilePath.fileName}")
-        } catch (e: Exception) {
+        } catch (e: IOException) {
             logger.error("Error generating static page (${pageFilePath})", e)
         } 
     }

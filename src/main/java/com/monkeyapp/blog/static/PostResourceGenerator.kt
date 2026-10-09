@@ -5,6 +5,7 @@ import com.monkeyapp.blog.controllers.PostController
 import com.monkeyapp.blog.dtos.PostChunkDto
 import com.monkeyapp.blog.dtos.PostDto
 import org.slf4j.LoggerFactory
+import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.util.*
@@ -33,9 +34,9 @@ class PostResourceGenerator(dependencies: Dependencies) : StaticResourceGenerato
                 val allPostFutures = postChunk.posts.map { post ->
                     CompletableFuture
                         .supplyAsync({ getPostContent(post) }, executor)
-                        .thenAccept { postDto ->
+                        .thenAcceptAsync({ postDto ->
                             if (postDto.isPresent) generatePostContent(postDto.get(), postsDirPath)
-                        }
+                        }, executor)
                 }
 
                 CompletableFuture.allOf(postChunkFuture, *allPostFutures.toTypedArray())
@@ -74,13 +75,13 @@ class PostResourceGenerator(dependencies: Dependencies) : StaticResourceGenerato
     private fun generatePostChunk(postChunk: PostChunkDto, postsDirPath: Path) {
         logger.info("Generating static post list (${postsDirPath}) ...")
 
-        val postListFilePath = Path.of("${postsDirPath}/post_chunk.json")
+        val postChunkFilePath = Path.of("${postsDirPath}/post-chunk.json")
 
         try {
-            Files.writeString(postListFilePath, jacksonObjectMapper().writeValueAsString(postChunk))
-            logger.info("Static post list generated: ${postListFilePath.fileName}")
-        } catch (e: Exception) {
-            logger.error("Error writing static post list to file: ${e.message}")
+            Files.writeString(postChunkFilePath, jacksonObjectMapper().writeValueAsString(postChunk))
+            logger.info("Static post chunk generated: ${postChunkFilePath.fileName}")
+        } catch (e: IOException) {
+            logger.error("Error writing static post chunk to file: ${e.message}")
         }
     }
     
