@@ -27,7 +27,7 @@ class WebsiteGenerator(
         )
             .map { it.start() }
             .run { CompletableFuture.allOf(*toTypedArray()) }
-            .join() // Wait for all tasks to complete)
+            .join() // Wait for all tasks to complete
 
         try {
             threadPoolExecutor.shutdown()

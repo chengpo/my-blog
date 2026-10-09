@@ -114,7 +114,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                  <configuration>
-                    <release>11</release>
+                    <release>21</release>
                 </configuration>
                 <executions>
                     <!-- Replacing default-compile as it is treated specially by maven -->
@@ -158,6 +158,36 @@
                         </fileset>
                     </filesets>
                 </configuration>
+            </plugin>
+
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId> 
+               <artifactId>maven-resources-plugin</artifactId>
+               <version>3.3.1</version>
+               <executions>
+                 <execution>
+                    <id>copy-static-js-files</id>
+                    <phase>generate-resources</phase>
+                    <goals>
+                        <goal>copy-resources</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>${static-dist.dir}</outputDirectory>
+                        <resources>
+                          <resource>
+                            <directory>src/main/webapp/external</directory>
+                            <targetPath>external</targetPath>
+                            <filtering>false</filtering>
+                          </resource>
+                          <resource>
+                             <directory>src/main/webapp/libs</directory>
+                             <filtering>false</filtering>
+                             <targetPath>${project.version}.${buildNumber}/libs</targetPath>
+                          </resource>
+                        </resources>
+                    </configuration>
+                 </execution>
+               </executions>
             </plugin>
 
             <plugin>
