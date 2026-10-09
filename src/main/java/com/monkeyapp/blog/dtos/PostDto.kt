@@ -45,7 +45,7 @@ data class PostDto (
 )
 
 data class PostMetadataDto(
-    @JsonProperty("creationTime")
+    @JsonProperty("crtime")
     val crtime: String,
 
     @JsonProperty("url")
