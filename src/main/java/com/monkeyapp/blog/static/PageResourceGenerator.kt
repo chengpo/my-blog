@@ -34,7 +34,7 @@ class PageResourceGenerator(dependencies: Dependencies): StaticResourceGenerator
     }
     
     private fun createPagesDir(): Path {
-        val path = Path.of("${distDir}/pages")
+        val path = Path.of("${distDir}/rest/pages")
         Files.createDirectories(path)
         return path
     }

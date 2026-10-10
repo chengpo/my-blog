@@ -42,7 +42,8 @@ class WebsiteGenerator(
     private inner class Component :
         PostResourceGenerator.Dependencies,
         PageResourceGenerator.Dependencies,
-        FeedResourceGenerator.Dependencies {
+        FeedResourceGenerator.Dependencies,
+        HomePageGenerator.Dependencies {
         
         override fun distDir() = "${baseDir}/static-dist"
         
@@ -51,5 +52,7 @@ class WebsiteGenerator(
         override fun postController() = rootScope.visitorScope().postController()
         override fun pageController() = rootScope.visitorScope().pageController()
         override fun feedController() = rootScope.visitorScope().feedController()
+
+        override fun blogParameters() = rootScope.blogParameter()
     }
 }

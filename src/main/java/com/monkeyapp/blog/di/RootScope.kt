@@ -7,6 +7,7 @@ import javax.inject.Inject
 @Contract
 interface RootScope {
     fun visitorScope(): VisitorScope
+    fun blogParameter(): BlogParameters
 }
 
 @Service
@@ -23,6 +24,7 @@ class RootScopeImpl : RootScope {
     private val rootComponent = Component()
 
     override fun visitorScope(): VisitorScope =  VisitorScopeImpl(rootComponent)
+    override fun blogParameter(): BlogParameters = blogParameters
 
     private inner class Component : VisitorScope.ParentComponent {
         override fun context(): AppContext = context
@@ -41,6 +43,7 @@ class StaticRootScopeImpl : RootScope {
     private val rootComponent = Component()
 
     override fun visitorScope(): VisitorScope = VisitorScopeImpl(rootComponent)
+    override fun blogParameter(): BlogParameters  = blogParameter
 
     private inner class Component : VisitorScope.ParentComponent {
         override fun context(): AppContext = context

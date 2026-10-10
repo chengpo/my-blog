@@ -44,7 +44,7 @@ class PostResourceGenerator(dependencies: Dependencies) : StaticResourceGenerato
     }
 
     private fun createPostsDir(): Path {
-        val path = Path.of("${distDir}/posts")
+        val path = Path.of("${distDir}/rest/posts")
         Files.createDirectories(path)
         return path
     }
