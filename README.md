@@ -1,7 +1,7 @@
 ![maven workflow](https://github.com/chengpo/my-blog/actions/workflows/maven.yml/badge.svg)
 # My Blog
 
-Source of <a href="http://monkey-blogger.herokuapp.com" target="_blank">monkey-blogger.herokuapp.com</a>
+Source of <a href="https://chengpo.github.io/" target="_blank">chengpo.github.io/</a>
 
 ## Technologies Behind
 
@@ -34,15 +34,6 @@ $ make docker-run
 
 ```
 
-
-## Start by Java 9
-Java 9 by default does not include java.se aggregate module on class path.<br>
-To make the Java EE APIs available at runtime, specify the following command-line options: 
-
-```
---add-modules java.xml.bind --add-modules java.activation
-```
-
 ## Update dependencies
 ```
 mvn versions:display-dependency-updates
@@ -51,7 +42,7 @@ mvn versions:display-dependency-updates
 ## License
     MIT License
 
-	Copyright (c) 2017 - 2022 Po Cheng
+	Copyright (c) 2017 - 2026 Po Cheng
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
