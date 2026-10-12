@@ -35,9 +35,9 @@ define(['core/posts/posts.module'], function(postsModule) {
           });
         }
       ])
-      .factory('postContent', ['$resource',
-        function($resource) {
-            return $resource("rest/posts/:year/:monthday/:title", {}, {});
+      .factory('postContent', ['$resource', 'sharedUtils',
+        function($resource, sharedUtils) {
+            return $resource(sharedUtils.appendVersion("rest/posts/:year/:monthday/:title"), {}, {});
         }
       ]);
 });

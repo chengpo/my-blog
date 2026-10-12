@@ -25,9 +25,9 @@ SOFTWARE.
 define(['core/pages/pages.module'], function(pagesModule) {
     'use strict';
 
-    pagesModule.factory('pages', ['$resource',
-        function($resource) {
-          return $resource("rest/pages/:name", {}, {
+    pagesModule.factory('pages', ['$resource', 'sharedUtils',
+        function($resource, sharedUtils) {
+          return $resource(sharedUtils.appendVersion("rest/pages/:name"), {}, {
             about: {
               method: 'GET',
               params: {name:'about-myself'},
