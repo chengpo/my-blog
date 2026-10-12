@@ -31,8 +31,8 @@ define(['static-url',
 
     postListModule.component('postList', {
                                 templateUrl: staticUrl.of('js/post-list/post-list.template.html'),
-                                controller: ['$location', 'posts',
-                                     function PostListController($location, posts) {
+                                controller: ['$scope', '$location', 'posts',
+                                     function PostListController($scope, $location, posts) {
                                          var self = this;
                                         
                                          self.error = "";
@@ -41,12 +41,18 @@ define(['static-url',
                                          self.tag = $location.search().tag || '';
                                          self.offset = $location.search().offset || 0;
                                         
-                                        
-                                         
-
-                                         
                                          self.disable_forward = true;
                                          self.disable_backward = true;
+
+                                         $scope.$on('$routeUpdate', function() {
+                                            
+                                            self.tag = $location.search().tag || '';
+                                            self.offset = $location.search().offset || 0;
+                                            self.disable_forward = self.offset == 0;
+                                            
+                                            var totalPost = self.posts.filter(post => self.tagFilter(post)).length
+                                            self.disable_backward = totalPost <= self.offset + self.page_size;
+                                         });
 
                                          
                                          self.tagFilter = function(post) {
@@ -59,12 +65,6 @@ define(['static-url',
                                                 'tag': tag,
                                                 'offset': 0
                                             });
-
-                                            self.tag = tag;
-                                            self.offset = 0; 
-                                            self.disable_forward = true;
-                                            var totalPost = self.posts.filter(post => self.tagFilter(post)).length
-                                            self.disable_backward = totalPost <= self.offset + self.page_size;
                                          }
 
                                          self.forward = function() {
@@ -72,28 +72,20 @@ define(['static-url',
                                              if (offset < 0) {
                                                 offset = 0;
                                              }
-                                             self.offset = offset;
 
-                                             self.disable_forward = self.offset <= 0;
-                                             self.disable_backward = false;
-                                             $location.search('offset', self.offset);
+                                             $location.search('offset', offset);
                                          }
 
                                          self.backward = function() {
                                              var offset = self.offset + self.page_size;
-                                             self.offset = offset;
-
-                                             var totalPost = self.posts.filter(post => self.tagFilter(post)).length
-                                             self.disable_forward = false                                           
-                                             self.disable_backward = totalPost <= self.offset + self.page_size;
-                                             
-                                             $location.search('offset', self.offset);
+                                             $location.search('offset', offset);
                                          }
 
                                          posts.all({}, function(postChunk) {
                                              self.posts = postChunk.posts;
                                              self.offset = 0;
-                                             
+                                            
+                                             self.disable_forward = true
                                              var totalPost = self.posts.filter(post => self.tagFilter(post)).length
                                              self.disable_backward = totalPost <= self.offset + self.page_size;
 

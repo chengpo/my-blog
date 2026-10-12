@@ -34,7 +34,7 @@ define(['static-url',
                                  var self = this;
 
                                  self.title = 'Monkey Blogger';
-                                 self.links = [{url: '/about', external: false, name:'About'},
+                                 self.links = [{url: '#!/about', external: false, name:'About'},
                                                {url: 'https://github.com/chengpo?tab=overview', external: true, name:'Projects'},
                                                {url: '/posts/feed', external:true, name:'RSS'}];
 
