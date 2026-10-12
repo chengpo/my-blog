@@ -7,3 +7,4 @@ node_modules/
 *.iml
 *.swp
 static-dist/
+**/file-list.json
