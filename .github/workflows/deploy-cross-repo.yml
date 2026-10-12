@@ -32,7 +32,7 @@ jobs:
         with:
           personal_token: ${{ secrets.GH_PAT }}
           external_repository: chengpo/chengpo.github.io
-          publish_branch: main
+          publish_branch: master
           publish_dir: ./static-dist
           force_orphan: true
           user_name: 'Po Cheng'
