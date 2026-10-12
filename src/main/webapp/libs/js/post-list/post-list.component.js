@@ -44,14 +44,17 @@ define(['static-url',
                                          self.disable_forward = true;
                                          self.disable_backward = true;
 
-                                         $scope.$on('$routeUpdate', function() {
-                                            
+                                         function updatePageState() {
                                             self.tag = $location.search().tag || '';
                                             self.offset = $location.search().offset || 0;
                                             self.disable_forward = self.offset == 0;
                                             
                                             var totalPost = self.posts.filter(post => self.tagFilter(post)).length
                                             self.disable_backward = totalPost <= self.offset + self.page_size;
+                                         }
+
+                                         $scope.$on('$routeUpdate', function() {
+                                           updatePageState(); 
                                          });
 
                                          
@@ -83,12 +86,9 @@ define(['static-url',
 
                                          posts.all({}, function(postChunk) {
                                              self.posts = postChunk.posts;
-                                             self.offset = 0;
                                             
-                                             self.disable_forward = true
-                                             var totalPost = self.posts.filter(post => self.tagFilter(post)).length
-                                             self.disable_backward = totalPost <= self.offset + self.page_size;
-
+                                             updatePageState();
+                                             
                                              // reload syntax highlighter
                                              setTimeout(function () {
                                                              $('pre code').each(function(i, block) {
