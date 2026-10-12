@@ -24,8 +24,8 @@ class FeedController(dependencies: Dependencies)  {
     private fun toFeedItemDto(metadata: BlogMetadata): FeedItemDto {
         return FeedItemDto(
             title = metadata.capitalizedTitle,
-            link = "http://monkey-blogger.herokuapp.com/${metadata.postUrl}",
-            guid = "http://monkey-blogger.herokuapp.com/${metadata.postUrl}",
+            link = "https://chengpo.github.io/#!${metadata.postUrl}",
+            guid = "https://chengpo.github.io/#!${metadata.postUrl}",
             description = "${partialContentProvider.contentOf(metadata.path)} <p> ... </p>",
             pubDate = metadata.pubDate
         )
@@ -34,7 +34,7 @@ class FeedController(dependencies: Dependencies)  {
     private fun toFeedChannelDto(feedItems: List<FeedItemDto>): FeedChannelDto {
         return FeedChannelDto(
             title = "Monkey Blogger",
-            link = "http://monkey-blogger.herokuapp.com",
+            link = "https://chengpo.github.io/",
             description = blogParameters.siteTitle(),
             items = feedItems
         )
