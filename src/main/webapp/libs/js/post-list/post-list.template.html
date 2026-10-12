@@ -24,7 +24,7 @@ SOFTWARE.
 
 <div class="content-body">
     <div class="container-fluid">
-        <div class="post-list-item" ng-repeat="post in $ctrl.posts">
+        <div class="post-list-item" ng-repeat="post in $ctrl.posts | filter : $ctrl.tagFilter | limitTo : $ctrl.page_size : $ctrl.offset">
             <div class="row post-title">
                 <div class="col-md-10 col-md-offset-1"><h1>{{post.metadata.title}}</h1></div>
             </div>
@@ -32,8 +32,8 @@ SOFTWARE.
             <div class="row post-attr">
                 <div class="col-md-3 col-md-offset-1 text-muted small">{{post.metadata.crtime}}</div>
                 <div class="col-md-3 text-muted small">
-                    <a class="text-muted" href="/posts?tag={{post.metadata.tag}}">{{post.metadata.tag}}</a>
-                </div>
+                    <a class="text-muted" href="" ng-click="$ctrl.selectTag(post.metadata.tag); $event.preventDefault();">{{post.metadata.tag}}</a>
+                </div> 
             </div>
 
             <div class="row">

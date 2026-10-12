@@ -7,7 +7,6 @@ import com.monkeyapp.blog.dtos.PostMetadataDto
 import com.monkeyapp.blog.models.*
 import java.util.*
 import java.util.stream.Collectors
-import kotlin.Comparator
 
 class PostController(dependencies: Dependencies)  {
     private val postStreamProvider = dependencies.postStreamProvider()
@@ -15,21 +14,14 @@ class PostController(dependencies: Dependencies)  {
     private val completeContentProvider = dependencies.completeContentProvider()
     private val blogParameters = dependencies.blogParameters()
 
-    fun postChunk(tag: String = "", offset: Long = 0L): PostChunkDto {
+    fun postChunk(): PostChunkDto {
         return postStreamProvider.metaStream()
             .sorted(Comparator.comparingLong(BlogMetadata::priority).reversed())
-            .skip(offset)
-            .filter { metadata ->
-                tag.isEmpty() || tag.compareTo(metadata.tag, ignoreCase = true) == 0
-            }
-            .limit(blogParameters.postPerChunk())
             .map(this::toPartialPostDto)
             .collect(Collectors.toList())
             .let { posts ->
                 PostChunkDto(
                     posts = posts,
-                    offset = offset,
-                    capacity = blogParameters.postPerChunk()
                 )
             }
     }

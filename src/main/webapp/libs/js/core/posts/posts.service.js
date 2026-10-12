@@ -27,10 +27,9 @@ define(['core/posts/posts.module'], function(postsModule) {
 
     postsModule.factory('posts', ['$resource',
         function($resource) {
-          return $resource("rest/posts/?tag=:tag&offset=:offset", {}, {
+          return $resource("rest/posts/", {}, {
             all: {
               method: 'GET',
-              params: {tag:'', offset:'0'},
               isArray: false
             }
           });

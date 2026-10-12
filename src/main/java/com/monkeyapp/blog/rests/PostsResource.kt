@@ -38,12 +38,11 @@ class PostsResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun getPostChunk(@DefaultValue("") @QueryParam("tag") tag: String,
-                     @DefaultValue("0") @QueryParam("offset") offset: Long): PostChunkDto {
+    fun getPostChunk(): PostChunkDto {
         return rootScope
             .visitorScope()
             .postController()
-            .postChunk(tag, offset)
+            .postChunk()
     }
 
     @GET

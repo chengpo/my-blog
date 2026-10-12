@@ -28,12 +28,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class PostChunkDto(
     @JsonProperty("posts") 
     val posts: List<PostDto>,
-
-    @JsonProperty("offset") 
-    val offset: Long,
-
-    @JsonProperty("capacity")
-    val capacity: Long
 )
 
 data class PostDto (

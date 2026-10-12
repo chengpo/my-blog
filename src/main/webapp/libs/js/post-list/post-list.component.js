@@ -34,30 +34,68 @@ define(['static-url',
                                 controller: ['$location', 'posts',
                                      function PostListController($location, posts) {
                                          var self = this;
+                                        
+                                         self.error = "";
+                                         self.page_size = 5;
 
+                                         self.tag = $location.search().tag || '';
+                                         self.offset = $location.search().offset || 0;
+                                        
+                                        
+                                         
+
+                                         
                                          self.disable_forward = true;
                                          self.disable_backward = true;
-                                         self.error = "";
 
-                                         self.tag = $location.search().tag;
-                                         self.offset = $location.search().offset;
+                                         
+                                         self.tagFilter = function(post) {
+                                            if (self.tag == '') return true;
+                                            return self.tag == post.metadata.tag;
+                                         }
+
+                                         self.selectTag = function(tag) {
+                                            $location.search({
+                                                'tag': tag,
+                                                'offset': 0
+                                            });
+
+                                            self.tag = tag;
+                                            self.offset = 0; 
+                                            self.disable_forward = true;
+                                            var totalPost = self.posts.filter(post => self.tagFilter(post)).length
+                                            self.disable_backward = totalPost <= self.offset + self.page_size;
+                                         }
 
                                          self.forward = function() {
-                                             var offset = self.offset - self.capacity;
-                                             $location.search('offset', offset > 0 ? offset : null);
+                                             var offset = self.offset - self.page_size;
+                                             if (offset < 0) {
+                                                offset = 0;
+                                             }
+                                             self.offset = offset;
+
+                                             self.disable_forward = self.offset <= 0;
+                                             self.disable_backward = false;
+                                             $location.search('offset', self.offset);
                                          }
 
                                          self.backward = function() {
-                                             $location.search('offset', (self.offset + self.posts.length));
+                                             var offset = self.offset + self.page_size;
+                                             self.offset = offset;
+
+                                             var totalPost = self.posts.filter(post => self.tagFilter(post)).length
+                                             self.disable_forward = false                                           
+                                             self.disable_backward = totalPost <= self.offset + self.page_size;
+                                             
+                                             $location.search('offset', self.offset);
                                          }
 
-                                         posts.all({tag:self.tag, offset:self.offset}, function(postChunk) {
+                                         posts.all({}, function(postChunk) {
                                              self.posts = postChunk.posts;
-                                             self.offset = postChunk.offset;
-                                             self.capacity = postChunk.capacity;
-
-                                             self.disable_forward = self.offset <= 0;
-                                             self.disable_backward = (self.posts.length < self.capacity);
+                                             self.offset = 0;
+                                             
+                                             var totalPost = self.posts.filter(post => self.tagFilter(post)).length
+                                             self.disable_backward = totalPost <= self.offset + self.page_size;
 
                                              // reload syntax highlighter
                                              setTimeout(function () {

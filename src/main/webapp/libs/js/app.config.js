@@ -28,11 +28,12 @@ define(['app.module',
 
      appModule.config(['$locationProvider', '$routeProvider',
         function config($locationProvider, $routeProvider) {
-          //$locationProvider.hashPrefix('!');
-          $locationProvider.html5Mode(true);
+          $locationProvider.hashPrefix('!');
+          //$locationProvider.html5Mode(true);
           $routeProvider.
             when('/posts', {
-                template: '<post-list></post-list>'
+                template: '<post-list></post-list>',
+                reloadOnSearch: false
             }).
             when('/posts/:year/:monthday/:title', {
                 template: '<post-detail></post-detail>'
