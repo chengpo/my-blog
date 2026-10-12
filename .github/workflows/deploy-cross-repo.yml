@@ -1,9 +1,9 @@
-name: Build Java Site and Push to User Page Repo
+name: Publish Static Web
 
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 jobs:
