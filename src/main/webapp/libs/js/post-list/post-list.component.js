@@ -38,15 +38,12 @@ define(['static-url',
                                          self.error = "";
                                          self.page_size = 5;
 
-                                         self.tag = $location.search().tag || '';
-                                         self.offset = $location.search().offset || 0;
-                                        
                                          self.disable_forward = true;
                                          self.disable_backward = true;
 
                                          function updatePageState() {
                                             self.tag = $location.search().tag || '';
-                                            self.offset = $location.search().offset || 0;
+                                            self.offset = parseInt($location.search().offset, 10) || 0;
                                             self.disable_forward = self.offset == 0;
                                             
                                             var totalPost = self.posts.filter(post => self.tagFilter(post)).length
