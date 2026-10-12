@@ -31,7 +31,7 @@ class FeedResourceGenerator(dependencies: Dependencies) : StaticResourceGenerato
     }
     
     private fun createFeedDir(): Path {
-        val path = Path.of("${distDir}/rest/feed")
+        val path = Path.of("${distDir}/posts/feed")
         Files.createDirectories(path)
         return path
     }
@@ -39,7 +39,7 @@ class FeedResourceGenerator(dependencies: Dependencies) : StaticResourceGenerato
     private fun generateFeedContent(syncFeedDto: SyncFeedDto, feedDirPath: Path) {
         logger.info("Generating static sync feed content $feedDirPath ...")
         
-        val syncFeedFilePath = Path.of("${feedDirPath}/feed.json")
+        val syncFeedFilePath = Path.of("${feedDirPath}/index.html")
         try {
            Files.writeString(syncFeedFilePath, jacksonObjectMapper().writeValueAsString(syncFeedDto)) 
            logger.info("Static sync feed generated: ${syncFeedFilePath.fileName}")

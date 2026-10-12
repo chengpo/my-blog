@@ -23,7 +23,8 @@ class WebsiteGenerator(
         listOf(
             PostResourceGenerator(component),
             PageResourceGenerator(component),
-            FeedResourceGenerator(component)
+            FeedResourceGenerator(component),
+            HomePageGenerator(component) 
         )
             .map { it.start() }
             .run { CompletableFuture.allOf(*toTypedArray()) }
@@ -44,7 +45,8 @@ class WebsiteGenerator(
         PageResourceGenerator.Dependencies,
         FeedResourceGenerator.Dependencies,
         HomePageGenerator.Dependencies {
-        
+
+        override fun baseDir() = baseDir
         override fun distDir() = "${baseDir}/static-dist"
         
         override fun executor() = threadPoolExecutor as Executor

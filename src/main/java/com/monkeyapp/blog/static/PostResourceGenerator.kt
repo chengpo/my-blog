@@ -20,33 +20,24 @@ class PostResourceGenerator(dependencies: Dependencies) : StaticResourceGenerato
     private val logger = LoggerFactory.getLogger(PostResourceGenerator::class.java)
 
     override fun start(): CompletableFuture<Void> {
-        val postsDirFuture = CompletableFuture.supplyAsync(this::createPostsDir, executor)
         val postChunkFuture = CompletableFuture.supplyAsync(postController::postChunk, executor)
 
-        return CompletableFuture.allOf(postsDirFuture, postChunkFuture)
-            .thenCompose {
-                val postsDirPath = postsDirFuture.join()
+        return postChunkFuture.thenCompose {
                 val postChunk = postChunkFuture.join()
 
                 val postChunkFuture =
-                    CompletableFuture.supplyAsync({ generatePostChunk(postChunk, postsDirPath) }, executor)
+                    CompletableFuture.supplyAsync({ generatePostChunk(postChunk) }, executor)
 
                 val allPostFutures = postChunk.posts.map { post ->
                     CompletableFuture
                         .supplyAsync({ getPostContent(post) }, executor)
                         .thenAcceptAsync({ postDto ->
-                            if (postDto.isPresent) generatePostContent(postDto.get(), postsDirPath)
+                            if (postDto.isPresent) generatePostContent(postDto.get())
                         }, executor)
                 }
 
                 CompletableFuture.allOf(postChunkFuture, *allPostFutures.toTypedArray())
             }
-    }
-
-    private fun createPostsDir(): Path {
-        val path = Path.of("${distDir}/rest/posts")
-        Files.createDirectories(path)
-        return path
     }
 
     private fun getPostContent(post: PostDto): Optional<PostDto> {
@@ -58,28 +49,34 @@ class PostResourceGenerator(dependencies: Dependencies) : StaticResourceGenerato
         return postController.postContent(year, monthday, title)
     }
 
-    private fun generatePostContent(postDto: PostDto, postsDirPath: Path) {
-        logger.info("Generating static post (${postsDirPath}): ${postDto.metadata.name} ...")
+    private fun generatePostContent(postDto: PostDto) {
+        val postDirPath = Path.of("${distDir}/rest/${postDto.metadata.url}")
+        Files.createDirectories(postDirPath)
+        
+        logger.info("Generating static post (${postDirPath}): ${postDto.metadata.name} ...")
 
 
-        val postFilePath = Path.of("${postsDirPath}/${postDto.metadata.name}.json")
+        val postFilePath = Path.of("${postDirPath}/index.html")
 
         try {
             Files.writeString(postFilePath, jacksonObjectMapper().writeValueAsString(postDto))
-            logger.info("Static post content generated: ${postFilePath.fileName}")
-        } catch (e: Exception) {
+            logger.info("Static post content generated: ${postDto.metadata.name}")
+        } catch (e: IOException) {
             logger.error("Error writing static post content to file: ${e.message}")
         }
     }
 
-    private fun generatePostChunk(postChunk: PostChunkDto, postsDirPath: Path) {
+    private fun generatePostChunk(postChunk: PostChunkDto) {
+        val postsDirPath = Path.of("${distDir}/rest/posts")
+        Files.createDirectories(postsDirPath)
+        
         logger.info("Generating static post list (${postsDirPath}) ...")
 
-        val postChunkFilePath = Path.of("${postsDirPath}/post-chunk.json")
+        val postChunkFilePath = Path.of("${postsDirPath}/index.html")
 
         try {
             Files.writeString(postChunkFilePath, jacksonObjectMapper().writeValueAsString(postChunk))
-            logger.info("Static post chunk generated: ${postChunkFilePath.fileName}")
+            logger.info("Static post chunk generated: post-chunk")
         } catch (e: IOException) {
             logger.error("Error writing static post chunk to file: ${e.message}")
         }

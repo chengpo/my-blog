@@ -184,6 +184,13 @@
                              <filtering>false</filtering>
                              <targetPath>${project.version}.${buildNumber}/libs</targetPath>
                           </resource>
+                          <resource>
+                            <directory>src/main/webapp</directory>
+                            <includes>
+                                <include>app-ads.txt</include>
+                            </includes> 
+                          </resource>
+
                         </resources>
                     </configuration>
                  </execution>

@@ -32,7 +32,7 @@ val BlogMetadata.capitalizedTag: String
 
 val BlogMetadata.postUrl: String
     get() {
-        return "#!posts/${year}/${monthday}/${title}"
+        return "posts/${year}/${monthday}/${title}"
     }
 
 val BlogMetadata.pubDate: String

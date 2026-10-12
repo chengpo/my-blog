@@ -15,34 +15,27 @@ class PageResourceGenerator(dependencies: Dependencies): StaticResourceGenerator
     private val pageController = dependencies.pageController()
     private val executor = dependencies.executor()
     
-    private val logger = LoggerFactory.getLogger(PageResourceGenerator::class.java)      
-    
+    private val logger = LoggerFactory.getLogger(PageResourceGenerator::class.java)
+
     override fun start(): CompletableFuture<Void> {
-        val pagesDirFuture = CompletableFuture.supplyAsync(this::createPagesDir, executor)
-        
-        return pagesDirFuture.thenCompose { pagesDirPath ->
-            val allPageFutures = listOf(ABOUT_MYSELF)
-                .map { pageTitle ->
-                    CompletableFuture.supplyAsync({pageController.pageContent(pageTitle) }, executor)
+        val allPageFutures = listOf(ABOUT_MYSELF)
+            .map { pageTitle ->
+                CompletableFuture.supplyAsync({ pageController.pageContent(pageTitle) }, executor)
                     .thenAcceptAsync({ pageDto ->
-                        if(pageDto.isPresent) generatePage(pageDto.get(), pagesDirPath)
+                        if (pageDto.isPresent) generatePage(pageDto.get())
                     }, executor)
             }
-            
-            CompletableFuture.allOf(*allPageFutures.toTypedArray())    
-        }
+
+        return CompletableFuture.allOf(*allPageFutures.toTypedArray())
     }
     
-    private fun createPagesDir(): Path {
-        val path = Path.of("${distDir}/rest/pages")
-        Files.createDirectories(path)
-        return path
-    }
-    
-    private fun generatePage(pageDto: PageDto, pagesDirPath: Path) {
+    private fun generatePage(pageDto: PageDto) {
+        val pagesDirPath = Path.of("${distDir}/rest/${pageDto.metadata.url}")
+        Files.createDirectories(pagesDirPath)
+        
         logger.info("Generating static page (${pagesDirPath}) ...") 
         
-        val pageFilePath = Path.of("${pagesDirPath}/${pageDto.metadata.name}.json")
+        val pageFilePath = Path.of("${pagesDirPath}/index.html")
         try {
             Files.writeString(pageFilePath, jacksonObjectMapper().writeValueAsString(pageDto))
             logger.info("Static page content generated: ${pageFilePath.fileName}")

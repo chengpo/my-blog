@@ -18,4 +18,7 @@ webapp:
 static:
 	mvn package exec:exec@static
 
+static-serv:
+	jwebserver -b :: -p 8080 -d "`pwd`/static-dist"
+
 default: build
