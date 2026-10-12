@@ -25,9 +25,9 @@ SOFTWARE.
 define(['core/posts/posts.module'], function(postsModule) {
     'use strict';
 
-    postsModule.factory('posts', ['$resource',
-        function($resource) {
-          return $resource("rest/posts/", {}, {
+    postsModule.factory('posts', ['$resource', 'sharedUtils',
+        function($resource, sharedUtils) {
+          return $resource(sharedUtils.appendVersion("rest/posts/"), {}, {
             all: {
               method: 'GET',
               isArray: false
