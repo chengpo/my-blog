@@ -1,0 +1,39 @@
+name: Build Java Site and Push to User Page Repo
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo my-blog (Source Code)
+        uses: actions/checkout@v4
+
+      # 1. Setup Java 21 Runtime Environment
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin' # Uses Eclipse Temurin OpenJDK
+          java-version: '21'
+          cache: 'maven'        # Change to 'gradle' if using Gradle
+
+      # 2. Run your Java build command (
+      - name: Build with Maven
+        run: mvn clean static
+
+      # 3. Push the generated build folder to your User Page repo
+      - name: Deploy to External User Page Repo
+        uses: Peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.GH_PAT }}
+          external_repository: chengpo/chengpo.github.io
+          publish_branch: main
+          publish_dir: ./static-dist
+          force_orphan: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.io`
