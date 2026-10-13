@@ -22,12 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-define(['core/posts/posts.module'], function(postsModule) {
+define(['core/posts/posts.module', 'static-url'], function(postsModule, staticUrl) {
     'use strict';
 
-    postsModule.factory('posts', ['$resource', 'sharedUtils',
-        function($resource, sharedUtils) {
-          return $resource(sharedUtils.appendVersion("rest/posts/"), {}, {
+    postsModule.factory('posts', ['$resource', 
+        function($resource) {
+          return $resource(staticUrl.appendVersion("rest/posts/"), {}, {
             all: {
               method: 'GET',
               isArray: false
@@ -35,9 +35,9 @@ define(['core/posts/posts.module'], function(postsModule) {
           });
         }
       ])
-      .factory('postContent', ['$resource', 'sharedUtils',
-        function($resource, sharedUtils) {
-            return $resource(sharedUtils.appendVersion("rest/posts/:year/:monthday/:title"), {}, {});
+      .factory('postContent', ['$resource', 
+        function($resource) {
+            return $resource(staticUrl.appendVersion("rest/posts/:year/:monthday/:title"), {}, {});
         }
       ]);
 });

@@ -33,7 +33,8 @@ class HomePageGenerator(dependencies: Dependencies): StaticResourceGenerator {
             var content = Files.readString(templatePath)
             val params = mapOf(
                 "site-title" to blogParameters.siteTitle(),
-                "static-libs" to "${StaticUrl.VERSION}/libs"
+                "static-libs" to "${StaticUrl.VERSION}/libs",
+                "version" to StaticUrl.VERSION
             ) 
             
             params.forEach { 

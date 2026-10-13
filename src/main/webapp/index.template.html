@@ -113,8 +113,13 @@ SOFTWARE.
                  return '{{static-libs}}/' + path;
             };
 
+            var _appendVersion = function(url) {
+                return url + '?version={{version}}'
+            }
+
             return {
-                of : _of
+                of : _of,
+                appendVersion: _appendVersion
                 };
         });
 

@@ -112,9 +112,13 @@ SOFTWARE.
             var _of = function(path) {
                  return 'static/<%= StaticUrl.VERSION %>/' + path;
             };
+            var _appendVersion = function(url) {
+                return url + '?version=<%= StaticUrl.VERSION%>'
+            }
 
             return {
-                of : _of
+                of : _of,
+                appendVersion : _appendVersion
                 };
         });
 

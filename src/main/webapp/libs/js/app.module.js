@@ -42,16 +42,6 @@ define(['core/core.module',
             'about',
             'postList',
             'postDetail'])
-        .factory('sharedUtils', function(){
-            var serviceInstance = {}
-
-            serviceInstance.appendVersion = function(url) {
-                const timestamp = Date.now();
-                return `${url}?version=${timestamp}`
-            }
-
-            return serviceInstance
-        })
         .run(['$animate', function($animate) {
             $animate.enabled(true);
           }])

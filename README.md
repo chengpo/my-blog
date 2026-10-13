@@ -21,7 +21,14 @@ Source of <a href="https://chengpo.github.io/" target="_blank">chengpo.github.io
 
 $ make clean
 $ make build
-$ make run
+
+# launch tomcat web service
+$ make webapp
+
+# generate static website
+$ make static
+# launch static web service
+$ make static-serv
 
 ```
 
