@@ -38,7 +38,7 @@ class PageResourceGenerator(dependencies: Dependencies): StaticResourceGenerator
         val pageFilePath = Path.of("${pagesDirPath}/index.html")
         try {
             Files.writeString(pageFilePath, jacksonObjectMapper().writeValueAsString(pageDto))
-            logger.info("Static page content generated: ${pageFilePath.fileName}")
+            logger.info("Static page content generated: $pageFilePath")
         } catch (e: IOException) {
             logger.error("Error generating static page (${pageFilePath})", e)
         } 

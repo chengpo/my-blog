@@ -24,7 +24,6 @@ class BlogMetadataFactory {
                 time = time,
                 crtime = "$year/$month/$day $hour:$minute",
                 path = path,
-                name = name
             )
         } else { null }
     }

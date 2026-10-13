@@ -1,10 +1,10 @@
 package com.monkeyapp.blog.controllers
 
-import com.monkeyapp.blog.models.BlogStreamProvider
-import com.monkeyapp.blog.models.ContentProvider
 import com.monkeyapp.blog.dtos.PageDto
 import com.monkeyapp.blog.dtos.PageMetadataDto
 import com.monkeyapp.blog.models.BlogMetadata
+import com.monkeyapp.blog.models.BlogStreamProvider
+import com.monkeyapp.blog.models.ContentProvider
 import com.monkeyapp.blog.models.capitalizedTitle
 import java.util.*
 
@@ -24,8 +24,7 @@ class PageController(dependencies: Dependencies)  {
             metadata = PageMetadataDto(
                 crtime = metadata.crtime,
                 url = "pages/${metadata.title}",
-                title = metadata.capitalizedTitle,
-                name = metadata.name
+                title = metadata.capitalizedTitle
             ),
             content = completeContentProvider.contentOf(metadata.path)
         )

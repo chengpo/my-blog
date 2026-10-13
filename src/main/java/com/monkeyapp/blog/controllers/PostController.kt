@@ -47,9 +47,7 @@ class PostController(dependencies: Dependencies)  {
                 crtime = metadata.crtime,
                 url = metadata.postUrl,
                 title = metadata.capitalizedTitle,
-                tag = metadata.capitalizedTag,
-                name = metadata.name
-                ),
+                tag = metadata.capitalizedTag),
             content = contentOf(metadata.path)
         )
     }

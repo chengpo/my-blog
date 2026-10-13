@@ -53,14 +53,14 @@ class PostResourceGenerator(dependencies: Dependencies) : StaticResourceGenerato
         val postDirPath = Path.of("${distDir}/rest/${postDto.metadata.url}")
         Files.createDirectories(postDirPath)
         
-        logger.info("Generating static post (${postDirPath}): ${postDto.metadata.name} ...")
+        logger.info("Generating static post (${postDirPath}): ${postDto.metadata.title} ...")
 
 
         val postFilePath = Path.of("${postDirPath}/index.html")
 
         try {
             Files.writeString(postFilePath, jacksonObjectMapper().writeValueAsString(postDto))
-            logger.info("Static post content generated: ${postDto.metadata.name}")
+            logger.info("Static post content generated: ${postDto.metadata.title}")
         } catch (e: IOException) {
             logger.error("Error writing static post content to file: ${e.message}")
         }

@@ -19,7 +19,4 @@ data class PageMetadataDto(
 
     @JsonProperty("title")
     val title: String,
-    
-    @JsonProperty("name")
-    val name: String
 )
