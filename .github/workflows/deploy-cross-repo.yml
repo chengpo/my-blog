@@ -1,4 +1,4 @@
-name: Publish Static Web
+name: Publish Static Website
 
 on:
   push:
