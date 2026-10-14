@@ -57,9 +57,15 @@ define(['core/core.module',
 
             $rootScope.$on("$routeChangeSuccess", function () {
                 $rootScope.progressbar.complete();
+                var path = $location.path()
+                var segments = path.split('/').filter(Boolean)
+                var title = segments.length > 0 ? segments[segments.length - 1] : "/"
+                title = title.replace(/[-_]/g, ' ')
 
                 // update location for google analytics events
-                gtag('config', 'G-RPDHYF0752', {'page_path': $location.path()});
+                gtag('config', 'G-RPDHYF0752', {
+                    'page_path': path, 
+                    'page_title': title});
             });
         }]);
 
