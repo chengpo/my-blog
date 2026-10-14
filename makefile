@@ -16,7 +16,7 @@ webapp:
 	mvn package exec:exec@webapp
 
 static:
-	mvn package exec:exec@static
+	mvn package resources:copy-resources@copy-static-files exec:exec@static
 
 static-serv:
 	jwebserver -b :: -p 8080 -d "`pwd`/static-dist"

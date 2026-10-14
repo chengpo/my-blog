@@ -24,7 +24,7 @@ jobs:
 
       # 2. Run your Java build command (
       - name: Build with Maven
-        run: mvn clean package exec:exec@static
+        run: mvn clean package resources:copy-resources@copy-static-files exec:exec@static
 
       # 3. Push the generated build folder to your User Page repo
       - name: Deploy to External User Page Repo

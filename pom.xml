@@ -166,8 +166,7 @@
                <version>3.3.1</version>
                <executions>
                  <execution>
-                    <id>copy-static-js-files</id>
-                    <phase>generate-resources</phase>
+                    <id>copy-static-files</id>
                     <goals>
                         <goal>copy-resources</goal>
                     </goals>
