@@ -1,14 +1,15 @@
 package com.monkeyapp.blog.static
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.monkeyapp.blog.controllers.FeedController
 import com.monkeyapp.blog.dtos.SyncFeedDto
 import org.slf4j.LoggerFactory
 import java.io.IOException
+import java.io.StringWriter
 import java.nio.file.Files
 import java.nio.file.Path
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
+import javax.xml.bind.JAXBContext
 
 class FeedResourceGenerator(dependencies: Dependencies) : StaticResourceGenerator {
     private val distDir = dependencies.distDir()
@@ -41,7 +42,11 @@ class FeedResourceGenerator(dependencies: Dependencies) : StaticResourceGenerato
         
         val syncFeedFilePath = Path.of("${feedDirPath}/index.html")
         try {
-           Files.writeString(syncFeedFilePath, jacksonObjectMapper().writeValueAsString(syncFeedDto)) 
+           val context = JAXBContext.newInstance(SyncFeedDto::class.java) 
+           val marshaller = context.createMarshaller()
+           val writer = StringWriter()
+           marshaller.marshal(syncFeedDto, writer)
+           Files.writeString(syncFeedFilePath, writer.toString()) 
            logger.info("Static sync feed generated: ${syncFeedFilePath.fileName}")
         } catch (e: IOException) {
             logger.error("Error writing sync feed to file : ${e.message}")
