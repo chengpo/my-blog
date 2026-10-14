@@ -59,7 +59,7 @@ define(['core/core.module',
                 $rootScope.progressbar.complete();
 
                 // update location for google analytics events
-                gtag('config', 'UA-21565343-4', {'page_path': $location.path()});
+                gtag('config', 'G-RPDHYF0752', {'page_path': $location.path()});
             });
         }]);
 

@@ -95,6 +95,13 @@ SOFTWARE.
 
     <script src="external/requirejs/require.js"></script>
     <script type='text/javascript'>
+        var userAgent = navigator.userAgent.toLowerCase();
+        var isGooglebot = userAgent.indexOf('googlebot') !== -1;
+
+        if (isGooglebot) {
+            document.getElementById('loader').style.display = 'none';
+        }
+
         define('loader-progress', ['jquery'], function($) {
             'use strict';
             var _hide = function() {

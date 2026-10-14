@@ -36,15 +36,15 @@ SOFTWARE.
     <title><%= application.getInitParameter("site-title")%></title>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-21565343-4"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-21565343-4');
-    </script>
-
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPDHYF0752"></script>
+     <script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag(){dataLayer.push(arguments);}
+         gtag('js', new Date());
+    
+         gtag('config', 'G-RPDHYF0752');
+     </script>
+    
     <style>
     /* center the loader */
     #loader {
@@ -95,6 +95,13 @@ SOFTWARE.
 
     <script src="external/requirejs/require.js"></script>
     <script type='text/javascript'>
+        var userAgent = navigator.userAgent.toLowerCase();
+        var isGooglebot = userAgent.indexOf('googlebot') !== -1;
+
+        if (isGooglebot) {
+            document.getElementById('loader').style.display = 'none';
+        }
+        
         define('loader-progress', ['jquery'], function($) {
             'use strict';
             var _hide = function() {
