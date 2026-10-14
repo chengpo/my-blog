@@ -83,17 +83,17 @@ SOFTWARE.
         <div ng-view class="view-frame"></div>
     </div>
 
-    <link rel="stylesheet" href="external/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="external/ngprogress/ngProgress.css">
+    <link rel="stylesheet" href="/external/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/external/ngprogress/ngProgress.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Play">
 
     <!-- syntax highlighter -->
-    <link rel="stylesheet" href="external/highlight.js/9.12.0/androidstudio.min.css">
+    <link rel="stylesheet" href="/external/highlight.js/9.12.0/androidstudio.min.css">
 
-    <link rel="stylesheet" href="<%= StaticUrl.of("css/app.css") %>">
-    <link rel="stylesheet" href="<%= StaticUrl.of("css/app.animate.css") %>">
+    <link rel="stylesheet" href="/<%= StaticUrl.of("css/app.css") %>">
+    <link rel="stylesheet" href="/<%= StaticUrl.of("css/app.animate.css") %>">
 
-    <script src="external/requirejs/require.js"></script>
+    <script src="/external/requirejs/require.js"></script>
     <script type='text/javascript'>
         var userAgent = navigator.userAgent.toLowerCase();
         var isGooglebot = userAgent.indexOf('googlebot') !== -1;
@@ -117,7 +117,7 @@ SOFTWARE.
             'use strict';
 
             var _of = function(path) {
-                 return 'static/<%= StaticUrl.VERSION %>/' + path;
+                 return '/static/<%= StaticUrl.VERSION %>/' + path;
             };
             var _appendVersion = function(url) {
                 return url + '?version=<%= StaticUrl.VERSION%>'
@@ -130,7 +130,7 @@ SOFTWARE.
         });
 
         requirejs.config({
-                        baseUrl: '<%= StaticUrl.of("js") %>',
+                        baseUrl: '/<%= StaticUrl.of("js") %>',
                         waitSeconds : 600,
                         paths : {
                             jquery : '/external/jquery/dist/jquery',
