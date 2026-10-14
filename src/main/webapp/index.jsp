@@ -88,7 +88,7 @@ SOFTWARE.
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Play">
 
     <!-- syntax highlighter -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+    <link rel="stylesheet" href="external/highlight.js/9.12.0/androidstudio.min.css">
 
     <link rel="stylesheet" href="<%= StaticUrl.of("css/app.css") %>">
     <link rel="stylesheet" href="<%= StaticUrl.of("css/app.animate.css") %>">
@@ -101,7 +101,7 @@ SOFTWARE.
         if (isGooglebot) {
             document.getElementById('loader').style.display = 'none';
         }
-        
+
         define('loader-progress', ['jquery'], function($) {
             'use strict';
             var _hide = function() {
@@ -140,7 +140,7 @@ SOFTWARE.
                             'angular-resource' : '/external/angular-resource/angular-resource',
                             'angular-animate' : '/external/angular-animate/angular-animate',
                             'ng-progress' : '/external/ngprogress/build/ngprogress',
-                            highlight : 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min'
+                            highlight : '/external/highlight.js/9.12.0/highlight.min'
                         },
 
                         shim: {
