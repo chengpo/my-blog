@@ -40,7 +40,7 @@ class FeedResourceGenerator(dependencies: Dependencies) : StaticResourceGenerato
     private fun generateFeedContent(syncFeedDto: SyncFeedDto, feedDirPath: Path) {
         logger.info("Generating static sync feed content $feedDirPath ...")
         
-        val syncFeedFilePath = Path.of("${feedDirPath}/index.html")
+        val syncFeedFilePath = Path.of("${feedDirPath}/rss.xml")
         try {
            val context = JAXBContext.newInstance(SyncFeedDto::class.java) 
            val marshaller = context.createMarshaller()

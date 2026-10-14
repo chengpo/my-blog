@@ -36,7 +36,7 @@ define(['static-url',
                                  self.title = 'Monkey Blogger';
                                  self.links = [{url: '#!/about', external: false, name:'About'},
                                                {url: 'https://github.com/chengpo?tab=overview', external: true, name:'Projects'},
-                                               {url: '/posts/feed', external:true, name:'RSS'}];
+                                               {url: '/posts/feed/rss.xml', external:true, name:'RSS'}];
 
                                  self.toggle = function() {
                                          var menuToggle = $('.sidebar .menu-toggle');

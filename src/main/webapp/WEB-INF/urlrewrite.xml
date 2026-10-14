@@ -13,8 +13,8 @@
     </rule>
 
     <rule>
-        <from>^/posts/feed</from>
-        <to last="true">/rest/feed</to>
+        <from>^/posts/feed/(.*)</from>
+        <to last="true">/rest/feed/$1</to>
     </rule>
 
     <rule>

@@ -9,7 +9,7 @@ import java.util.stream.Collectors
 
 class FeedController(dependencies: Dependencies)  {
     private val postStreamProvider = dependencies.postStreamProvider()
-    private val partialContentProvider = dependencies.partialContentProvider()
+    private val postContentProvider = dependencies.completeContentProvider()
     private val blogParameters = dependencies.blogParameters()
 
     fun feed(): SyncFeedDto {
@@ -26,7 +26,7 @@ class FeedController(dependencies: Dependencies)  {
             title = metadata.capitalizedTitle,
             link = "https://chengpo.github.io/#!${metadata.postUrl}",
             guid = "https://chengpo.github.io/#!${metadata.postUrl}",
-            description = "${partialContentProvider.contentOf(metadata.path)} <p> ... </p>",
+            description = postContentProvider.contentOf(metadata.path),
             pubDate = metadata.pubDate
         )
     }
@@ -46,7 +46,7 @@ class FeedController(dependencies: Dependencies)  {
 
     interface Dependencies {
         fun postStreamProvider(): BlogStreamProvider
-        fun partialContentProvider(): ContentProvider
+        fun completeContentProvider(): ContentProvider
         fun blogParameters(): BlogParameters
     }
 }

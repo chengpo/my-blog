@@ -26,7 +26,9 @@ package com.monkeyapp.blog.rests
 import com.monkeyapp.blog.di.RootScope
 import com.monkeyapp.blog.dtos.SyncFeedDto
 import javax.inject.Inject
-import javax.ws.rs.*
+import javax.ws.rs.GET
+import javax.ws.rs.Path
+import javax.ws.rs.Produces
 
 @Path("/feed")
 class FeedResource {
@@ -34,6 +36,7 @@ class FeedResource {
     private lateinit var rootScope: RootScope
 
     @GET
+    @Path("rss.xml")
     @Produces("application/rss+xml")
     fun feed(): SyncFeedDto = rootScope.visitorScope().feedController().feed()
 }
