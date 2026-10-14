@@ -24,8 +24,8 @@ class FeedController(dependencies: Dependencies)  {
     private fun toFeedItemDto(metadata: BlogMetadata): FeedItemDto {
         return FeedItemDto(
             title = metadata.capitalizedTitle,
-            link = "https://chengpo.github.io/#!${metadata.postUrl}",
-            guid = "https://chengpo.github.io/#!${metadata.postUrl}",
+            link = "https://chengpo.github.io/#!/${metadata.postUrl}",
+            guid = "https://chengpo.github.io/#!/${metadata.postUrl}",
             description = postContentProvider.contentOf(metadata.path),
             pubDate = metadata.pubDate
         )
