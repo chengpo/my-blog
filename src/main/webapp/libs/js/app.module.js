@@ -52,7 +52,7 @@ define(['core/core.module',
                 var path = $location.path()
                 var segments = path.split('/').filter(Boolean)
                 var title = segments.length > 0 ? segments[segments.length - 1] : "/"
-                title = title.replace(/[-_]/g, ' ')
+                title = title.replace(/[-_]/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
 
                 // update location for google analytics events
                 gtag('event', 'page_view', {
