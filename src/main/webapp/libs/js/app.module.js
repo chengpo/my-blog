@@ -47,6 +47,19 @@ define(['core/core.module',
           }])
         .run(['$rootScope', '$location', 'ngProgressFactory',
              function ($rootScope, $location, ngProgressFactory) {
+
+             var sendPageViewEvent = function() {
+                var path = $location.path()
+                var segments = path.split('/').filter(Boolean)
+                var title = segments.length > 0 ? segments[segments.length - 1] : "/"
+                title = title.replace(/[-_]/g, ' ')
+
+                // update location for google analytics events
+                gtag('event', 'page_view', {
+                    'page_path': path, 
+                    'page_title': title});
+             }
+
             // first create instance when app starts
             $rootScope.progressbar = ngProgressFactory.createInstance();
             $rootScope.progressbar.setColor('#F0F0F0');
@@ -57,16 +70,10 @@ define(['core/core.module',
 
             $rootScope.$on("$routeChangeSuccess", function () {
                 $rootScope.progressbar.complete();
-                var path = $location.path()
-                var segments = path.split('/').filter(Boolean)
-                var title = segments.length > 0 ? segments[segments.length - 1] : "/"
-                title = title.replace(/[-_]/g, ' ')
-
-                // update location for google analytics events
-                gtag('config', 'G-RPDHYF0752', {
-                    'page_path': path, 
-                    'page_title': title});
+                sendPageViewEvent();
             });
+
+            sendPageViewEvent();
         }]);
 
     return angular.module('blogApp');

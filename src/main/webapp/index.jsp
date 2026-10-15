@@ -42,7 +42,7 @@ SOFTWARE.
          function gtag(){dataLayer.push(arguments);}
          gtag('js', new Date());
     
-         gtag('config', 'G-RPDHYF0752');
+         gtag('config', 'G-RPDHYF0752', {send_page_view: false});
      </script>
     
     <style>
