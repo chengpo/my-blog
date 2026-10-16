@@ -1,4 +1,4 @@
-I learnt a useful git command today.
+I learned a useful git command today.
 
 
 Let's say I am working on a large code refactoring which would introduce a long change list.<br>
