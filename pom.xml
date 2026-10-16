@@ -189,7 +189,12 @@
                                 <include>app-ads.txt</include>
                             </includes> 
                           </resource>
-
+                          <resource>
+                            <directory>src/main/webapp</directory>
+                            <includes>
+                                <include>404.html</include>
+                            </includes> 
+                          </resource>
                         </resources>
                     </configuration>
                  </execution>

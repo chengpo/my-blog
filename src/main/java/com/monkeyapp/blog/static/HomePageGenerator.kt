@@ -27,10 +27,7 @@ class HomePageGenerator(dependencies: Dependencies): StaticResourceGenerator {
     
     private fun generateHomePage() {
         val homePageTemplatePath = Path.of("${baseDir}/src/main/webapp/index.template.html")
-        val notFoundTemplatePath = Path.of("${baseDir}/src/main/webapp/404.template.html")
-
         val homePagePath = Path.of("${distDir}/index.html")
-        val notFoundPagePath = Path.of("${distDir}/404.html")
         
         try {
             var homePageContent = Files.readString(homePageTemplatePath)
@@ -46,9 +43,6 @@ class HomePageGenerator(dependencies: Dependencies): StaticResourceGenerator {
             }
 
             Files.writeString(homePagePath, homePageContent)
-            
-            val notFoundPageConent = Files.readString(notFoundTemplatePath)
-            Files.writeString(notFoundPagePath, notFoundPageConent)
             
             logger.info("Static home page conent generated")
         } catch (e: IOException) {
