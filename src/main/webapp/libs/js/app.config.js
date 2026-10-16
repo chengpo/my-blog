@@ -28,10 +28,11 @@ define(['app.module',
 
      appModule.config(['$locationProvider', '$routeProvider',
         function config($locationProvider, $routeProvider) {
-          $locationProvider.html5Mode({
-            enabled: true,
-            requireBase: true
-          });
+          // $locationProvider.html5Mode({
+          //  enabled: true,
+          //  requireBase: true
+          // });
+          
           // fallback to hash prefix to use #!
           $locationProvider.hashPrefix('!');
 
