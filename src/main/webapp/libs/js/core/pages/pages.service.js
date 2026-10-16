@@ -22,12 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-define(['core/pages/pages.module', 'static-url'], function(pagesModule, staticUrl) {
-    'use strict';
+define(['core/pages/pages.module', 'static-url'], function (pagesModule, staticUrl) {
+  'use strict';
 
-    pagesModule.factory('pageContent', ['$resource', 
-        function($resource) {
-          return $resource(staticUrl.appendVersion("rest/pages/:title"), {}, {});
-        }
-      ]);
+  pagesModule.factory('pageContent', ['$resource',
+    function ($resource) {
+      return $resource(staticUrl.appendVersion("rest/pages/:title"), {}, {});
+    }
+  ]);
 });

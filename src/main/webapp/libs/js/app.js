@@ -23,22 +23,21 @@ SOFTWARE.
  */
 
 define(['loader-progress',
-        'app.config',
-        'bootstrap',
-        'angular'],
-        function(loaderProgress, appConfig) {
+    'angular',
+    'bootstrap',
+    'app.config'],
+    function (loaderProgress) {
+        'use strict';
 
-    'use strict';
+        var _start = function () {
+            loaderProgress.hide();
 
-    var _start = function() {
-        loaderProgress.hide();
+            angular.element(function () {
+                angular.bootstrap(document, ['blogApp']);
+            });
+        };
 
-        angular.element(function() {
-            angular.bootstrap(document, ['blogApp']);
-        });
-    };
-
-    return {
-        start: _start
-    };
-});
+        return {
+            start: _start
+        };
+    });

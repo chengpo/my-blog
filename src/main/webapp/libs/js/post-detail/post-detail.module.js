@@ -22,9 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-define([
-    'core/core.module', 
-    'core/trustAsHtml/trustAsHtml.filter'], function() {
+define(['core/core.module'], function() {
     'use strict';
 
     angular.module('postDetail', [

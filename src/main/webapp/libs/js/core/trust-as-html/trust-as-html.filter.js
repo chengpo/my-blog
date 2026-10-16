@@ -22,11 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-define(['core/core.module'], function(coreModule) {
+define(['core/trust-as-html/trust-as-html.module'], function (trustAsHtmlModule) {
     'use strict';
-    coreModule.filter('trustAsHtml', ['$sce', function($sce) {
-                   return function(html) {
-                       return $sce.trustAsHtml(html);
-                     };
-                 }]);
+    // Explicitly trust the html conent by using sce ( strict content escaping )
+    trustAsHtmlModule.filter('trustAsHtml', ['$sce', function ($sce) {
+        return function (html) {
+            return $sce.trustAsHtml(html);
+        };
+    }]);
 });

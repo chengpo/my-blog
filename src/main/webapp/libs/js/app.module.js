@@ -26,11 +26,8 @@ define(['sidebar/sidebar.component',
         'page-detail/page-detail.component',
         'post-list/post-list.component',
         'post-detail/post-detail.component',
-        'angular',
         'angular-animate',
-        'angular-route',
         'ng-progress'], function() {
-
     'use strict';
 
     angular.module('blogApp', [
