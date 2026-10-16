@@ -22,9 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-define(['core/core.module',
-        'core/trustAsHtml/trustAsHtml.filter',
-        'sidebar/sidebar.component',
+define(['sidebar/sidebar.component',
         'page-detail/page-detail.component',
         'post-list/post-list.component',
         'post-detail/post-detail.component',
@@ -38,8 +36,6 @@ define(['core/core.module',
     angular.module('blogApp', [
             'ngAnimate',
             'ngProgress',
-            'ngRoute',
-            'core',
             'sidebar',
             'pageDetail',
             'postList',
