@@ -25,11 +25,12 @@ SOFTWARE.
 define(['core/core.module',
         'core/trustAsHtml/trustAsHtml.filter',
         'sidebar/sidebar.component',
-        'about/about.component',
+        'page-detail/page-detail.component',
         'post-list/post-list.component',
         'post-detail/post-detail.component',
         'angular',
         'angular-animate',
+        'angular-route',
         'ng-progress'], function() {
 
     'use strict';
@@ -37,9 +38,10 @@ define(['core/core.module',
     angular.module('blogApp', [
             'ngAnimate',
             'ngProgress',
+            'ngRoute',
             'core',
             'sidebar',
-            'about',
+            'pageDetail',
             'postList',
             'postDetail'])
         .run(['$animate', function($animate) {

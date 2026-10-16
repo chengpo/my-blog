@@ -31,7 +31,11 @@ val BlogMetadata.capitalizedTag: String
 
 val BlogMetadata.postUrl: String
     get() {
-        return "posts/${year}/${monthday}/${title}"
+        return if (path.contains("md/posts/"))
+            "posts/${year}/${monthday}/${title}"
+        else if (path.contains("md/pages/"))
+            "pages/${title}"
+        else ""
     }
 
 val BlogMetadata.pubDate: String

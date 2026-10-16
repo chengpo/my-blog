@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-define(['app.module',
-        'angular-route'], function(appModule) {
+define(['app.module'], function(appModule) {
     'use strict';
 
      appModule.config(['$locationProvider', '$routeProvider',
@@ -44,8 +43,8 @@ define(['app.module',
             when('/posts/:year/:monthday/:title', {
                 template: '<post-detail></post-detail>'
             }).
-            when('/about', {
-                template: '<about></about>'
+            when('/pages/:title', {
+                template: '<page-detail></page-detail>'
             }).
             otherwise('/posts');
         }

@@ -25,15 +25,9 @@ SOFTWARE.
 define(['core/pages/pages.module', 'static-url'], function(pagesModule, staticUrl) {
     'use strict';
 
-    pagesModule.factory('pages', ['$resource', 
+    pagesModule.factory('pageContent', ['$resource', 
         function($resource) {
-          return $resource(staticUrl.appendVersion("rest/pages/:name"), {}, {
-            about: {
-              method: 'GET',
-              params: {name:'about-myself'},
-              isArray: false
-            }
-          });
+          return $resource(staticUrl.appendVersion("rest/pages/:title"), {}, {});
         }
       ]);
 });

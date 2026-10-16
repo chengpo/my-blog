@@ -22,10 +22,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-define(['core/core.module', 'angular'], function(coreModule) {
+ define(['static-url',
+         'page-detail/page-detail.module'],
+         function(staticUrl, pageDetailModule) {
     'use strict';
+    pageDetailModule.component('pageDetail', {
+                            templateUrl: staticUrl.of('js/page-detail/page-detail.template.html'),
+                            controller: ['$routeParams', 'pageContent', 
+                                    function PageDetailController($routeParams, pageContent) {
+                                        var self = this;
+                                        pageContent.get(
+                                            {
+                                                title: $routeParams.title
+                                            },
+                                            function(page) {
+                                                self.metadata = page.metadata;
+                                                self.content = page.content;
+                                            });
+                                    }]
+                   });
+ });
 
-    angular.module('about', ['core']);
 
-    return angular.module('about');
-});

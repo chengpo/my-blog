@@ -68,7 +68,8 @@
         <filter-name>UrlRewriteFilter</filter-name>
         <url-pattern>/static/*</url-pattern>
         <url-pattern>/posts/*</url-pattern>
-        <url-pattern>/about/*</url-pattern>
+        <url-pattern>/pages/*</url-pattern>
+        <url-pattern>/sitemap.xml</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>

@@ -24,7 +24,8 @@ class WebsiteGenerator(
             PostResourceGenerator(component),
             PageResourceGenerator(component),
             FeedResourceGenerator(component),
-            HomePageGenerator(component) 
+            SitemapResourceGenerator(component),
+            HomePageGenerator(component)
         )
             .map { it.start() }
             .run { CompletableFuture.allOf(*toTypedArray()) }
@@ -44,6 +45,7 @@ class WebsiteGenerator(
         PostResourceGenerator.Dependencies,
         PageResourceGenerator.Dependencies,
         FeedResourceGenerator.Dependencies,
+        SitemapResourceGenerator.Dependencies,
         HomePageGenerator.Dependencies {
 
         override fun baseDir() = baseDir
@@ -54,7 +56,8 @@ class WebsiteGenerator(
         override fun postController() = rootScope.visitorScope().postController()
         override fun pageController() = rootScope.visitorScope().pageController()
         override fun feedController() = rootScope.visitorScope().feedController()
-
+        override fun sitemapController() = rootScope.visitorScope().sitemapController()
+        
         override fun blogParameters() = rootScope.blogParameter()
     }
 }

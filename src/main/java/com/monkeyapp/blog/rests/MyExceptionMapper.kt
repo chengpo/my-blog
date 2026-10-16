@@ -11,11 +11,19 @@ import javax.ws.rs.ext.Provider
 class MyExceptionMapper : ExceptionMapper<Exception> {
     private val logger: Logger = LogManager.getLogger(MyExceptionMapper::class.java)
     override fun toResponse(exception: Exception): Response {
-        logger.debug("Exception received: ${exception.message}")
+        logger.info("Exception received: ${exception.cause}")
         return Response
                 .status(Response.Status.INTERNAL_SERVER_ERROR)
-                .type(MediaType.APPLICATION_JSON)
-                .entity("Exception received: ${exception.message}")
+                .type(MediaType.TEXT_PLAIN)
+                .entity(errorDetails(exception))
                 .build()
     }
+    
+    private fun errorDetails(exception: Exception): String = """
+Message: 
+    ${exception.message}
+
+Cause:
+    ${exception.cause}
+"""
 }
