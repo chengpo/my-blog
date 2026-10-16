@@ -28,8 +28,13 @@ define(['app.module',
 
      appModule.config(['$locationProvider', '$routeProvider',
         function config($locationProvider, $routeProvider) {
-          //$locationProvider.hashPrefix('!');
-          $locationProvider.html5Mode(true);
+          $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: true
+          });
+          // fallback to hash prefix to use #!
+          $locationProvider.hashPrefix('!');
+
           $routeProvider.
             when('/posts', {
                 template: '<post-list></post-list>',
