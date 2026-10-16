@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: detekt
+      - name: Run detekt
         uses: natiginfo/action-detekt-all@v3
         with:
           detekt-version: '2.0.0-alpha.3'
