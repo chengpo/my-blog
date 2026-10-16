@@ -53,9 +53,9 @@ SOFTWARE.
       top: 50%;
       z-index: 1;
       margin: -75px 0 0 -75px;
-      border: 12px solid #f3f3f3;
+      border: 10px solid #f3f3f3;
       border-radius: 50%;
-      border-top: 12px solid #3498db;
+      border-top: 10px solid #575757;
       width: 120px;
       height: 120px;
       -webkit-animation: spin 2s linear infinite;

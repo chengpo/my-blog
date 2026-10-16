@@ -62,7 +62,7 @@ define(['core/core.module',
 
             // first create instance when app starts
             $rootScope.progressbar = ngProgressFactory.createInstance();
-            $rootScope.progressbar.setColor('#F0F0F0');
+            $rootScope.progressbar.setColor('#575757');
 
             $rootScope.$on("$routeChangeStart", function () {
                 $rootScope.progressbar.start();
