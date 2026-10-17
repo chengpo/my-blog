@@ -23,6 +23,8 @@ SOFTWARE.
 -->
 
 <div class="content-body">
+    <loading-progress in-progress="$ctrl.inProgress"></loading-progress>
+    
     <div class="container-fluid">
         <div class="post-list-item" ng-repeat="post in $ctrl.posts | filter : $ctrl.tagFilter | limitTo : $ctrl.page_size : $ctrl.offset">
             <div class="row post-title">

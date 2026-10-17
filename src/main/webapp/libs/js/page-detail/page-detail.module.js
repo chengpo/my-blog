@@ -22,12 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-define(['angular', 'core/core.module', 'error-msg/error-msg.component'], function() {
+define(['angular', 
+    'core/core.module', 
+    'error-msg/error-msg.component',
+    'loading-progress/loading-progress.component'], function() {
     'use strict';
 
     angular.module('pageDetail', [
         'core', 
         'errorMsg',
+        'loadingProgress',
         'ngRoute']);
 
     return angular.module('pageDetail');

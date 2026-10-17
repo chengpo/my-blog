@@ -152,3 +152,14 @@ pre code {
     padding-bottom: 2rem;
 }
 
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-65%, -60%);
+    
+    /* Set a width so it doesn't shrink unnecessarily */
+    width: 80%;
+    max-width: 400px;
+    margin-bottom: 0; /* Remove default well margin */
+}

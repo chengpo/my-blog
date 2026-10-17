@@ -32,7 +32,9 @@ define(['static-url',
             controller: ['$routeParams', 'pageContent',
                 function PageDetailController($routeParams, pageContent) {
                     var self = this;
-                    self.error = "";
+
+                    self.error = null;
+                    self.inProgress = true;
 
                     pageContent.get(
                         {
@@ -40,11 +42,15 @@ define(['static-url',
                         },
 
                         function (page) {
+                            self.inProgress = false;
+
                             self.metadata = page.metadata;
                             self.content = page.content;
                         },
 
                         function (error) {
+                            self.inProgress = false;
+                            
                             self.error = {title: "Failed to retrieve page content!",
                                           status: error.status,
                                           statusText: error.statusText,

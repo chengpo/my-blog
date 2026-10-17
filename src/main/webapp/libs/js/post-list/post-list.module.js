@@ -22,10 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-define(['angular', 'core/core.module', 'error-msg/error-msg.component'], function() {
+define(['angular', 
+    'core/core.module', 
+    'error-msg/error-msg.component', 
+    'loading-progress/loading-progress.component'], function() {
     'use strict';
 
-    angular.module('postList', ['core', 'errorMsg']);
+    angular.module('postList', ['core', 'errorMsg', 'loadingProgress']);
 
     return angular.module('postList');
 });

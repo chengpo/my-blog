@@ -33,7 +33,8 @@ define(['static-url',
             controller: ['$routeParams', 'postContent',
                 function postDetailController($routeParams, postContent) {
                     var self = this;
-                    self.error = "";
+                    self.error = null;
+                    self.inProgress = true;
 
                     postContent.get({
                         year: $routeParams.year,
@@ -42,6 +43,8 @@ define(['static-url',
                     },
 
                     function (post) {
+                        self.inProgress = false;
+
                         self.metadata = post.metadata;
                         self.content = post.content;
 
@@ -52,8 +55,10 @@ define(['static-url',
                             });
                         }, 100);
                     },
-                    
+
                     function (error) {
+                        self.inProgress = false;
+
                         self.error = {
                             title: "Failed to retrieve post content!",
                             status: error.status,

@@ -35,7 +35,7 @@ define(['static-url',
                 function PostListController($scope, $location, posts) {
                     var self = this;
 
-                    self.error = "";
+                    self.error = null;
                     self.page_size = 5;
 
                     self.disable_forward = true;
@@ -81,7 +81,11 @@ define(['static-url',
                         $location.search('offset', offset);
                     }
 
+                    self.inProgress = true;
+
                     posts.all({}, function (postChunk) {
+                        self.inProgress = false;
+
                         self.posts = postChunk.posts;
 
                         updatePageState();
@@ -95,6 +99,8 @@ define(['static-url',
 
                     },
                         function (error) {
+                            self.inProgress = false;
+                            
                             self.error = {
                                 title: "Failed to retrieve post list!",
                                 status: error.status,
