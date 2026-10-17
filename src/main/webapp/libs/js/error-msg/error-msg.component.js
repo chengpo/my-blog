@@ -14,13 +14,18 @@ define(['error-msg/error-msg.module'],
                         var error = changesObj.errorData.currentValue;
                         if (error.status === -1) {
                             error.statusText = "Request times out";
-                            error.data = "";
                         }
+
+                        var detail = error.data;
+                        if (detail === undefined || detail === null) {
+                            detail = "";
+                        }
+
                         self.formattedError = "<hr><p>" + error.title + "</p>" +
                             "<div>" +
                             ("Status:<br>   " + error.status).replace(/ /g, "&nbsp;") + "<br><br>" +
                             ("Status Text:<br>    " + error.statusText).replace(/ /g, "&nbsp;") + "<br>" +
-                            error.data.replace(/\n/g, "<br>").replace(/ /g, "&nbsp;") +
+                            detail.replace(/\n/g, "<br>").replace(/ /g, "&nbsp;") +
                             "</div>";
                     } else {
                         self.formattedError = null;
