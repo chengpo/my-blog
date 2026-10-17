@@ -1,10 +1,15 @@
 package com.monkeyapp.blog;
 
-import javax.servlet.*;
+import java.io.IOException;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
 
 public class ResponseFilter implements Filter {
     @Override
@@ -13,10 +18,12 @@ public class ResponseFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        if (!httpRequest.getServletPath().endsWith(".js") && !httpRequest.getServletPath().endsWith(".css")) {
+        var httpRequest = (HttpServletRequest) request;
+        var acceptHeader = httpRequest.getHeader("Accept");
+        if (acceptHeader != null && acceptHeader.contains("text/html")) {
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             httpResponse.addHeader("Content-Security-Policy", "default-src 'self'; " +
+                    "  connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://cdnjs.cloudflare.com;" +
                     "  script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://cdnjs.cloudflare.com;" +
                     "  img-src 'self' data: https://www.google-analytics.com https://stats.g.doubleclick.net https://www.google.com; " +
                     "  style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com;" +
