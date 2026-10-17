@@ -51,13 +51,7 @@ SOFTWARE.
             <hr ng-hide="$last">
         </div>
 
-        <!-- show error message if needed -->
-        <div class="row" ng-hide="$ctrl.error.length === 0">
-            <div class="col-md-10 col-md-offset-1 alert alert-warning alert-dismissable fade in ">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong style="padding-right:0.5em" >Oops!</strong> {{$ctrl.error}}
-            </div>
-        </div>
+        <error-msg error-data="$ctrl.error"></error-msg>
 
         <!-- show backward / forward button if needed-->
         <div class="row">

@@ -23,39 +23,44 @@ SOFTWARE.
  */
 
 define(['static-url',
-        'highlight',
-        'post-detail/post-detail.module'],
-        function(staticUrl, highlight, postDetailModule) {
+    'highlight',
+    'post-detail/post-detail.module'],
+    function (staticUrl, highlight, postDetailModule) {
+        'use strict';
 
-    'use strict';
+        postDetailModule.component('postDetail', {
+            templateUrl: staticUrl.of('js/post-detail/post-detail.template.html'),
+            controller: ['$routeParams', 'postContent',
+                function postDetailController($routeParams, postContent) {
+                    var self = this;
+                    self.error = "";
 
-    postDetailModule.component('postDetail', {
-                                  templateUrl: staticUrl.of('js/post-detail/post-detail.template.html'),
-                                  controller: ['$routeParams', 'postContent',
-                                      function postDetailController($routeParams, postContent) {
-                                          var self = this;
-                                          self.error = "";
+                    postContent.get({
+                        year: $routeParams.year,
+                        monthday: $routeParams.monthday,
+                        title: $routeParams.title
+                    },
 
-                                          postContent.get({year:$routeParams.year,
-                                                           monthday:$routeParams.monthday,
-                                                           title:$routeParams.title
-                                                           },
+                    function (post) {
+                        self.metadata = post.metadata;
+                        self.content = post.content;
 
-                                                           function(post) {
-                                                              self.metadata = post.metadata;
-                                                              self.content = post.content;
-
-                                                              // reload syntax highlighter
-                                                              setTimeout(function () {
-                                                                          $('pre code').each(function(i, block) {
-                                                                              highlight.highlightBlock(block);
-                                                                          });
-                                                                        }, 100);
-                                                           },
-
-                                                           function(error) {
-                                                              self.error = "Failed to retrieve post content, status: " + error.status + "!";
-                                                           });
-                                      }]
-                             });
-});
+                        // reload syntax highlighter
+                        setTimeout(function () {
+                            $('pre code').each(function (i, block) {
+                                highlight.highlightBlock(block);
+                            });
+                        }, 100);
+                    },
+                    
+                    function (error) {
+                        self.error = {
+                            title: "Failed to retrieve post content!",
+                            status: error.status,
+                            statusText: error.statusText,
+                            data: error.data
+                        };
+                    });
+                }]
+        });
+    });

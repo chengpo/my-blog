@@ -22,25 +22,34 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
- define(['static-url',
-         'page-detail/page-detail.module'],
-         function(staticUrl, pageDetailModule) {
-    'use strict';
-    pageDetailModule.component('pageDetail', {
-                            templateUrl: staticUrl.of('js/page-detail/page-detail.template.html'),
-                            controller: ['$routeParams', 'pageContent', 
-                                    function PageDetailController($routeParams, pageContent) {
-                                        var self = this;
-                                        pageContent.get(
-                                            {
-                                                title: $routeParams.title
-                                            },
-                                            function(page) {
-                                                self.metadata = page.metadata;
-                                                self.content = page.content;
-                                            });
-                                    }]
-                   });
- });
+define(['static-url',
+    'page-detail/page-detail.module'],
+    function (staticUrl, pageDetailModule) {
+        'use strict';
 
+        pageDetailModule.component('pageDetail', {
+            templateUrl: staticUrl.of('js/page-detail/page-detail.template.html'),
+            controller: ['$routeParams', 'pageContent',
+                function PageDetailController($routeParams, pageContent) {
+                    var self = this;
+                    self.error = "";
 
+                    pageContent.get(
+                        {
+                            title: $routeParams.title
+                        },
+
+                        function (page) {
+                            self.metadata = page.metadata;
+                            self.content = page.content;
+                        },
+
+                        function (error) {
+                            self.error = {title: "Failed to retrieve page content!",
+                                          status: error.status,
+                                          statusText: error.statusText,
+                                          data: error.data };
+                        });
+                }]
+        });
+    });
