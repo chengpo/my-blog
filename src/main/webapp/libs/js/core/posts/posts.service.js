@@ -38,7 +38,7 @@ define(['core/posts/posts.module', 'static-url'], function(postsModule, staticUr
       ])
       .factory('postContent', ['$resource', 
         function($resource) {
-            return $resource(staticUrl.appendVersion("rest/posts/:year/:monthday/:title"), {}, {timeout: 60*1000});
+            return $resource(staticUrl.appendVersion("rest/posts/:year/:monthday/:title/"), {}, {timeout: 60*1000});
         }
       ]);
 });
