@@ -1,4 +1,4 @@
-define([], function() {
+define(['angular'], function() {
     'use strict';
 
     angular.module('core.trustAsHtml', []);

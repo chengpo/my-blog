@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-define(['core/core.module', 'error-msg/error-msg.component'], function() {
+define(['angular', 'core/core.module', 'error-msg/error-msg.component'], function() {
     'use strict';
 
     angular.module('postList', ['core', 'errorMsg']);

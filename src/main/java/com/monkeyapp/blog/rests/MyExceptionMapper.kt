@@ -13,7 +13,7 @@ class MyExceptionMapper : ExceptionMapper<Exception> {
     override fun toResponse(exception: Exception): Response {
         logger.info("Exception received: ${exception.cause}")
         return Response
-                .status(Response.Status.INTERNAL_SERVER_ERROR)
+                .status(Response.Status.NOT_FOUND)
                 .type(MediaType.TEXT_PLAIN)
                 .entity(errorDetails(exception))
                 .build()

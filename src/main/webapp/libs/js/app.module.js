@@ -22,7 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-define(['sidebar/sidebar.component',
+define(['angular',
+        'sidebar/sidebar.component',
         'page-detail/page-detail.component',
         'post-list/post-list.component',
         'post-detail/post-detail.component',
