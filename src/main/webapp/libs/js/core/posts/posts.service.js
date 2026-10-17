@@ -30,14 +30,15 @@ define(['core/posts/posts.module', 'static-url'], function(postsModule, staticUr
           return $resource(staticUrl.appendVersion("rest/posts/"), {}, {
             all: {
               method: 'GET',
-              isArray: false
+              isArray: false,
+              timeout: 60*1000
             }
           });
         }
       ])
       .factory('postContent', ['$resource', 
         function($resource) {
-            return $resource(staticUrl.appendVersion("rest/posts/:year/:monthday/:title"), {}, {});
+            return $resource(staticUrl.appendVersion("rest/posts/:year/:monthday/:title"), {}, {timeout: 60*1000});
         }
       ]);
 });

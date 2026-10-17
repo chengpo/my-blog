@@ -12,6 +12,10 @@ define(['error-msg/error-msg.module'],
                 self.$onChanges = function(changesObj) {
                     if (changesObj.errorData && changesObj.errorData.currentValue) {
                         var error = changesObj.errorData.currentValue;
+                        if (error.status === -1) {
+                            error.statusText = "Request times out";
+                            error.data = "";
+                        }
                         self.formattedError = "<hr><p>" + error.title + "</p>" +
                             "<div>" +
                             ("Status:<br>   " + error.status).replace(/ /g, "&nbsp;") + "<br><br>" +

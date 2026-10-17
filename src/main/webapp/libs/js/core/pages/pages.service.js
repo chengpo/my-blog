@@ -27,7 +27,7 @@ define(['core/pages/pages.module', 'static-url'], function (pagesModule, staticU
 
   pagesModule.factory('pageContent', ['$resource',
     function ($resource) {
-      return $resource(staticUrl.appendVersion("rest/pages/:title"), {}, {});
+      return $resource(staticUrl.appendVersion("rest/pages/:title"), {}, { timeout: 60*1000 });
     }
   ]);
 });
