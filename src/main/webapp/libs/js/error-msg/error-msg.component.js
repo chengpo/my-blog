@@ -37,7 +37,10 @@ define(['error-msg/error-msg.module'],
         <!-- show error message if needed -->
         <div class="row" ng-if="$ctrl.formattedError">
             <div class="col-md-10 col-md-offset-1 alert alert-warning fade in ">
-                <strong style="padding-right:0.5em" >Oops!</strong> 
+                <strong style="padding-right:0.5em" >
+                    <span class="glyphicon glyphicon-hdd" style="margin-right: 5px;"></span> 
+                    Oops!
+                </strong> 
                 <div ng-bind-html="$ctrl.formattedError | trustAsHtml"></div>
             </div>
         </div>

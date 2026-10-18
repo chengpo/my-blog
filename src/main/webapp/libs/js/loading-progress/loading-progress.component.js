@@ -16,10 +16,10 @@ define(['loading-progress/loading-progress.module'],
 
         function updateDots() {
             barIndex = (barIndex + 1) % barList.length;
-            var bar = '[' + barList[barIndex] + ']';
-            dotCount = (dotCount + 1) % 10;
+            var bar = barList[barIndex];
+            dotCount = (dotCount + 1) % 30;
             var dots = '.'.repeat(dotCount);
-            self.progress = bar + ' Loading ' + dots
+            self.progress = ' Loading ' + dots + ' ' + bar;
         }
 
         self.$onChanges = function (changesObj) {
@@ -44,7 +44,10 @@ define(['loading-progress/loading-progress.module'],
     <div class="container" style="position: relative; min-height: 500px;" ng_if="$ctrl.progress" > 
         <div class="row">
             <div class="alert alert-info centered" >
-                <strong>{{$ctrl.progress}}</strong>
+                <strong>
+                  <span class="glyphicon glyphicon-hourglass" style="margin-right: 5px;"></span>
+                  {{$ctrl.progress}}
+                </strong>
             </div>
         </div>
     </div>
