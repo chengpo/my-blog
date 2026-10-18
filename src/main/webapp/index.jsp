@@ -10,7 +10,10 @@
     <meta name="google-site-verification" content="aBgNRVBo5y1-FwLrwGCbmBXADuB8i5FLxUIKG-ReX1w" />
 
     <title><%= application.getInitParameter("site-title")%></title>
-
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
     <!-- Global site tag (gtag.js) - Google Analytics -->
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPDHYF0752"></script>
      <script>
@@ -69,7 +72,7 @@
 
     <link rel="stylesheet" href="/external/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="/external/ngprogress/ngProgress.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Play">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Play&display=swap">
 
     <!-- syntax highlighter -->
     <link rel="stylesheet" href="/external/highlight.js/9.12.0/androidstudio.min.css">

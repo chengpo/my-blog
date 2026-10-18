@@ -12,10 +12,7 @@
 
         <div class="sidebar-module sidebar-menu">
             <ul>
-                <div ng-repeat="link in $ctrl.links">
-                    <li> <a href="{{link.url}}" target="_blank" ng-if="link.external"><h4 class="sidebar-link">{{link.name}}</h4> </a></li>
-                    <li> <a href="{{link.url}}" ng-if="!link.external"><h4 class="sidebar-link">{{link.name}}</h4> </a></li>
-                </div>
+                <li ng-repeat="link in $ctrl.links"> <a href="{{link.url}}" ng-attr-target="{{link.external ? '_blank' : undefined}}"><h4 class="sidebar-link">{{link.name}}</h4> </a></li>
             </ul>
         </div>
 

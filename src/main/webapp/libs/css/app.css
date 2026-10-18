@@ -163,3 +163,9 @@ pre code {
     max-width: 400px;
     margin-bottom: 0; /* Remove default well margin */
 }
+
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('/external/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2') format('woff2');
+  font-display: swap;
+}
