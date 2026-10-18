@@ -21,4 +21,7 @@ static:
 static-serv:
 	jwebserver -b :: -p 8080 -d "`pwd`/static-dist"
 
+push-lfs:
+	git lfs push origin master --all
+
 default: build
