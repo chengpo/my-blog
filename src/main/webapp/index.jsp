@@ -25,10 +25,10 @@
     /* center the loader */
     #loader {
       position: absolute;
-      left: 50%;
+      left: 53.5%;
       top: 50%;
       z-index: 1;
-      margin: -75px 0 0 -75px;
+      margin: -75px 0 0 -75px; 
       border: 10px solid #f3f3f3;
       border-radius: 50%;
       border-top: 10px solid #575757;
