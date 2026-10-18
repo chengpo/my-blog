@@ -9,10 +9,12 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout Repo my-blog (Source Code)
         uses: actions/checkout@v5
+        with:
+           lfs: true
 
       # 1. Setup Java 21 Runtime Environment
       - name: Setup Java 21
