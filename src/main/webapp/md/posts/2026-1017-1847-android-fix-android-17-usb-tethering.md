@@ -5,6 +5,7 @@ In windows device manager, Pixel 8 was recognized as a CDC NCM device in the oth
 
 To fix this issue, we need to manually reinstall the driver.
 
+Use the following steps:
 
 - Connect Pixel 8 and enable **USB tethering**
 - Go to **Device Manager** ( prese Win + x and select **Device Manager** )
