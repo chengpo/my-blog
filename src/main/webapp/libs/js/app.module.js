@@ -1,10 +1,11 @@
-define(['angular',
+define(['static-url',
+        'angular',
         'sidebar/sidebar.component',
         'page-detail/page-detail.component',
         'post-list/post-list.component',
         'post-detail/post-detail.component',
         'angular-animate',
-        'ng-progress'], function() {
+        'ng-progress'], function(staticUrl) {
     'use strict';
 
     angular.module('blogApp', [
@@ -17,6 +18,16 @@ define(['angular',
         .run(['$animate', function($animate) {
             $animate.enabled(true);
           }])
+        .run(['$templateCache', '$http', function($templateCache, $http){
+            // prefetch templates
+            var templates = [
+                    'js/page-detail/page-detail.template.html',
+                    'js/post-detail/post-detail.template.html'];
+
+            templates.forEach(function(templateUrl){
+                $http.get(staticUrl.of(templateUrl), {cache: $templateCache});
+            });
+        }])
         .run(['$rootScope', '$location', 'ngProgressFactory',
              function ($rootScope, $location, ngProgressFactory) {
 
