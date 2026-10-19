@@ -16,6 +16,11 @@ jobs:
         with:
            lfs: true
 
+      - name: Install build tool
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential
+
       # 1. Setup Java 27 Runtime Environment
       - name: Setup Java 27
         uses: actions/setup-java@v6
@@ -26,10 +31,10 @@ jobs:
 
       # 2. Run your Java build command (
       - name: Build with Maven
-        run: mvn clean package resources:copy-resources@copy-static-files exec:exec@static
-
+        run: make static
+        
       # 3. Push the generated build folder to your User Page repo
-      - name: Deploy to External User Page Repo
+      - name: Deploy to  mExternal User Page Repo
         uses: Peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.GH_PAT }}

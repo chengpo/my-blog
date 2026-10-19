@@ -22,7 +22,11 @@ jobs:
         java-version: '27'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
-      run: mvn package
+    - name: Install build tool
+      run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential
+    - name: Build with maven
+      run: make
     - name: Display dependency updates
       run: mvn versions:display-dependency-updates
