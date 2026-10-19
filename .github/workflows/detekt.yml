@@ -22,5 +22,5 @@ jobs:
         with:
           detekt-version: '2.0.0-alpha.3'
           java-distribution: 'temurin'
-          java-version: '21'
+          java-version: '27'
         continue-on-error: true

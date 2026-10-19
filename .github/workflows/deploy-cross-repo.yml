@@ -16,12 +16,12 @@ jobs:
         with:
            lfs: true
 
-      # 1. Setup Java 21 Runtime Environment
-      - name: Setup Java 21
+      # 1. Setup Java 27 Runtime Environment
+      - name: Setup Java 27
         uses: actions/setup-java@v6
         with:
           distribution: 'temurin' # Uses Eclipse Temurin OpenJDK
-          java-version: '21'
+          java-version: '27'
           cache: 'maven'        # Change to 'gradle' if using Gradle
 
       # 2. Run your Java build command (
