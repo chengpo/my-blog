@@ -18,11 +18,11 @@ pre code {
 /* desktop screen */
 @media (min-width: 992px) {
     .sidebar {
-        position:fixed;
+        position: fixed !important;
         top:0;
         left:0;
         bottom:0;
-        width: 36rem;
+        width: 36rem !important;
         box-shadow: 3px 0px 5px -2px #202020 !important;
     }
 
@@ -35,10 +35,15 @@ pre code {
     }
 
     .sidebar-content {
+        display: block !important;
         padding-left: 1rem !important;
         width: 34rem !important;
         position: absolute;
         bottom: 10rem;
+    }
+
+    .sidebar-content .sidebar-title {
+        display: block !important;
     }
 
     .sidebar-link {
@@ -49,16 +54,19 @@ pre code {
         display: block !important;
     }
 
-    .sidebar .menu-toggle {
-        display: none !important;
-    }
-
     .sidebar-content ul li {
         padding: 0rem !important;
+    }
+    
+    .title-bar {
+        display: none !important;
     }
 }
 
 .sidebar {
+    top: 0;
+    position: sticky;
+    width: 100%;
     padding:1rem;
     color:rgba(255,255,255,5);
     background: #202020;
@@ -66,7 +74,7 @@ pre code {
     z-index:10;
 }
 
-.sidebar-menu {
+.sidebar-content {
      display: none;
 }
 
@@ -77,19 +85,22 @@ pre code {
     display: block;
 }
 
-.menu-toggle .bar1, .menu-toggle .bar2, .menu-toggle .bar3 {
-    width: 24px;
-    height: 2px;
-    background-color: #AAA;
-    margin: 5px 0;
+.title-bar {
+    min-height: 4rem; 
+    display:flex; 
+    align-items: center;
 }
 
-.change .bar1, .change .bar2, .change .bar3 {
-    background-color: #FFF;
-    -webkit-transition: background-color 0.3s ease-out;
-    -moz-transition: background-color 0.3s ease-out;
-    -o-transition: background-color 0.3s ease-out;
-    transition: background-color 0.3s ease-out;
+.title-bar .title-bar-item {
+    font-size: 2.3rem; 
+}
+
+.title-bar .title-bar-text {
+    margin-left: 1.6rem;
+}
+
+.white-icon {
+    color: white;
 }
 
 .sidebar a,
@@ -123,7 +134,7 @@ pre code {
     font-size: 4rem;
 }
 
-.sidebar-module {
+.sidebar-element {
     padding: 1rem;
 }
 
@@ -165,6 +176,19 @@ pre code {
     width: 80%;
     max-width: 400px;
     margin-bottom: 0; /* Remove default well margin */
+}
+
+.btn-borderless {
+    border: none !important;
+}
+
+/* Optional: Removes the outline/box-shadow blue glow on click or focus */
+.btn-borderless:focus,
+.btn-borderless:active,
+.btn-borderless:hover {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 @font-face {
