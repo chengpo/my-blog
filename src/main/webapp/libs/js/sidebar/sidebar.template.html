@@ -1,12 +1,18 @@
 <div class="sidebar">
-    <div class="menu-toggle" ng-click="$ctrl.toggle()">
-        <div class="bar1"></div>
-        <div class="bar2"></div>
-        <div class="bar3"></div>
+
+    <div class="title-bar row" style="min-height: 4rem; display:flex; align-items: center;">
+        <div class="menu-toggle col-xs-1" ng-click="$ctrl.toggle()">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+            
+        </div>
+
+        <div class="title-bar-text text-start col-xs-11" style="font-size: 2.3rem; "> {{$ctrl.title}} </div>
     </div>
 
     <div class="sidebar-content">
-        <div class="sidebar-module">
+        <div class="sidebar-module" id="sidebar-title">
             <a href="/"><h1 class="sidebar-link">{{$ctrl.title}}</h1></a>
         </div>
 

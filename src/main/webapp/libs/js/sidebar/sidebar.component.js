@@ -16,10 +16,17 @@ define(['static-url',
 
                                  self.toggle = function() {
                                          var menuToggle = $('.sidebar .menu-toggle');
-                                         menuToggle.toggleClass('change');
+                                         menuToggle.toggleClass('expanded');
 
-                                         var menuList = $('.sidebar-menu');
-                                         menuList.slideToggle({duration:300});
+                                         var sidebarContent = $('.sidebar-content');
+                                         sidebarContent.slideToggle({duration:300});
+
+                                         
+                                         var titleText = $('.title-bar .title-bar-text')
+                                         titleText.toggleClass('hide');
+
+                                         //var sidebarTitle = $('div#sidebar-title')
+                                         //sidebarTitle.toggleClass('hide')
                                  }
                              }
                         });

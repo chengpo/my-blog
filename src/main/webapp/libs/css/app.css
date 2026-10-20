@@ -18,11 +18,11 @@ pre code {
 /* desktop screen */
 @media (min-width: 992px) {
     .sidebar {
-        position:fixed;
+        position: fixed !important;
         top:0;
         left:0;
         bottom:0;
-        width: 36rem;
+        width: 36rem !important;
         box-shadow: 3px 0px 5px -2px #202020 !important;
     }
 
@@ -35,6 +35,7 @@ pre code {
     }
 
     .sidebar-content {
+        display: block !important;
         padding-left: 1rem !important;
         width: 34rem !important;
         position: absolute;
@@ -56,9 +57,16 @@ pre code {
     .sidebar-content ul li {
         padding: 0rem !important;
     }
+
+    .sidebar .title-bar-text {
+        display: none !important;
+    }
 }
 
 .sidebar {
+    top: 0;
+    position: sticky;
+    width: 100%;
     padding:1rem;
     color:rgba(255,255,255,5);
     background: #202020;
@@ -66,7 +74,7 @@ pre code {
     z-index:10;
 }
 
-.sidebar-menu {
+.sidebar-content {
      display: none;
 }
 
@@ -84,7 +92,7 @@ pre code {
     margin: 5px 0;
 }
 
-.change .bar1, .change .bar2, .change .bar3 {
+.expanded .bar1, .expanded .bar2, .expanded .bar3 {
     background-color: #FFF;
     -webkit-transition: background-color 0.3s ease-out;
     -moz-transition: background-color 0.3s ease-out;
