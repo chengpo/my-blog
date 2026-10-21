@@ -6,7 +6,7 @@ define(['static-url',
 
     sidebarModule.component('sidebar', {
                              templateUrl: staticUrl.of('js/sidebar/sidebar.template.html'),
-                             controller:['$window', '$scope', function($windows, $scope) {
+                             controller:['$window', '$scope', function($window, $scope) {
                                  var self = this;
 
                                  self.title = 'Monkey Blogger';
@@ -30,7 +30,8 @@ define(['static-url',
                                  }
 
                                  // Respond to window resize
-                                 angular.element($windows).on('resize', function() {
+                                 angular.element($window)
+                                 .on('resize', function() {
                                     $scope.$apply(function(){
                                         self.titleBarHidden = titleBar.css('display') === 'none';
                                     });

@@ -1,14 +1,16 @@
 <div class="sidebar">
-    <div class="title-bar row" ng-click="$ctrl.toggle()">
-        <div class="menu-toggle col-xs-1" >
-            <button class="btn btn-link btn-borderless" ng-switch on="$ctrl.titleBarExpanded">
-                <span class="title-bar-item glyphicon glyphicon-menu-down white-icon" ng-switch-when="false"></span>
-                <span class="title-bar-item glyphicon glyphicon-menu-up white-icon" ng-switch-when="true"></span>
-            </button>
-        </div>
+    <div class="container" style="padding-left:0px; padding-right:0px;">
+        <div class="title-bar row" style="margin-right:0px" ng-click="$ctrl.toggle()">
+            <div class="menu-toggle col-xs-1" >
+                <button class="btn btn-link btn-borderless" ng-switch on="$ctrl.titleBarExpanded">
+                    <span class="title-bar-item glyphicon glyphicon-menu-down white-icon" ng-switch-when="false"></span>
+                    <span class="title-bar-item glyphicon glyphicon-menu-up white-icon" ng-switch-when="true"></span>
+                </button>
+            </div>
 
-        <div class="title-bar-item title-bar-text fade-element text-start col-xs-11" 
-             ng-if="$ctrl.titleBarExpanded == false"> {{$ctrl.title}} </div>
+            <div class="title-bar-item title-bar-text fade-element text-start col-xs-11" 
+                 ng-if="$ctrl.titleBarExpanded == false"> {{$ctrl.title}} </div>
+        </div>
     </div>
 
     <div class="sidebar-content">
