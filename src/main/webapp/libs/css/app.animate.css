@@ -32,7 +32,23 @@
   padding-top: 0;
 }
 
+.upsidedown.upsidedown-add {
+  transform: rotate(0deg);
+}
 
+.upsidedown.upsidedown-add.upsidedown-active {
+  transform: rotate(180deg) !important;
+}
+
+.upsidedown {
+  transform: rotate(180deg) !important;
+  transition: transform 0.35s ease;
+}
+
+.menu-toggle-icon {
+  transform: rotate(0deg);
+  transition: transform 0.35s ease;
+}
 
 @keyframes fade-in {
   from { opacity: 0; }

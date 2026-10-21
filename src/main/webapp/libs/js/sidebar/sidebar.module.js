@@ -1,7 +1,7 @@
 define(['angular'], function() {
     'use strict';
 
-    angular.module('sidebar', []);
+    angular.module('sidebar', ['ngAnimate']);
 
     return angular.module('sidebar');
 });
