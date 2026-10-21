@@ -6,29 +6,36 @@ define(['static-url',
 
     sidebarModule.component('sidebar', {
                              templateUrl: staticUrl.of('js/sidebar/sidebar.template.html'),
-                             controller: function() {
+                             controller:['$window', '$scope', function($windows, $scope) {
                                  var self = this;
 
                                  self.title = 'Monkey Blogger';
                                  self.links = [{url: '#!/pages/about-myself', external: false, name:'About'},
                                                {url: 'https://github.com/chengpo?tab=overview', external: true, name:'Projects'},
                                                {url: '/posts/feed/rss.xml', external:true, name:'RSS'}];
+                                
+                                 var menuToggle = $('.sidebar .menu-toggle');
+                                 var titleBar = $('.title-bar');
+                                
+                                 self.titleBarHidden = titleBar.css('display') === 'none';
+                                 self.titleBarExpanded = false;
 
-                                 self.toggle = function() {
-                                         var menuToggle = $('.sidebar .menu-toggle');
-                                         menuToggle.toggleClass('expanded');
+                                 self.toggle = function () {
+                                     menuToggle.toggleClass('expanded');
 
-                                         var sidebarContent = $('.sidebar-content');
-                                         sidebarContent.slideToggle({duration:300});
+                                     self.titleBarExpanded = menuToggle.hasClass('expanded');
 
-                                         
-                                         var titleText = $('.title-bar .title-bar-text')
-                                         titleText.toggleClass('hide');
-
-                                         //var sidebarTitle = $('div#sidebar-title')
-                                         //sidebarTitle.toggleClass('hide')
+                                     var sidebarContent = $('.sidebar-content');
+                                     sidebarContent.slideToggle({ duration: 300 });
                                  }
-                             }
+
+                                 // Respond to window resize
+                                 angular.element($windows).on('resize', function() {
+                                    $scope.$apply(function(){
+                                        self.titleBarHidden = titleBar.css('display') === 'none';
+                                    });
+                                 });
+                             }]
                         });
 
 });

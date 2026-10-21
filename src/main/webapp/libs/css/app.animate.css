@@ -5,13 +5,17 @@
     padding-top: 0;
 }
 
+
+.fade-element.ng-enter, 
 .view-frame.ng-enter {
   animation: 0.5s fade-in;
 }
 
+.fade-element.ng-leave,
 .view-frame.ng-leave {
   animation: 0.5s fade-out;
 }
+
 
 .view-frame.ng-enter.ng-enter-active,
 .view-frame.ng-move.ng-move-active {
@@ -27,6 +31,8 @@
   padding-bottom: 0;
   padding-top: 0;
 }
+
+
 
 @keyframes fade-in {
   from { opacity: 0; }

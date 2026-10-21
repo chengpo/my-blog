@@ -42,6 +42,10 @@ pre code {
         bottom: 10rem;
     }
 
+    .sidebar-content .sidebar-title {
+        display: block !important;
+    }
+
     .sidebar-link {
         text-align: left !important;
     }
@@ -50,15 +54,11 @@ pre code {
         display: block !important;
     }
 
-    .sidebar .menu-toggle {
-        display: none !important;
-    }
-
     .sidebar-content ul li {
         padding: 0rem !important;
     }
-
-    .sidebar .title-bar-text {
+    
+    .title-bar {
         display: none !important;
     }
 }
@@ -85,19 +85,22 @@ pre code {
     display: block;
 }
 
-.menu-toggle .bar1, .menu-toggle .bar2, .menu-toggle .bar3 {
-    width: 24px;
-    height: 2px;
-    background-color: #AAA;
-    margin: 5px 0;
+.title-bar {
+    min-height: 4rem; 
+    display:flex; 
+    align-items: center;
 }
 
-.expanded .bar1, .expanded .bar2, .expanded .bar3 {
-    background-color: #FFF;
-    -webkit-transition: background-color 0.3s ease-out;
-    -moz-transition: background-color 0.3s ease-out;
-    -o-transition: background-color 0.3s ease-out;
-    transition: background-color 0.3s ease-out;
+.title-bar .title-bar-item {
+    font-size: 2.3rem; 
+}
+
+.title-bar .title-bar-text {
+    margin-left: 1.6rem;
+}
+
+.white-icon {
+    color: white;
 }
 
 .sidebar a,
@@ -131,7 +134,7 @@ pre code {
     font-size: 4rem;
 }
 
-.sidebar-module {
+.sidebar-element {
     padding: 1rem;
 }
 
@@ -173,6 +176,19 @@ pre code {
     width: 80%;
     max-width: 400px;
     margin-bottom: 0; /* Remove default well margin */
+}
+
+.btn-borderless {
+    border: none !important;
+}
+
+/* Optional: Removes the outline/box-shadow blue glow on click or focus */
+.btn-borderless:focus,
+.btn-borderless:active,
+.btn-borderless:hover {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 @font-face {
