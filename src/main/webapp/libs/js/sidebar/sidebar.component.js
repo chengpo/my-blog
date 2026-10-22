@@ -10,9 +10,9 @@ define(['static-url',
                                  var self = this;
 
                                  self.title = 'Monkey Blogger';
-                                 self.links = [{url: '#!/pages/about-myself', external: false, name:'About'},
-                                               {url: 'https://github.com/chengpo?tab=overview', external: true, name:'Projects'},
-                                               {url: '/posts/feed/rss.xml', external:true, name:'RSS'}];
+                                 self.links = [{url: '#!/pages/about-myself', external: false, name:'About', icon: 'glyphicon-user'},
+                                               {url: 'https://github.com/chengpo?tab=overview', external: true, name:'Projects', icon: 'glyphicon-folder-open'},
+                                               {url: '/posts/feed/rss.xml', external:true, name:'RSS', icon: 'glyphicon-link'}];
                                 
                                  var menuToggle = $('.sidebar .menu-toggle');
                                  var titleBar = $('.title-bar');

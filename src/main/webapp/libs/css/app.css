@@ -46,9 +46,7 @@ pre code {
         display: block !important;
     }
 
-    .sidebar-link {
-        text-align: left !important;
-    }
+    
 
     .sidebar-menu {
         display: block !important;
@@ -84,6 +82,10 @@ pre code {
     display: block;
 }
 
+.sidebar-link {
+    text-align: left;
+}
+
 .title-bar {
     min-height: 4rem; 
     display:flex; 
@@ -92,6 +94,11 @@ pre code {
 
 .title-bar .title-bar-item {
     font-size: 2.3rem; 
+}
+
+.sidebar .menu-toggle-icon {
+    margin-top: 0.4rem;
+    font-size: 2.1rem;
 }
 
 .title-bar .title-bar-text {
@@ -135,10 +142,6 @@ pre code {
 
 .sidebar-element {
     padding: 1rem;
-}
-
-.sidebar-link {
-    text-align: center;
 }
 
 .content {

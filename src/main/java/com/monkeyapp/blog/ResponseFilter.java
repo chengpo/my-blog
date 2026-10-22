@@ -25,7 +25,7 @@ public class ResponseFilter implements Filter {
             httpResponse.addHeader("Content-Security-Policy", "default-src 'self'; " +
                     "  connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://cdnjs.cloudflare.com;" +
                     "  script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://cdnjs.cloudflare.com;" +
-                    "  img-src 'self' data: https://www.google-analytics.com https://stats.g.doubleclick.net https://www.google.com; " +
+                    "  img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://stats.g.doubleclick.net https://www.google.com; " +
                     "  style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com;" +
                     "  font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;" +
                     "  frame-ancestors 'none';");

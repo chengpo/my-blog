@@ -3,7 +3,7 @@
         <div class="title-bar row" style="margin-right:0px" ng-click="$ctrl.toggle()">
             <div class="menu-toggle col-xs-1" >
                 <button class="btn btn-link btn-borderless">
-                    <span class="menu-toggle-icon title-bar-item glyphicon glyphicon-menu-down white-icon" 
+                    <span class="menu-toggle-icon title-bar-item glyphicon glyphicon-chevron-down white-icon" 
                         ng-class="{'upsidedown' : $ctrl.titleBarExpanded}"></span>
                 </button>
             </div>
@@ -20,7 +20,11 @@
 
         <div class="sidebar-element sidebar-menu">
             <ul>
-                <li ng-repeat="link in $ctrl.links"> <a href="{{link.url}}" ng-attr-target="{{link.external ? '_blank' : undefined}}"><h4 class="sidebar-link">{{link.name}}</h4> </a></li>
+                <li ng-repeat="link in $ctrl.links"> 
+                    <a href="{{link.url}}" ng-attr-target="{{link.external ? '_blank' : undefined}}">
+                        <h4 class="sidebar-link"> 
+                            <span class="glyphicon white-icon" ng-class="link.icon" style="font-size:1.1rem; margin-right:1rem;"></span>{{link.name}}</h4> </a>
+                    </li>
             </ul>
         </div>
 
