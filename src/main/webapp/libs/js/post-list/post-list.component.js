@@ -7,8 +7,8 @@ define(['static-url',
 
         postListModule.component('postList', {
             templateUrl: staticUrl.of('js/post-list/post-list.template.html'),
-            controller: ['$scope', '$location', 'posts',
-                function PostListController($scope, $location, posts) {
+            controller: ['$scope', '$location', '$timeout', 'posts',
+                function PostListController($scope, $location, $timeout, posts) {
                     var self = this;
 
                     self.error = null;
@@ -24,12 +24,26 @@ define(['static-url',
 
                         var totalPost = self.posts.filter(post => self.tagFilter(post)).length
                         self.disable_backward = totalPost <= self.offset + self.page_size;
+
+                        reloadSyntaxHighlighter();
+                        scrollToTop();
+                    }
+
+                    function reloadSyntaxHighlighter(){
+                        $timeout(function () {
+                            $('pre code').each(function (i, block) {
+                                highlight.highlightBlock(block);
+                            });
+                        }, 100);
+                    } 
+
+                    function scrollToTop() {
+                        window.scrollTo(0,0);
                     }
 
                     $scope.$on('$routeUpdate', function () {
                         updatePageState();
                     });
-
 
                     self.tagFilter = function (post) {
                         if (self.tag == '') return true;
@@ -65,18 +79,10 @@ define(['static-url',
                         self.posts = postChunk.posts;
 
                         updatePageState();
-
-                        // reload syntax highlighter
-                        setTimeout(function () {
-                            $('pre code').each(function (i, block) {
-                                highlight.highlightBlock(block);
-                            });
-                        }, 100);
-
                     },
                         function (error) {
                             self.inProgress = false;
-                            
+
                             self.error = {
                                 title: "Failed to retrieve post list!",
                                 status: error.status,

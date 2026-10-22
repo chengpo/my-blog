@@ -15,15 +15,17 @@
 
     <div class="sidebar-content">
         <div class="sidebar-element sidebar-title fade-element" ng-if="$ctrl.titleBarExpanded || $ctrl.titleBarHidden">
-            <a href="/"><h1 class="sidebar-link">{{$ctrl.title}}</h1></a>
+            <a href="/" ng-click="$ctrl.toggle()">
+                <h1 class="sidebar-link">{{$ctrl.title}}</h1></a>
         </div>
 
         <div class="sidebar-element sidebar-menu">
             <ul>
                 <li ng-repeat="link in $ctrl.links"> 
-                    <a href="{{link.url}}" ng-attr-target="{{link.external ? '_blank' : undefined}}">
+                    <a href="{{link.url}}" ng-attr-target="{{link.external ? '_blank' : undefined}}" ng-click="$ctrl.toggle()">
                         <h4 class="sidebar-link"> 
-                            <span class="glyphicon white-icon" ng-class="link.icon" style="font-size:1.1rem; margin-right:1rem;"></span>{{link.name}}</h4> </a>
+                            <span class="glyphicon white-icon" ng-class="link.icon" style="font-size:1.1rem; margin-right:1rem;"></span>
+                            {{link.name}}</h4></a>
                     </li>
             </ul>
         </div>

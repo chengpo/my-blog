@@ -6,8 +6,8 @@ define(['static-url',
 
         postDetailModule.component('postDetail', {
             templateUrl: staticUrl.of('js/post-detail/post-detail.template.html'),
-            controller: ['$routeParams', 'postContent',
-                function postDetailController($routeParams, postContent) {
+            controller: ['$routeParams', '$timeout', 'postContent',
+                function postDetailController($routeParams, $timeout, postContent) {
                     var self = this;
                     self.error = null;
                     self.inProgress = true;
@@ -25,7 +25,7 @@ define(['static-url',
                         self.content = post.content;
 
                         // reload syntax highlighter
-                        setTimeout(function () {
+                        $timeout(function () {
                             $('pre code').each(function (i, block) {
                                 highlight.highlightBlock(block);
                             });

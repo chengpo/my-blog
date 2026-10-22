@@ -40,6 +40,11 @@ define(['static-url',
                                  }
                                  
                                  self.toggle = function () {
+                                     // Ignore toggle even when title bar is hidden
+                                     if (self.titleBarHidden) {
+                                        return;
+                                     }
+
                                      menuToggle.toggleClass('expanded');
 
                                      self.titleBarExpanded = menuToggle.hasClass('expanded');
@@ -69,9 +74,6 @@ define(['static-url',
                                         self.titleBarHidden = titleBar.css('display') === 'none';
                                     });
                                  });
-
-
-                                 
                              }]
                         });
 
