@@ -1,0 +1,9 @@
+{
+ :tasks {
+    build (shell "mvn package")
+    clean (shell "mvn clean") 
+    webapp (shell "mvn exec:exec@webapp")
+
+    default {:depends [clean build] }
+  }
+}
