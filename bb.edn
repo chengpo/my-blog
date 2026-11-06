@@ -1,9 +1,15 @@
 {
  :tasks {
     build (shell "mvn package")
+
+    docker-build (shell "docker build -t my-blog .")
+    docker-run (shell "docker run --rm -p 80:80 -p 8000:8000 -p 9010:9010 -p 9011:9011  -v \"${PWD}\"/src/main/webapp:/opt/my-blog/src/main/webapp my-blog")
+
     clean (shell "mvn clean") 
     webapp (shell "mvn exec:exec@webapp")
-
+    static (shell "mvn package resources:copy-resources@copy-static-files exec:exec@static")
+    static-serv (shell "jwebserver -b :: -p 8080 -d \"`pwd`/static-dist\"")
+    push-lfs (shell "git lfs push origin master --all")
     default {:depends [clean build] }
   }
 }
